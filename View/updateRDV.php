@@ -2,6 +2,8 @@
 
 include '../Controller/RDVC.php';
 include '../Model/RDV.php';
+include "oindex.html";
+
 $error = "";
 
 // create client

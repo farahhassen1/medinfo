@@ -1,21 +1,21 @@
 <?php
 
-include '../Controller/RDVC.php';
-include '../Model/RDV.php';
+include '../Controller/FeedbackC.php';
+include '../Model/Feedback.php';
 $error = "";
 
 // create client
-$rdv = null;
+$feedback= null;
 
 // create an instance of the controller
-$RDVC = new rdvC();
-if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire"]))
+$feedbackC = new feedbackC();
+if (isset($_POST["date"]) && isset($_POST["commentaire"]))
  {
-    if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"]))
+    if (!empty($_POST['date']) && !empty($_POST["commentaire"]))
      {
-        $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
-        $RDVC->addRDV($rdv);
-        header('Location:listRDV.php');
+        $feedback= new feedback( null, $_POST['date'], $_POST['commentaire']);
+        $feedbackC->addFeedback($feedback);
+        header('Location:listFeedback.php');
     } else
         $error = "Missing information";
 }
@@ -29,17 +29,17 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         img {border-radius: 8px;}
         .intro{ width:300px;margin:0 auto;}
   </style>
-    <title>Rendez-vous</title>
+    <title>feedback</title>
 </head>
 
 <body>
-    <a href="listRDV.php">Back to list </a>
+    <a href="listFeedback.php">Back to list </a>
     <hr>
 
     <div id="error">
         <?php echo $error; ?>
     </div>
-    <h2 style="color:darkblue">Prendre un Rendez-vous</h2>
+    <h2 style="color:darkblue">Give us your feedback</h2>
     <div>
         <form action="" method="POST">
             <table align="center">
@@ -51,14 +51,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="heure">Heure:</label></td>
-                    <td>
-                        <input type="time" id="heure" name="heure" />
-                        <span id="erreurheure" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="commentaire">commentaire :</label></td>
+                    <td><label for="commentaire">feedback:</label></td>
                     <td>
                         <input type="text" id="commentaire" name="commentaire" />
                         <span id="erreurcommentaire" style="color: red"></span>
@@ -73,9 +66,6 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
                 </td>
             </table>
         </form>
-    </div>
-    <div class="intro">
-        <img src="image1.png" alt="" style="width:400px">
     </div>
     <script src="index.js"> </script>
 </body>

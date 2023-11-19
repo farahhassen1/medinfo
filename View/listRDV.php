@@ -1,5 +1,5 @@
 <?php
-include "../controller/RDVC.php";
+include "../Controller/RDVC.php";
 
 $c = new rdvC();
 $tab = $c->listRDV();
@@ -9,9 +9,13 @@ $tab = $c->listRDV();
 <center>
     <h1>List of RDV</h1>
     <h2>
-        <a href="addRDV.php">Add rdv</a>
+        <a href="addRDV.php"> New Appointment</a>
     </h2>
 </center>
+<div class="container-fluid">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
 <table border="1" align="center" width="70%">
     <tr>
         <th>Id rdv</th>
@@ -26,7 +30,7 @@ $tab = $c->listRDV();
     <?php
     foreach ($tab as $rdv) {
     ?>
-
+    
         <tr>
             <td><?= $rdv['idRDV']; ?></td>
             <td><?= $rdv['date']; ?></td>
@@ -46,3 +50,7 @@ $tab = $c->listRDV();
     }
     ?>
 </table>
+</div>
+		</div>
+	</div>
+</div>

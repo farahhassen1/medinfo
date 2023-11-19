@@ -1,10 +1,10 @@
 <?php
-require '../../config.php';
-class rdvC
+require '../config.php';
+class feedbackC
 {
-    public function listRDV()
+    public function listFeedback()
     {
-        $sql = "SELECT * FROM rdv";
+        $sql = "SELECT * FROM feedback";
         $db = config::getConnexion();
         try {
             $liste = $db->query($sql);
@@ -14,9 +14,9 @@ class rdvC
             die('Error:' . $e->getMessage());
         }
     } 
-    function deleteRDV($ide)
+    function deleteFeedback($ide)
     {
-        $sql = "DELETE FROM rdv WHERE idRDV = :id";
+        $sql = "DELETE FROM feedback WHERE idFeedback = :id";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
         $req->bindValue(':id', $ide);
@@ -27,50 +27,44 @@ class rdvC
             die('Error:' . $e->getMessage());
         }
     }
-
-
-    function addRDV($rdv)
+    function addFeedback($feedback)
     {
-        $sql = "INSERT INTO  rdv VALUES (NULL, :date,:heure, :commentaire)";
+        $sql = "INSERT INTO  feedback VALUES (NULL,:date,:commentaire)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
-                'date' => $rdv->getDate(),
-                'heure' => $rdv->getHeure(),
-                'commentaire' => $rdv->getCommentaire(), 
+                'date' => $feedback->getDate(),
+                'commentaire' => $feedback->getCommentaire(), 
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
     }
-
-
-    function showRDV($id)
+    function showFeedback($id)
     {
-        $sql = "SELECT * from rdv where idRDV = $id";
+        $sql = "SELECT * from feedback where idFeedback = $id";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute();
-            $rdv = $query->fetch();
-            return $rdv;
+            $feedback = $query->fetch();
+            return $feedback;
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
         }
     }
 
-    function updateRDV($rdv,$id)
+    function updateFeedback($feedback,$id)
     {   
         try {
-            $sql ='UPDATE rdv SET date = :date,  heure = :heure, commentaire = :commentaire WHERE idRDV= :id';
+            $sql ='UPDATE feedback SET date = :date, commentaire = :commentaire WHERE idFeedback= :id';
             $db = config::getConnexion();
             $query = $db->prepare($sql);
             $query->execute([
                 'id' => $id,
-                'date' => $rdv->getDate(),
-                'heure' => $rdv->getHeure(),
-                'commentaire' => $rdv->getCommentaire(),
+                'date' => $feedback->getDate(),
+                'commentaire' => $feedback->getCommentaire(),
             ]); 
             echo $query->rowCount() . " records UPDATED successfully <br>";
         } catch (PDOException $e) {
