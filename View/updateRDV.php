@@ -50,7 +50,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         $rdv = $RDVC->showRDV($_POST['idRDV']);  
     ?>
 
-        <form action="" method="POST">
+        <form action="" method="POST"onsubmit="return validerFormulaire(); ">
             <table>
             <tr>
                     <td><label for="nom">IdRDV :</label></td>
@@ -92,6 +92,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
     <?php
     }
     ?>
+    <script src="ControleDeSaisie.js"> </script>
 </body>
 
 </html>
