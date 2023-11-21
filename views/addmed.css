@@ -1,0 +1,36 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the table headers */
+  th {
+    background-color: #3498db; /* Blue color */
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  /* Alternating row colors for better readability */
+  tbody tr:nth-child(even) {
+    background-color: #ecf0f1; /* Light blue color */
+  }
+  
+  /* Styling for table data cells */
+  td {
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    color: #333; /* Darker text color */
+  }
+  
+  /* Hover effect for better interaction */
+  tbody tr:hover {
+    background-color: #d5e8f4; /* Lighter hover color */
+  }
