@@ -220,6 +220,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
                 <input type="time" id="heure" name="heure" value="<?php echo $rdv['heure'] ?>"  />
                 <span id="heureError" style="color: red;"></span>
 
+                
                 <label for="commentaire">Any symptoms?</label>
                 <input type="text" id="commentaire" name="commentaire"placeholder="symptoms" value="<?php echo $rdv['commentaire'] ?>"/>
                 <br>
