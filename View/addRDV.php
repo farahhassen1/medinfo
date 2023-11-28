@@ -15,12 +15,13 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
      {
         $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
         $RDVC->addRDV($rdv);
-        header('Location:listRDV.php');
-    } else
-        $error = "Missing information";
+        header('Location:addFeedback.php');
+    } 
 }
 ?>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,40 +55,99 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
     <style>
-        body {background-color: #f9f8f8; }
-        img {border-radius: 8px;}
-        .intro{ width:300px;margin:0 auto;}
-  </style>
-    <title>Rendez-vous</title>
+        .formulaire{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+			width: 60%; /* Ajuster la largeur */
+            max-height:700px;
+            max-width: 500px; /* Ajuster la largeur maximale */
+            margin: 100px;
+            padding: 60px; /* Ajuster la hauteur */
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            float: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+    <title>Rendez-vous médical</title>
 </head>
 
 <body>
 <header class="header" >
 			<!-- Topbar -->
 			<div class="topbar">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 col-md-5 col-12">
-							<!-- Contact -->
-							<ul class="top-link">
-								<li><a href="#">About</a></li>
-								<li><a href="#">Doctors</a></li>
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">FAQ</a></li>
-							</ul>
-							<!-- End Contact -->
-						</div>
-						<div class="col-lg-6 col-md-7 col-12">
-							<!-- Top Contact -->
-							<ul class="top-contact">
-								<li><i class="fa fa-phone"></i>+216 71 458 225 </li>
-								<li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
-							</ul>
-							<!-- End Top Contact -->
-						</div>
-					</div>
-				</div>
-			</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-5 col-12">
+                <!-- Contact -->
+                <ul class="top-link">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Doctors</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+                <!-- End Contact -->
+            </div>
+            <div class="col-lg-6 col-md-7 col-12">
+                <!-- Top Contact -->
+                <ul class="top-contact">
+                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
+                </ul>
+                <!-- End Top Contact -->
+            </div>
+        </div>
+    </div>
+</div>
 			<!-- End Topbar -->
 			<!-- Header Inner -->
 			<div class="header-inner">
@@ -109,21 +169,14 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="index.php">Home Page 1</a></li>
-												</ul>
-											</li>
+											<li class="active"><a href="frontoffice/index.php">Home <i class="icofont-rounded-down"></i></a>
 											<li><a href="#">Doctos </a></li>
 											<li><a href="#">Services </a></li>
-											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="404.html">404 Error</a></li>
-												</ul>
+											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
-											<li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
+											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="blog-single.html">Blog Details</a></li>
+													<li><a href="displayArticles.php">Article Details</a></li>
 												</ul>
 											</li>
 											<li><a href="contact.html">Contact Us</a></li>
@@ -134,7 +187,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 							</div>
 							<div class="col-lg-2 col-12">
 								<div class="get-quote">
-									<a href="appointment.html" class="btn">Book Appointment</a>
+								<a href="addRDV.php" class="btn">Get Appointment</a>
 								</div>
 							</div>
 						</div>
@@ -143,61 +196,75 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 			</div>
 			<!--/ End Header Inner -->
 		</header>
-    <a href="listRDV.php">Back to list </a>
-    <hr>
-
-    <div id="error">
-        <?php echo $error; ?>
-    </div>
-
-	<div class="row">
+		<br>
+		<div class="row">
 		<div class="section-title">
 			<h2>We Are Always Ready to Help You. Book An Appointment</h2>
 				<img src="frontoffice/img/section-img.png" alt="#">
 		</div>
 	</div>
+    <main class="formulaire">
+        <form action="" method="POST" onsubmit="return validateForm()" >
+            <label for="date">Date :</label>
+            <input type="date" id="date" name="date"  />
+			<br>
+            <span id="dateError" style="color: red;"></span>
 
-	<br>
-    <div>
-        <form action="" method="POST"onsubmit="return validerFormulaire(); "  >
-            <table align="center">
-                <tr>
-                    <td><label for="date">date :</label></td>
-                    <td>
-                        <input type="date" id="date" name="date" required/>
-                        <span id="erreurdate" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="heure">Heure:</label></td>
-                    <td>
-                        <input type="time" id="heure" name="heure" />
-                        <span id="erreurheure" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="commentaire">Any symptom? </label></td>
-                    <td>
-                        <input type="text" id="commentaire" name="commentaire" />
-                        <span id="erreurcommentaire" style="color: red"></span>
-                    </td>
-                </tr>
-				<br>
-				<td align="center">
-                    <input id="validerButton" type="submit" onclick=validerFormulaire(); value="Save">
-                </td>
-                <td align="center">
-                    <input type="reset" value="Reset">
-                </td>
-            </table>
-        </form>
-    </div>
-	<div class="col-lg-6 col-md-12 ">
-						<div class="appointment-image">
-							<img src="frontoffice/img/contact-img.png" alt="#">
-						</div>
-					</div>
-    <script src="ControleDeSaisie.js"> </script>
+            <label for="heure">Heure :</label>
+            <input type="time" id="heure" name="heure"  />
+            <span id="heureError" style="color: red;"></span>
+
+            <label for="commentaire">Any symptoms?</label>
+            <input type="text" id="commentaire" name="commentaire"placeholder="symptoms" />
+			<br>
+			<span id="commentaireError" style="color: red;"></span>
+
+            <div >
+                <input type="submit" value="Book An Appointment">
+                <input type="reset" value="Reset">
+            </div>
+		</form>
+	<img src="image1.png" alt="Image Médicale">
+    </main>
+    <script>
+        function validateForm() {
+            var date = document.getElementById("date").value;
+            var heure = document.getElementById("heure").value;
+			var commentaire=document.getElementById("commentaire").value;
+
+            var dateError = document.getElementById("dateError");
+            var heureError = document.getElementById("heureError");
+			var commentaireError = document.getElementById("commentaireError");
+            dateError.innerHTML = "";
+            heureError.innerHTML = "";
+			commentaireError.innerHTML = "";
+            var isValid = true;
+
+            if (!date) {
+                dateError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+
+            if (!heure) {
+                heureError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+			if (!commentaire) {
+                commentaireError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+			var datePubObj = new Date(date);
+			var dateDebut = new Date('12/01/2023');
+			var dateFin = new Date('12/31/2024');
+
+			if (datePubObj < dateDebut || datePubObj > dateFin) 
+			{
+				dateError.innerHTML = 'La date de rendez-vous doit être entre le 1/12/2023 et le 31/12/2024';
+				return false;
+			}
+            return isValid;
+        }
+    </script>
 	<footer id="footer" class="footer ">
 			<!-- Footer Top -->
 			<div class="footer-top">
@@ -260,7 +327,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 								<p>subscribe to our newsletter to get allour news in your inbox.. Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
 								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
 									<input name="email" placeholder="Email Address" class="common-input" onfocus="this.placeholder = ''"
-										onblur="this.placeholder = 'Your email address'" required="" type="email">
+										onblur="this.placeholder = 'Your email address'" ="" type="email">
 									<button class="button"><i class="icofont icofont-paper-plane"></i></button>
 								</form>
 							</div>
@@ -284,5 +351,6 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 			<!--/ End Copyright -->
 		</footer>
 </body>
-
 </html>
+
+

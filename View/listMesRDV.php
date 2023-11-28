@@ -1,35 +1,15 @@
 <?php
+include "../Controller/RDVC.php";
 
-include '../Controller/RDVC.php';
-include '../Model/RDV.php';
-
-$error = "";
-
-// create client
-$rdv = null;
-// create an instance of the controller
-$RDVC = new rdvC();
-
-if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire"]))
- {
-    if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"]))
-     {
-      
-        $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
-        $RDVC->updateRDV($rdv, $_POST['idRDV']);
-        //header('Location:listRDV.php');
-    } 
-}
-
-
+$c = new rdvC();
+$tab = $c->listRDV();
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <!-- Meta Tags -->
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="keywords" content="Site keywords here">
 		<meta name="description" content="">
 		<meta name='copyright' content=''>
@@ -59,73 +39,36 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         <link rel="stylesheet" href="frontoffice/css/normalize.css">
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
+    <title>Appointment List</title>
+
+    <!-- Ajoutez ici vos liens vers les fichiers CSS ou utilisez les styles en ligne -->
     <style>
-        .formulaire{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 3px solid  #007bff;
+    }
 
-        form {
-            width: 60%; /* Ajuster la largeur */
-            max-height:700px;
-            max-width: 500px; /* Ajuster la largeur maximale */
-            margin: 100px;
-            padding: 60px; /* Ajuster la hauteur */
-            border: 1px solid #007bff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            float: left;
-        }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #007bff;
-        }
+    th {
+        background-color: #eee;
+    }
 
-        input {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        input[type="submit"],
-        input[type="reset"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-right: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        input[type="submit"]:hover,
-        input[type="reset"]:hover {
-            background-color: #0056b3;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
+    .button {
+        width: 100px;
+        height: 30px;
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 5px;
+    }
     </style>
-    <title>Rendez-vous médical</title>
 </head>
-
 <body>
 <header class="header" >
 			<!-- Topbar -->
@@ -201,47 +144,64 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 			</div>
 			<!--/ End Header Inner -->
 		</header>
+<center>
+    <h1>My Appointements</h1>
+    <h2>
+        <a href="addRDV.php"> New Appointment</a>
+    </h2>
+</center>
+<div class="container-fluid">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
+<table border="1" align="center" width="70%">
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Symptoms</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
 
-    <div id="error">
-        <?php echo $error; ?>
-    </div>
 
     <?php
-    if (isset($_POST['idRDV'])) {
-        $rdv = $RDVC->showRDV($_POST['idRDV']);  
+    foreach ($tab as $rdv) {
     ?>
-    <main class="formulaire">
-        <form action="" method="POST" onsubmit="return validateForm()" >
-            <label for="id">IdRDV :</label>
-            <input type="text" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />
-			<br>
-
-            <label for="date">Date :</label>
-            <input type="date" id="date" name="date" value="<?php echo $rdv['date'] ?>" />
-			<br>
-            <span id="dateError" style="color: red;"></span>
-
-            <label for="heure">Heure :</label>
-            <input type="time" id="heure" name="heure" value="<?php echo $rdv['heure'] ?>" />
-            <span id="heureError" style="color: red;"></span>
-
-            <label for="commentaire">Any symptoms?</label>
-            <input type="text" id="commentaire" name="commentaire"placeholder="symptoms"value="<?php echo $rdv['commentaire'] ?>"  />
-			<br>
-			<span id="commentaireError" style="color: red;"></span>
-
-            <div >
-                <input type="submit" value="Save">
-                <input type="reset" value="Reset">
-            </div>
-		</form>
-	<img src="image1.png" alt="Image Médicale">
-    </main>
+    
+        <tr>
+            <td><?= $rdv['date']; ?></td>
+            <td><?= $rdv['heure']; ?></td>
+            <td><?= $rdv['commentaire']; ?></td>
+            <td align="center">
+                <form method="POST" action="updateRDV.php">
+                    <input type="submit" name="update" value="Update" class="button">
+                    <input type="hidden" value=<?PHP echo $rdv['idRDV']; ?> name="idRDV">
+                </form>
+            </td>
+			<td>
+                <a href="deleteRDV.php?id=<?php echo $rdv['idRDV']; ?>">Delete</a>
+            </td>
+        </tr>
     <?php
     }
     ?>
-    <script src="ControleDeSaisie.js"> </script>
-    <footer id="footer" class="footer ">
+</table>
+<script>
+    const deleteButtons = document.querySelectorAll('.button');
+
+for (const button of deleteButtons) {
+  button.addEventListener('mouseover', () => {
+    button.style.backgroundColor = 'green';
+    button.querySelector('span').style.color = 'red';
+  });
+
+  button.addEventListener('mouseout', () => {
+    button.style.backgroundColor = '#007bff';
+    button.querySelector('span').style.color = '#ffffff';
+  });
+}
+</script>
+<footer id="footer" class="footer ">
 			<!-- Footer Top -->
 			<div class="footer-top">
 				<div class="container">

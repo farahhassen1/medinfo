@@ -41,7 +41,6 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="css/responsive.css">
-		
     </head>
     <body>
 	
@@ -111,17 +110,10 @@
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="index.php">Home Page 1</a></li>
-												</ul>
-											</li>
+											<li class="active"><a href="index.php">Home <i class="icofont-rounded-down"></i></a>
 											<li><a href="#">Doctos </a></li>
 											<li><a href="#">Services </a></li>
-											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="404.html">404 Error</a></li>
-												</ul>
+											<li><a href="../listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
 											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
