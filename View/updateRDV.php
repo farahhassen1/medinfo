@@ -14,15 +14,11 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
  {
     if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"]))
      {
-      
         $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
         $RDVC->updateRDV($rdv, $_POST['idRDV']);
         //header('Location:listRDV.php');
     } 
 }
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +56,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
     <style>
-        .formulaire{
+          .formulaire{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -68,7 +64,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         }
 
         form {
-            width: 60%; /* Ajuster la largeur */
+			width: 60%; /* Ajuster la largeur */
             max-height:700px;
             max-width: 500px; /* Ajuster la largeur maximale */
             margin: 100px;
@@ -201,7 +197,6 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 			</div>
 			<!--/ End Header Inner -->
 		</header>
-
     <div id="error">
         <?php echo $error; ?>
     </div>
@@ -210,37 +205,76 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
     if (isset($_POST['idRDV'])) {
         $rdv = $RDVC->showRDV($_POST['idRDV']);  
     ?>
-    <main class="formulaire">
+
+        <main class="formulaire">
         <form action="" method="POST" onsubmit="return validateForm()" >
             <label for="id">IdRDV :</label>
             <input type="text" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />
-			<br>
 
-            <label for="date">Date :</label>
-            <input type="date" id="date" name="date" value="<?php echo $rdv['date'] ?>" />
-			<br>
-            <span id="dateError" style="color: red;"></span>
+             <label for="date">Date :</label>
+                <input type="date" id="date" name="date" value="<?php echo $rdv['date'] ?>"  />
+                <br>
+                <span id="dateError" style="color: red;"></span>
 
-            <label for="heure">Heure :</label>
-            <input type="time" id="heure" name="heure" value="<?php echo $rdv['heure'] ?>" />
-            <span id="heureError" style="color: red;"></span>
+                <label for="heure">Heure :</label>
+                <input type="time" id="heure" name="heure" value="<?php echo $rdv['heure'] ?>"  />
+                <span id="heureError" style="color: red;"></span>
 
-            <label for="commentaire">Any symptoms?</label>
-            <input type="text" id="commentaire" name="commentaire"placeholder="symptoms"value="<?php echo $rdv['commentaire'] ?>"  />
-			<br>
-			<span id="commentaireError" style="color: red;"></span>
+                <label for="commentaire">Any symptoms?</label>
+                <input type="text" id="commentaire" name="commentaire"placeholder="symptoms" value="<?php echo $rdv['commentaire'] ?>"/>
+                <br>
+                <span id="commentaireError" style="color: red;"></span>
 
-            <div >
-                <input type="submit" value="Save">
-                <input type="reset" value="Reset">
-            </div>
+                <div >
+                    <input type="submit" value="Save">
+                    <input type="reset" value="Reset">
+                </div>
 		</form>
 	<img src="image1.png" alt="Image Médicale">
     </main>
+        </form>
     <?php
     }
     ?>
-    <script src="ControleDeSaisie.js"> </script>
+    <script>
+        function validateForm() {
+            var date = document.getElementById("date").value;
+            var heure = document.getElementById("heure").value;
+			var commentaire=document.getElementById("commentaire").value;
+
+            var dateError = document.getElementById("dateError");
+            var heureError = document.getElementById("heureError");
+			var commentaireError = document.getElementById("commentaireError");
+            dateError.innerHTML = "";
+            heureError.innerHTML = "";
+			commentaireError.innerHTML = "";
+            var isValid = true;
+
+            if (!date) {
+                dateError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+
+            if (!heure) {
+                heureError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+			if (!commentaire) {
+                commentaireError.innerHTML = "ce champ ne peut pas être vide.";
+                isValid = false;
+            }
+			var datePubObj = new Date(date);
+			var dateDebut = new Date('12/01/2023');
+			var dateFin = new Date('12/31/2024');
+
+			if (datePubObj < dateDebut || datePubObj > dateFin) 
+			{
+				dateError.innerHTML = 'La date de rendez-vous doit être entre le 1/12/2023 et le 31/12/2024';
+				return false;
+			}
+            return isValid;
+        }
+    </script>
     <footer id="footer" class="footer ">
 			<!-- Footer Top -->
 			<div class="footer-top">

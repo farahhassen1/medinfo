@@ -97,7 +97,7 @@ $tab = $c->listRDV();
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
-<table border="1" align="right" width="70%">
+<table border="1" align="center" width="70%">
     <tr>
         <th>Id rdv</th>
         <th>date</th>
