@@ -1,7 +1,10 @@
 <?php
 
 include '../controller/medicament_functions.php';
+include '../model/fabricant.php';
 include '../model/medicament.php';
+$c = new fabricantc();
+$tab = $c->listFabricant();
 $error = "";
 
 // create client
@@ -12,12 +15,12 @@ $medicamentc = new medicamentc();
 
 if (
     isset($_POST["nom_medicament"]) &&
-    isset($_POST["fabricant"]) &&
+    isset($_POST["id_fabricant"]) &&
     isset($_POST["date_prescription"]) 
 ) {
     if (
         !empty($_POST['nom_medicament']) &&
-        !empty($_POST["fabricant"]) &&
+        !empty($_POST["id_fabricant"]) &&
         !empty($_POST["date_prescription"]) 
     ) {
         foreach ($_POST as $key => $value) {
@@ -26,7 +29,7 @@ if (
         $medicament = new medicament(
             null,
             $_POST['nom_medicament'],
-            $_POST['fabricant'],
+            $_POST['id_fabricant'],
             $_POST['date_prescription']
         );
         var_dump($medicament);
@@ -34,8 +37,7 @@ if (
         $medicamentc->updateMedicament($medicament, $_POST['id_medicament']);
 
         header('Location:medical.php');
-    } else
-        $error = "Missing information";
+    } 
 }
 
 
@@ -46,6 +48,7 @@ if (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="addmed.css">
     <title>User Display</title>
 </head>
 
@@ -63,34 +66,39 @@ if (
         
     ?>
 
-        <form action="" method="POST">
-            <table>
+        <form action="updatemedicament.php" method="POST" id="compile">
+            <table class="styled-table">
             <tr>
-                    <td><label for="id_medicament">MEDICAL ID :</label></td>
+                    <td><label for="id_medicament">Medication ID :</label></td>
                     <td>
                         <input type="text" id="id_medicament" name="id_medicament" value="<?php echo $_POST['id_medicament'] ?>" readonly />
-                        <span id="erreurID" style="color: red"></span>
+                        <span id="erreurID" ></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="nom_medicament">Medical Name :</label></td>
+                    <td><label for="nom_medicament">Medication Name :</label></td>
                     <td>
                         <input type="text" id="nom_medicament" name="nom_medicament" value="<?php echo $medicament['nom_medicament'] ?>" />
-                        <span id="erreurNom" style="color: red"></span>
+                        <span id="erreurNom" ></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="fabricant">Fabricant :</label></td>
-                    <td>
-                        <input type="text" id="fabricant" name="fabricant" value="<?php echo $medicament['fabricant'] ?>" />
-                        <span id="erreurfabricant" style="color: red"></span>
+                    <td><label for="id_fabricant">Fabricant ID:</label></td>
+                <td><select name="id_fabricant">
+                <?php
+                foreach ($tab as $fabricant) {?>
+                    <option><?= $fabricant['id_fabricant']; ?></option>
+                    <?php
+                }?>
+                </select>
+                        <span id="erreurFabricant"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="date_prescription">Date :</label></td>
                     <td>
                         <input type="date" id="date_prescription" name="date_prescription" value="<?php echo $medicament['date_prescription'] ?>" />
-                        <span id="erreurdate_prescription" style="color: red"></span>
+                        <span id="erreurdate" ></span>
                     </td>
                 </tr>
 
@@ -99,7 +107,7 @@ if (
                     <input type="submit" onclick="valider()" value="Save">
                 </td>
                 <td>
-                    <input type="reset" value="Reset">
+                    <input type="reset" value="Reset" onclick="clearErrors()">
                 </td>
             </table>
 

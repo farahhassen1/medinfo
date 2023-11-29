@@ -47,6 +47,7 @@ if (isset($_POST["titrearticle"]) && isset($_POST["contenuarticle"]) && isset($_
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Update</title>
     <link rel="stylesheet" href="addart.css">
+    
 </head>
 
 <body>

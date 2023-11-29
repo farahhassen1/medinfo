@@ -2,7 +2,8 @@
 include "../controller/medicament_functions.php";
 $c = new medicamentC();
 $tab = $c->listMedicament();
-
+$c2 = new fabricantc();
+$tab2 = $c2->listFabricant();
 ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -142,11 +143,11 @@ $tab = $c->listMedicament();
 		</header>
 		<!-- End Header Area -->
 <center>
-    <h1>Medical List</h1>
+    <h1>Medication List</h1>
     </center>
     
     
-        <a href="addmedicament.php">Add medicament</a>
+        
         
   
 </div>
@@ -159,9 +160,9 @@ $tab = $c->listMedicament();
 
 <table border="1" align="center" width="70%" class="styled-table">
     <tr>
-        <th>Medical ID</th>
-        <th>Medical Name</th>
-        <th>Fabricant</th>
+        <th>Medication ID</th>
+        <th>Medication Name</th>
+        <th>Fabricant ID</th>
         <th>Expiration date</th>
         
     </tr>
@@ -171,11 +172,40 @@ $tab = $c->listMedicament();
         <tr>
             <td><?= $medicament['id_medicament']; ?></td>
             <td><?= $medicament['nom_medicament']; ?></td>
-            <td><?= $medicament['fabricant']; ?></td>
+            <td><?= $medicament['id_fabricant']; ?></td>
             <td><?= $medicament['date_prescription']; ?></td>
             
     <?php
     }
     ?>
 </table>
-<a href="medical.php">Go to Admin space</a>
+<br>
+<hr style="border-width: 50%px; border-color: black;"/>
+
+<center>
+    <h1>Fabricant List</h1>
+    </center>
+    <br><br>
+
+<table border="1" align="center" width="70%" class="styled-table">
+    <tr>
+        <th>Fabricant ID</th>
+        <th>Fabricant Name</th>
+        <th>Adress</th>
+        <th>Contact</th>
+        
+    </tr>
+    <?php
+    foreach ($tab2 as $fabricant) {
+    ?>
+        <tr>
+            <td><?= $fabricant['id_fabricant']; ?></td>
+            <td><?= $fabricant['nom_fabricant']; ?></td>
+            <td><?= $fabricant['adress_fabricant']; ?></td>
+            <td><?= $fabricant['contact']; ?></td>
+            
+    <?php
+    }
+    ?>
+</table>
+<a href="medical.php">Go to Admin's space</a><br><br><br>

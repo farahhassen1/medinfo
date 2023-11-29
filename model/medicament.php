@@ -3,14 +3,14 @@ class medicament
 {
     private ?int $id_medicament = null;
     private ?string $nom_medicament = null;
-    private ?string $fabricant = null;
+    private ?int $id_fabricant = null;
     private ?string $date_prescription = null;
 
-    public function __construct($id_medicament = null, $nom_medicament, $fabricant, $date_prescription)
+    public function __construct($id_medicament = null, $nom_medicament, $id_fabricant, $date_prescription)
     {
         $this->id_medicament = $id_medicament;
         $this->nom_medicament = $nom_medicament;
-        $this->fabricant = $fabricant;
+        $this->id_fabricant = $id_fabricant;
         $this->date_prescription = $date_prescription;
     }
     
@@ -34,15 +34,15 @@ class medicament
     }
 
 
-    public function getfabricant()
+    public function getid_fabricant()
     {
-        return $this->fabricant;
+        return $this->id_fabricant;
     }
 
 
-    public function setfabricant($fabricant)
+    public function setid_fabricant($id_fabricant)
     {
-        $this->fabricant = $fabricant;
+        $this->id_fabricant = $id_fabricant;
 
         return $this;
     }

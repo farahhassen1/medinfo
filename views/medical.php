@@ -1,7 +1,9 @@
 <?php
 include "../controller/medicament_functions.php";
 $c = new medicamentC();
+$c2 = new fabricantc();
 $tab = $c->listMedicament();
+$tab2 = $c2->listFabricant();
 
 ?>
 
@@ -108,7 +110,7 @@ $tab = $c->listMedicament();
 		<ul class="nav menu">
 			<li><a href="index2.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
 			<li><a href="widgets.html"><em class="fa fa-calendar">&nbsp;</em> Widgets</a></li>
-			<li class="active"><a href="medical.php"><em class="fa fa-bar-chart">&nbsp;</em> Medicals</a></li>
+			<li class="active"><a href="medical.php"><em class="fa fa-bar-chart">&nbsp;</em> Medications & Fabricants</a></li>
 			<li><a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em> UI Elements</a></li>
 			<li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
@@ -130,11 +132,11 @@ $tab = $c->listMedicament();
 		</ul>
 	</div><!--/.sidebar-->
 	<center>
-    <h1>Medical List</h1>
+    <h1>Medication List</h1>
     
     <h2>
 		
-	<a href="addmedicament.php">Add a medical</a>
+	<a href="addmedicament.php">Add a Medication</a>
 </h2>
 </center>
 </div>
@@ -148,10 +150,10 @@ $tab = $c->listMedicament();
 <table border="1" align="center" width="70%" class="styled-table" style="margin: 0 auto; margin-right: 100px;">
     <tr>
 		
-        <th>Medical ID</th>
-        <th>Medical Name</th>
-        <th>Fabricant</th>
-        <th>Expiration date</th>
+        <th>Medication ID</th>
+        <th>Medication Name</th>
+        <th>Fabricant ID</th>
+        <th>Expiration Date</th>
         <th>Update</th>
         <th>Delete</th>
 
@@ -162,7 +164,7 @@ $tab = $c->listMedicament();
         <tr>
             <td><?= $medicament['id_medicament']; ?></td>
             <td><?= $medicament['nom_medicament']; ?></td>
-            <td><?= $medicament['fabricant']; ?></td>
+            <td><?= $medicament['id_fabricant']; ?></td>
             <td><?= $medicament['date_prescription']; ?></td>
             <td align="center">
                 <form method="POST" action="updatemedicament.php">
@@ -182,8 +184,65 @@ $tab = $c->listMedicament();
 
 
 </table>
+<br>
+<hr style="border-width: 50%px; border-color: black;"/>
+<center>
+    <h1>Fabricant List</h1>
+    
+    <h2>
+		
+	<a href="addfabricant.php">Add a Fabricant</a>
+</h2>
+</center>
+
+
+    <br><br>
+
+<table border="1" align="center" width="70%" class="styled-table" style="margin: 0 auto; margin-right: 100px;">
+    <tr>
+        <th>Fabricant ID</th>
+        <th>Fabricant Name</th>
+        <th>Adress Fabricant</th>
+        <th>Contact</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    <?php
+    foreach ($tab2 as $fabricant) {
+    ?>
+        <tr>
+			<td><?= $fabricant['id_fabricant']; ?></td>
+            <td><?= $fabricant['nom_fabricant']; ?></td>
+            <td><?= $fabricant['adress_fabricant']; ?></td>
+            <td><?= $fabricant['contact']; ?></td>
+			<td align="center">
+                <form method="POST" action="updatefabricant.php">
+                    <input type="submit" name="update" value="Update">
+                    <input type="hidden" value=<?PHP echo $fabricant['id_fabricant']; ?> name="id_fabricant">
+                </form>
+            </td>
+			<td>
+			
+                <a href="dropfabricant.php?id_fabricant=<?php echo $fabricant['id_fabricant']; ?>">Delete</a>
+				
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+
+
+</table>
+
+
+
+
+
+
 <center>
 <a href="index.php">Go back to client's space</a></center>
+<br><br><br>
+
 			
 		</div><!--/.row-->
 	</div>	<!--/.main-->

@@ -120,7 +120,7 @@
 											<li><a href="#">Services </a></li>
 											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="listMedicament.php">Medicals</a></li>
+													<li><a href="listMedicament.php">Medications & Fabricants</a></li>
 												</ul>
 											</li>
 											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
@@ -169,15 +169,15 @@
 				</div>
 				<!-- End Single Slider -->
 				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('img/slider.jpg')">
+				<div class="single-slider" style="background-image:url('medical.jpg')">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-7">
 								<div class="text">
-									<h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
+									<h1>We Provide <span>Medication</span> Services That You Can <span>Trust!</span></h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
 									<div class="button">
-										<a href="#" class="btn">Get Appointment</a>
+										<a href="listMedicament.php" class="btn">Medication List</a>
 										<a href="#" class="btn primary">About Us</a>
 									</div>
 								</div>
