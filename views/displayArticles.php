@@ -2,14 +2,87 @@
 <?php
 // Include necessary files and classes
 include "../controller/ArticleC.php";
-
+include '../model/Article.php';
+include '../model/comment.php';
+$c1 = new commentC();
 $c = new ArticleC();
 // Fetch articles as an array
 $articles = $c->listArticle()->fetchAll(PDO::FETCH_ASSOC);
+$comments = $c1->listcomment()->fetchAll(PDO::FETCH_ASSOC);
 // Sort the articles by date in descending order
 usort($articles, function($a, $b) {
     return strtotime($b['datepubliarticle']) - strtotime($a['datepubliarticle']);
 });
+
+$error = "";
+
+// create client
+$article = null;
+
+// create an instance of the controller
+$ArticleC = new ArticleC();
+if (
+    isset($_POST["titrearticle"]) &&
+    isset($_POST["contenuarticle"])&&
+    isset($_POST["datepubliarticle"]) 
+) {
+    if (
+        !empty($_POST["titrearticle"]) &&
+        !empty($_POST["contenuarticle"])&&
+        !empty($_POST["datepubliarticle"]) 
+
+    ) {
+        $article = new article(
+            null,
+            $_POST['titrearticle'],
+            $_POST['contenuarticle'],
+            $_POST['datepubliarticle']
+
+        );
+        $ArticleC->addArticle($article);
+        
+        header('Location:displayArticles.php');
+    } else
+        $error = "You Didnt add the Article Information!";
+}
+
+usort($comments, function($a1, $b1) {
+    return strtotime($b1['datepublicomment']) - strtotime($a1['datepublicomment']);
+});
+
+$error2 = "";
+
+// create client
+$comment = null;
+
+// create an instance of the controller
+$commentC = new commentC();
+if (
+    isset($_POST["contenucomment"])&&
+    isset($_POST["datepublicomment"])&& 
+	isset($_POST["idarticle"])
+) {
+    if (
+        !empty($_POST["contenucomment"])&&
+        !empty($_POST["datepublicomment"]) &&
+		!empty($_POST["idarticle"])
+
+
+    ) {
+        $comment = new comment(
+            null,
+            $_POST['contenucomment'],
+            $_POST['datepublicomment'],
+			$_POST["idarticle"]
+
+        );
+        $commentC->addcomment($comment);
+        
+        header('Location:displayArticles.php');
+    } else
+        $error2 = "You Didnt add the comment Information!";
+}
+
 
 ?>
 
@@ -18,18 +91,19 @@ usort($articles, function($a, $b) {
 
 <head>
 <meta charset="utf-8">
+
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="keywords" content="Site keywords here">
 		<meta name="description" content="">
 		<meta name='copyright' content=''>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="displayart.css"> <!-- Create a new CSS file for styling the display -->
     <title>Display Articles</title>
     <link rel="icon" href="img/favicon.png">
 		
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="addart.css">
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<!-- Nice Select CSS -->
@@ -53,31 +127,138 @@ usort($articles, function($a, $b) {
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="css/responsive.css">
-    <style>
+   
+</head>
+
+<body>
+    	<style>
+/*Error color*/
+.error-message {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .error-message-red {
+            color: red;
+        }
+/*End Error color*/
+/*Article drop down*/
+/* Style for the Add Article button */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+.add-article-button {
+        cursor: pointer;
+        background-color: #3498db;
+        color: #fff;
+        padding: 8px 15px; /* Adjust padding to make it smaller */
+        border: none;
+        border-radius: 4px;
+        display: block; /* Display as block to take the full width */
+        margin: 10% auto; /* Center the button both vertically and horizontally */
+        max-width: 150px; /* Set a maximum width */
+        text-align: center; /* Center the text */
+        transition: background-color 0.3s;
+    }
+
+    .add-article-button:hover {
+        background-color: #2980b9;
+    }
+
+    /* Style for the form container */
+    .add-article-container {
+        display: none; /* Hide the form container by default */
+        margin: 5% auto; /* Center the container both vertically and horizontally */
+        padding: 15px;
+        border: 2px solid #3498db;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        max-width: 600px; /* Set a maximum width */
+        animation: fadeIn 0.5s ease-in-out; /* Add a fade-in animation */
+    }
+
+    /* Animation keyframes */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
 
 
+/*End Article drop down*/
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    margin-top: 0; /* Add this line to reset the top margin */
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-}
-
+/* Article container styles */
 .article-container {
     border: 2px solid #3498db;
     border-radius: 10px;
-    margin: 20px 0; /* Adjusted margin to separate articles */
+    margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    position: relative;
     cursor: pointer;
-    max-width: calc(100% - 40px); /* Adjusted max-width */
-    min-height: 250px; /* Adjusted min-height */
+    padding: 20px;
+    max-width: 50%; /* Set maximum width to 50% of the screen width */
 }
+.article-details-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            background-color: #fff;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
 
+        .article-details-container h2 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .comment-container {
+            margin-top: 20px;
+        }
+
+        .comments-container {
+            display: none;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .comment:hover {
+            background-color: #f0f0f0;
+        }
 .article-container h2 {
     color: #3498db;
     margin: 10px 0;
@@ -93,174 +274,73 @@ h1 {
     margin: 0 0 15px;
 }
 
-.back-button {
-    text-align: center;
-    margin-top: 20px;
-}
+/* Comment section styles */
+.comments-container {
+        display: none; /* Hide the comments section by default */
+        margin-top: 20px; /* Add some spacing between article and comments */
+    }
 
-
-
-.button:hover {
-    background-color: #c0392b;
-}
-
-.popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 1;
-}
-
-.popup-container {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    z-index: 2;
-    max-width: 80%;
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
+    .comment-button {
     cursor: pointer;
-    color: #333;
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px 8px; /* Adjust the padding to make it smaller */
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px; /* Adjust the font size */
+    transition: background-color 0.3s;
 }
 
-#popup-title {
-    color: #333;
-    margin-bottom: 10px;
+.comment-button:hover {
+    background-color: #2980b9;
 }
 
-#popup-content {
-    color: #555;
+.comments-container h3 {
+    color: #3498db;
     margin-bottom: 15px;
 }
 
-#comment-input {
+.comment-input {
     width: 100%;
     padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box;
-    resize: vertical;
 }
 
-#comment-input:focus {
-    outline: none;
-    border-color: #3498db;
-}
 
-#submit-comment {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    background-color: #3498db;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
 
-#submit-comment:hover {
+.comment-button:hover {
     background-color: #2980b9;
 }
-.right-bar {
-        position: fixed;
-        top: 0;
-        right: -300px;
-        width: 300px;
-        height: 100%;
-        background-color: #3498db;
-        border-radius: 0 10px 10px 0;
-        transition: right 0.3s ease-in-out;
-        z-index: 3;
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+/* Responsive styling for smaller screens */
+@media (max-width: 767px) {
+    .article-container {
+        padding: 15px;
     }
 
-        .right-bar:hover {
-            right: 0;
-        }
-
-        .right-bar-title {
-            color: #fff;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .right-bar-title2 {
-            color: #fff;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-
-        .right-bar-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 20px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .right-bar-icon:hover {
-            color: #ccc;
-        }
-        .show-right-bar {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background-color: #3498db;
-        border-radius: 0 10px 10px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
+    .comments-container {
+        padding: 15px;
     }
+}
+.back-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Optional: This ensures that the container takes up the full height of the viewport */
+    margin: 0; /* Set margin to zero */
+}
 
-    .show-right-bar:hover {
-        background-color: #2980b9;
-    }
-    </style>
-</head>
+.btn {
+    /* Your button styles here */
+    margin: 0; /* Set margin to zero */
+}
+/*recentpost and recet comments container csss*/
 
-<body>
-    	
+/*END recentpost and recet comments container csss*/
+        </style>
 
 		
 		<!-- Get Pro Button -->
@@ -302,7 +382,7 @@ h1 {
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="img/logo.png" alt="#"></a>
+									<a href="index.php"><img src="img/medinfo.png" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -370,92 +450,168 @@ h1 {
 		<!-- End Breadcrumbs -->
 
 
+<br>
+<div class="add-article-button" onclick="toggleAddArticleForm()">Add Article</div>
+<br>
 
 
-
-
-
-
-<div class="right-bar">
-        <div class="right-bar-icon" onclick="toggleArticles()">☰</div>
-        <div class="right-bar-title">MedInfo Articles</div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="right-bar-title2">Search For Articles</div>
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search...">
-        <div class="show-right-bar" onclick="toggleArticles('show')">&lt;</div>
-        <!-- Other content or options can be added here -->
+<div id="error">
+        <?php echo $error; ?>
     </div>
-    
 
-    <?php foreach ($articles as $article) : ?>
-        <?php
-        // Determine if the article has a long text
-        $articleClass = (strlen($article['contenuarticle']) > 500) ? 'long-article' : '';
-        ?>
-        <div class="article-container <?= $articleClass ?>" onclick="showPopup('<?= $article['titrearticle']; ?>', '<?= $article['contenuarticle']; ?>')">
+<div class="add-article-container" id="addArticleContainer">
+    <form action="" method="POST" onsubmit="return validateForm()">
+	<div>
+            <label for="titrearticle">Article Title:</label>
+            <input type="text" id="titrearticle" name="titrearticle" placeholder="Enter Article Title">
+            <div id="titrearticle-error" class="error-message error-message-red"></div>
+
+            <label for="contenuarticle">Article Contenu:</label>
+            <textarea id="contenuarticle" name="contenuarticle" rows="4" cols="50" placeholder="Enter Article Content"></textarea>
+            <div id="contenuarticle-error" class="error-message error-message-red"></div>
+
+			<label for="datepubliarticle">Date de publication:</label>
+<input type="text" id="datepubliarticle" name="datepubliarticle" value="<?php echo date('Y-m-d'); ?>" readonly>
+<div id="datepubliarticle-error" class="error-message error-message-red"></div>
+
+            <button type="submit">Submit Article</button>
+
+        </div>
+
+        <div id="article-container"></div>
+    </form>
+</div>
+
+
+<?php foreach ($articles as $article) : ?>
+    <div class="article-container <?= $articleClass ?>">
+        <h2 class="article-title" onclick="showArticleDetails('article-details<?= $article['idarticle']; ?>')">
+            <?= $article['titrearticle']; ?>
+        </h2>
+        <p class="date">Published on <?= date('F j, Y \a\t g:i A', strtotime($article['datepubliarticle'])); ?></p>
+
+        <!-- Add a new container for article details outside of the loop -->
+        <div class="article-details-container" id="article-details<?= $article['idarticle']; ?>">
             <h2><?= $article['titrearticle']; ?></h2>
             <p class="date">Published on <?= date('F j, Y \a\t g:i A', strtotime($article['datepubliarticle'])); ?></p>
             <p><?= nl2br($article['contenuarticle']); ?></p>
+
+            <!-- Comment section for each article -->
+            <div class="comment-container">
+                <h3>Comments</h3>
+                <div class="comments-container" id="comments<?= $article['idarticle']; ?>">
+                    <?php foreach ($comments as $comment) : ?>
+                        <?php if ($comment['idarticle'] == $article['idarticle']) : ?>
+                            <div class="comment">
+                                <p><?= nl2br($comment['contenucomment']); ?></p>
+                                <p class="date">Commented on <?= date('F j, Y \a\t g:i A', strtotime($comment['datepublicomment'])); ?></p>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Add your PHP code here to fetch and display comments for the article -->
+                <!-- For demonstration purposes, a simple form is provided for adding comments -->
+                <form action="#" method="post">
+                    <input type="hidden" name="idarticle" value="<?= $article['idarticle']; ?>">
+                    <textarea class="comment-input" name="contenucomment" placeholder="Add your comment..." required></textarea>
+                    <label for="datepublicomment">Date de publication:</label>
+                    <input type="text" id="datepublicomment" name="datepublicomment" value="<?= date('Y-m-d H:i:s'); ?>" readonly>
+                    <div id="datepublicomment-error" class="error-message error-message-red"></div>
+                    <input type="submit" class="comment-button" value="Add Comment">
+                </form>
+            </div>
+
+            <!-- Close button for the article details container -->
+            <button onclick="hideArticleDetails('article-details<?= $article['idarticle']; ?>')">Close</button>
         </div>
-    <?php endforeach; ?>
-
-    <div class="back-button">
-        <a href="addArticle.php" class="btn">Submit Article</a>
     </div>
+<?php endforeach; ?>
 
-    <!-- Popup Overlay -->
-    <div class="popup-overlay" onclick="closePopup()"></div>
+<a href="articlesdb.php">Go to Admin Space</a>
+    
 
-    <!-- Popup Container -->
-    <div id="popup-container" class="popup-container">
-        <span class="close-button" onclick="closePopup()">&times;</span>
-        <h2 id="popup-title"></h2>
-        <p id="popup-content"></p>
-        <textarea id="comment-input" placeholder="Add your comment"></textarea>
-        <button id="submit-comment" onclick="submitComment()">Submit Comment</button>
-    </div>
+   
 
-    <script>
-        let currentArticle;
+<script>
+    function toggleComments(commentsId) {
+        var commentsContainer = document.getElementById(commentsId);
+        if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
+            commentsContainer.style.display = 'block';
+        } else {
+            commentsContainer.style.display = 'none';
+        }
+    }
 
-        function showPopup(title, content) {
-            currentArticle = { title, content };
+    function toggleAddArticleForm() {
+        var addArticleContainer = document.getElementById('addArticleContainer');
+        if (addArticleContainer.style.display === 'none' || addArticleContainer.style.display === '') {
+            addArticleContainer.style.display = 'block';
+        } else {
+            addArticleContainer.style.display = 'none';
+        }
+    }
 
-            document.getElementById('popup-title').innerText = title;
-            document.getElementById('popup-content').innerText = content;
-            document.querySelector('.popup-overlay').classList.add('active');
-            document.getElementById('popup-container').style.display = 'block';
+    function validateForm() {
+        var title = document.getElementById('titrearticle').value;
+        var content = document.getElementById('contenuarticle').value;
+        var date = document.getElementById('datepubliarticle').value;
+
+        var titleRegex = /^[a-zA-Z0-9\s]+$/; // Alphanumeric characters and spaces
+        var contentRegex = /^[a-zA-Z0-9\s]{1,2000}$/; // Alphanumeric characters and spaces
+
+        var isValid = true;
+
+        if (!title.match(titleRegex) || title.trim() === "") {
+            document.getElementById('titrearticle-error').innerHTML = 'Title can only contain letters, numbers, and spaces and cannot be empty';
+            isValid = false;
+        } else {
+            document.getElementById('titrearticle-error').innerHTML = 'Done!';
         }
 
-        function closePopup() {
-            document.querySelector('.popup-overlay').classList.remove('active');
-            document.getElementById('popup-container').style.display = 'none';
+        if (!content.match(contentRegex) || content.trim() === "") {
+            document.getElementById('contenuarticle-error').innerHTML = 'Content can only contain letters, numbers, and spaces and cannot be empty';
+            isValid = false;
+        } else {
+            document.getElementById('contenuarticle-error').innerHTML = 'Done!';
         }
 
-        function submitComment() {
-            // Add your logic to submit comments
-            alert('Comment submitted for article: ' + currentArticle.title);
-        }
-        function toggleArticles(action) {
-            const rightBar = document.querySelector('.right-bar');
-            const showRightBar = document.querySelector('.show-right-bar');
+     
 
-            if (action === 'show') {
-                rightBar.style.right = '0';
-                showRightBar.style.left = 'calc(100% - 40px)';
-                showRightBar.setAttribute('onclick', 'toggleArticles("hide")');
-            } else {
-                rightBar.style.right = '-300px';
-                showRightBar.style.left = '0';
-                showRightBar.setAttribute('onclick', 'toggleArticles("show")');
-            }
+        return isValid;
+    }
+	function showArticleDetails(articleDetailsId) {
+        var articleDetailsContainer = document.getElementById(articleDetailsId);
+        articleDetailsContainer.style.display = 'block';
+
+        // Fetch and display comments for the article
+        var articleId = articleDetailsId.replace('article-details', '');
+        var commentsContainer = document.getElementById('comments' + articleId);
+        commentsContainer.style.display = 'block';
+    }
+
+    function hideArticleDetails(articleDetailsId) {
+        var articleDetailsContainer = document.getElementById(articleDetailsId);
+        articleDetailsContainer.style.display = 'none';
+
+        // Reset the form inside the article details container
+        var form = articleDetailsContainer.querySelector('form');
+        form.reset();
+    }
+
+    function toggleComments(commentsId) {
+        var commentsContainer = document.getElementById(commentsId);
+        if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
+            commentsContainer.style.display = 'block';
+        } else {
+            commentsContainer.style.display = 'none';
         }
-    </script>
+    }
+	
+
+
+
+</script>
     <!-- Footer Area -->
 		<footer id="footer" class="footer ">
 			<!-- Footer Top -->
@@ -571,6 +727,7 @@ h1 {
 		<script src="js/bootstrap.min.js"></script>
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
+		
 </body>
 
 </html>

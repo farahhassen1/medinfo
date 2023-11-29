@@ -2,10 +2,17 @@ body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(45deg, #2d9ee0, #55d6f2); /* Gradient background */
     margin: 0;
-    padding: 0;
+    padding-top: 50%;
     box-sizing: border-box;
 }
-
+.container-form {
+    max-width: 600px; /* Set the maximum width of the form container */
+    margin: auto; /* Center the container */
+    padding: 20px; /* Add some padding for better visual */
+    background-color: #fff; /* Set a background color */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
 #error {
     color: #ff5555; /* Bright red color */
     font-weight: bold;

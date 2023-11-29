@@ -4,7 +4,7 @@ require '../config.php';
 
 class articleC
 {
-
+ 
     public function listArticle()
     {
         $sql = "SELECT * FROM article";
@@ -83,6 +83,92 @@ class articleC
                 'contenuarticle' => $article->getcontenuarticle(),
 
                 'idarticle' => $idarticle
+            ]);
+        } catch (Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+}
+
+class commentC
+{
+ 
+    public function listcomment()
+    {
+        $sql = "SELECT * FROM comment";
+        $db = config::getConnexion();
+        try {
+            $liste = $db->query($sql);
+            return $liste;
+        } catch (Exception $e) {
+            die('Error:' . $e->getMessage());
+        }
+    }
+
+    function deletecomment($ide)
+    {
+        $sql = "DELETE FROM comment WHERE idcomment = :idcomment";
+        $db = config::getConnexion();
+        $req = $db->prepare($sql);
+        $req->bindValue(':idcomment', $ide);
+
+        try {
+            $req->execute();
+        } catch (Exception $e) {
+            die('Error:' . $e->getMessage());
+        }
+    }
+
+
+    function addcomment($comment)
+    {
+        $sql = "INSERT INTO comment  VALUES (NULL, :datepublicomment, :contenucomment, :idarticle)";
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute([
+                'datepublicomment' => $comment->getdatepublicomment(),
+                'contenucomment' => $comment->getcontenucomment(),
+                'idarticle' => $comment->getidarticle()
+        
+            ]);
+        } catch (Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
+    function showcomment($idcomment)
+    {
+        $sql = "SELECT * from comment where idcomment = $idcomment";
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute();
+            $comment = $query->fetch();
+            return $comment;
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    public function updatecomment($comment, $idcomment)
+    {
+        $sql = "UPDATE article SET
+                datepublicomment = :datepublicomment,
+                contenucomment = :contenucomment
+ 
+                WHERE idcomment = :idcomment";
+
+        $db = Config::getConnexion();
+
+        try {
+            $query = $db->prepare($sql);
+            $query->execute([
+                'datepublicomment' => $comment->getdatepublicomment(),
+                'contenucomment' => $comment->getcontenucomment(),
+
+                'idcomment' => $idcomment
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();

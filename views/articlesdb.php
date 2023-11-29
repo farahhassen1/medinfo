@@ -3,7 +3,8 @@ include "../controller/ArticleC.php";
 
 $c = new articleC();
 $tab = $c->listArticle();
-
+$c2 = new commentC();
+$tab2 = $c2->listcomment();
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +34,7 @@ $tab = $c->listArticle();
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span></button>
-				<a class="navbar-brand" href="index2.php"><span>Med</span>Info</a>
+				<a class="navbar-brand" href="index2.php"><span>MED-Info </span>Admin SPACE</a>
 				
 	</nav>
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
@@ -129,7 +130,49 @@ $tab = $c->listArticle();
     }
     ?>
 </table>
-						
+<tr>
+	<br>
+	<br>
+	<center>
+    <h1>List of comments</h1>
+    
+</center>
+<table border="1" align="center" width="70%">
+    <tr>
+        <th>Id comment</th>
+		<th>Id article</th>
+        <th>datepublicomment</th>
+        <th>contenucomment</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+
+
+    <?php
+    foreach ($tab2 as $comment) {
+    ?>
+
+        <tr>
+		<td><?= $comment['idcomment']; ?></td>
+            <td><?= $comment['idarticle']; ?></td>
+            <td><?= $comment['datepublicomment']; ?></td>
+            <td><?= $comment['contenucomment']; ?></td>
+			<td align="center">
+                <form method="POST" action="updatecomment.php">
+                    <input type="submit" name="update" value="Update">
+                    <input type="hidden" value=<?PHP echo $comment['idcomment']; ?> name="idcomment">
+                </form>
+            </td>
+            <td>
+                <a href="deletecomment.php?idcomment=<?php echo $comment['idcomment']; ?>">Delete</a>
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>
+
+<a href="index.php">Go to Main page</a>			
 			<div class="col-sm-12">
 				<p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
 			</div>
@@ -138,13 +181,13 @@ $tab = $c->listArticle();
 	  
 
 <script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/chart.min.js"></script>
-	<script src="js/chart-data.js"></script>
-	<script src="js/easypiechart.js"></script>
-	<script src="js/easypiechart-data.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
-	<script src="js/custom.js"></script>
+	<script src="js2/bootstrap.min.js"></script>
+	<script src="js2/chart.min.js"></script>
+	<script src="js2/chart-data.js"></script>
+	<script src="js2/easypiechart.js"></script>
+	<script src="js2/easypiechart-data.js"></script>
+	<script src="js2/bootstrap-datepicker.js"></script>
+	<script src="js2/custom.js"></script>
 	
 </body>
 </html>

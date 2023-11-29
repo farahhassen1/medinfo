@@ -99,7 +99,7 @@
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="img/logo.png" alt="#"></a>
+									<a href="index.php"><img src="img/medinfo.png" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -117,13 +117,14 @@
 												</ul>
 											</li>
 											<li><a href="#">Doctos </a></li>
-											<li><a href="#">Services </a></li>
+											<li><a href="#">Prescription </a></li>
 											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="404.html">404 Error</a></li>
+													<li><a href="#">Medicals</a></li>
+													<li><a href="#">Facteurs</a></li>
 												</ul>
 											</li>
-											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
+											<li><a href="displayArticles.php">Articles <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="displayArticles.php">Article Details</a></li>
 												</ul>
@@ -341,21 +342,20 @@
 						<!-- Start Choose Left -->
 						<div class="choose-left">
 							<h3>Who We Are</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra antege vel est lobortis, a commodo magna rhoncus. In quis nisi non emet quam pharetra commodo. </p>
-							<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
+							<p>Welcome to our comprehensive platform where knowledge meets innovation. We are a dynamic hub that seamlessly integrates articles, services, medical insights, and impactful features to empower and inform our diverse community. Whether you seek enlightening articles, reliable medical information, essential services, or insightful features, our platform is designed to cater to your needs. Our commitment to excellence and inclusivity drives us to provide a multifaceted experience, bringing together the latest in articles, cutting-edge services, crucial medical updates, and engaging features. Join us on this journey as we strive to create a space that not only informs but also enhances your understanding of the world around you. </p>
+							<p>Hope in out webside you be well satisfied </p>
 							<div class="row">
 								<div class="col-lg-6">
 									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
+										<li><i class="fa fa-caret-right"></i>Explore a diverse range of articles </li>
+										<li><i class="fa fa-caret-right"></i>impactful features on our platform</li>
+										<li><i class="fa fa-caret-right"></i>Uncover valuable information</li>
 									</ul>
 								</div>
 								<div class="col-lg-6">
 									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
+										<li><i class="fa fa-caret-right"></i>medical insights </li>
+
 									</ul>
 								</div>
 							</div>

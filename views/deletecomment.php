@@ -1,6 +1,6 @@
 <?php
 include '../controller/ArticleC.php';
-$clientC = new ArticleC();
-$clientC->deleteArticle($_GET["idarticle"]);
+$clientC = new commentC();
+$clientC->deletecomment($_GET["idcomment"]);
 header('Location:articlesdb.php');
 ?>
