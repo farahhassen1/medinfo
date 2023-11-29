@@ -2,4 +2,4 @@
 include '../controller/factureC.php';
 $factureC = new factureC();
 $factureC->deleteFacture($_GET["id_facture"]);
-header('Location:listFacture.php');
+header('Location:facture.php');

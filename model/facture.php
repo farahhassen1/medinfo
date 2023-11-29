@@ -1,20 +1,20 @@
 <?php
 class facture
 {
-    private ?int $idFacture = null;
+    private ?int $id_facture = null;
     private ?string $montant= null;
     private ?string $date_facture = null;
     private ?string $descreption = null;
-    
+   
     
 
-    public function __construct($idFacture = null, $montant,$date_facture, $descreption)
+    public function __construct($id_facture = null, $montant,$date_facture, $descreption)
     {
-        $this->idFacture = $idFacture;
+        $this->id_facture = $id_facture;
         $this->montant = $montant;
         $this->date_facture = $date_facture;
         $this->descreption = $descreption;
-        
+       
         
         
     }
@@ -22,7 +22,7 @@ class facture
 
     public function getidFacture()
     {
-        return $this->idFacture;
+        return $this->id_facture;
     }
 
 
@@ -66,6 +66,7 @@ class facture
 
         return $this;
     }
+    
 
 
     

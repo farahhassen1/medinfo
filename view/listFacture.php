@@ -3,6 +3,8 @@ include "../controller/factureC.php";
 
 $c = new factureC();
 $tab = $c->listFacture();
+$c2 = new payementC();
+$tab2 = $c2->listPayement();
 
 ?>
 
@@ -28,9 +30,8 @@ $tab = $c->listFacture();
         <th>montant</th>
         <th>date</th>
         <th>descreption</th>
-        <th>Update</th>
-        <th>Delete</th>
-     
+       
+        
     </tr>
 
 
@@ -49,17 +50,61 @@ $tab = $c->listFacture();
            
             
            
-            <td align="center">
-                <form method="POST" action="updatefacture.php">
-                    <input type="submit" name="update" value="Update">
-                    <input type="hidden" value=<?PHP echo $facture['id_facture']; ?> name="id_facture">
-                </form>
-            </td>
-            <td>
-                <a class="btn" href="deleteFacture.php?id_facture=<?php echo $facture['id_facture']; ?>">Delete</a>
-            </td>
+           
         </tr>
     <?php
     }
     ?>
 </table>
+
+
+
+
+
+
+<!--///////////////////////////////////////////////////////payement/////!-->
+<center>
+    <h1>List of payement</h1>
+    <h2>
+        <a href="addpayement.php">Add payement</a>
+    </h2>
+</center>
+<table class="tab" border="1" align="center" width="70%">
+    <tr>
+        <th>Id payement</th>
+        <th>date_payement</th>
+        <th>descreption</th>
+        <th>image_mp</th>
+        <th>id_facture</th>
+
+        
+     
+    </tr>
+
+
+    <?php
+    foreach ($tab2 as $payement) {
+    ?>
+
+
+
+
+        <tr>
+            <td><?= $payement['id_payement']; ?></td>
+            <td><?= $payement['date_payement']; ?></td>
+            <td><?= $payement['descreption']; ?></td>
+            <td><?= $payement['image_mp']; ?></td>
+            <td><?= $payement['id_facture']; ?></td>
+           
+           
+           
+            
+          
+           
+            
+        </tr>
+    <?php
+    }
+    ?>
+</table>
+<a href="facture.php">go to admin space</a>

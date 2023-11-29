@@ -1,44 +1,53 @@
 <?php
 
 include '../controller/factureC.php';
+include '../model/payement.php';
 include '../model/facture.php';
+$c2 = new factureC();
+$tab2 = $c2->listFacture();
 
 
 
 $error = "";
 
-// create facture
-$facture = null;
+
+$payement= null;
 
 // create an instance of the controller
-$factureC = new factureC();
+$payementC = new payementC();
 if (
-    isset($_POST["montant"]) &&
-    isset($_POST["date_facture"]) &&
-    isset($_POST["descreption"])
+    isset($_POST["date_payement"]) &&
+    isset($_POST["descreption"]) &&
+    isset($_POST["image_mp"])&&
+		isset($_POST["id_facture"])
 		
     
 ) {
     if (
-        !empty($_POST['montant']) &&
-        !empty($_POST["date_facture"]) &&
-        !empty($_POST["descreption"])
+        !empty($_POST['date_payement']) &&
+        !empty($_POST["descreption"]) &&
+        !empty($_POST["image_mp"])&&
+				!empty($_POST["id_facture"])
 				
+
+				
+        
        
     ) {
-        $facture = new facture(
+        $payement = new payement(
             null,
-            $_POST['montant'],
-            $_POST['date_facture'],
-            $_POST['descreption']
-					
+            $_POST['date_payement'],
+            $_POST['descreption'],
+            $_POST['image_mp'],
+						$_POST['id_facture']
+			
             
             
         );
-        $factureC->addfacture($facture);
-       header('Location:listFacture.php');
-    }/* else
-        $error = "Missing information";*/
+        $payementC->addpayement($payement);
+        header('Location:listFacture.php');
+    } else
+        $error = "Missing information";
 }
 
 
@@ -152,7 +161,7 @@ if (
 											<li><a href="#">Services </a></li>
 											<li><a href="#">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="addFacture.php">facture</a></li>
+													<li><a href="addpayement.php">payement</a></li>
 												</ul>
 											</li>
 											<li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
@@ -186,44 +195,59 @@ if (
         <?php echo $error; ?>
     </div>
 
-    <form  id = "myForm" action="addFacture.php" method="POST" >
-		
+    <form action="" method="POST" >
         <table>
-            <tr>
-                <td><label for="montant">Montant:</label></td>
+        <tr>
+                <td><label for="date_payement">date_payement :</label></td>
                 <td>
-                    <input type="text" id="montant" name="montant" oninput="validerMontant()" />
-                    <span id="erreurMontant"></span>
-                </td>
-            </tr>
-
-            <tr>
-                <td><label for="descreption">Description:</label></td>
-                <td>
-                    <input type="text" id="descreption" name="descreption" oninput="validerDescription()" />
-                    <span id="erreurDescription" style="color: red"></span>
-                </td>
-            </tr>
-
-            <tr>
-                <td><label for="date">Date:</label></td>
-                <td>
-                    <input type="date" id="date" name="date_facture" oninput="validerDate()" />
+                    <input  type="date" id="date_payement" name="date_payement" oninput="validerDate()"/>
                     <span id="erreurDate" style="color: red"></span>
                 </td>
             </tr>
-
+            
             <tr>
+                <td><label for="descreption">description :</label></td>
                 <td>
-                    <input type="submit" value="Save">
-                </td>
-                <td>
-                    <input type="reset" value="Reset">
+                    <input type="text" id="descreption" name="descreption" oninput="validerDescription()" />
+                    <span id="erreurDescreption" style="color: red"></span>
                 </td>
             </tr>
+            <tr>
+                <td><label for="image_mp">image_mp :</label></td>
+                <td>
+                    <input type="file" id="image_mp" name="image_mp" />
+                    <span id="erreurDate" style="color: red"></span>
+                    
+                </td>
+            </tr>
+						<tr>
+                <td><label for="image_mp">select :</label></td>
+                <td>
+                    <select id="select" name="id_facture" > 
+											<?php
+											foreach($tab2 as $facture){?>
+											<option><?= $facture["id_facture"];?></option>
+											<?php
+										}?>
+											</select>
+                    <span id="erreurDate" style="color: red"></span>
+                    
+                </td>
+            </tr>
+
+           
+            
+
+            <td>
+                <input is="validerButton" type="submit" value="Save">
+            </td>
+            <td>
+                <input type="reset" value="Reset">
+            </td>
         </table>
+
     </form>
-    <script src="control.js"></script>
+		<script src="controlcopy.js"></script>
 </body>
 
 </html>

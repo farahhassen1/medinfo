@@ -1,44 +1,41 @@
 <?php
 
 include '../controller/factureC.php';
-include '../model/facture.php';
+include '../model/payement.php';
 $error = "";
 
 // create client
-$facture = null;
+$payement = null;
 // create an instance of the controller
-$factureC = new factureC();
+$payementC = new payementC();
 
 if (
-    isset($_POST["montant"]) &&
-    isset($_POST["date_facture"]) &&
-    isset($_POST["descreption"])
-   
+    isset($_POST["date_payement"]) &&
+    isset($_POST["descreption"]) &&
+    isset($_POST["image_mp"]) 
    
 ) {
     if (
-        !empty($_POST['montant']) &&
-        !empty($_POST["date_facture"]) &&
-        !empty($_POST["descreption"]) 
-      
-
+        !empty($_POST['date_payement']) &&
+        !empty($_POST["descreption"]) &&
+        !empty($_POST["image_mp"]) 
         
     ) {
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }
-        $facture = new facture(
+        $payement = new payement(
             null,
-            $_POST['montant'],
-            $_POST['date_facture'],
-            $_POST['descreption']
+            $_POST['date_payement'],
+            $_POST['descreption'],
+            $_POST['image_mp']
            
         );
-        var_dump($facture);
+        var_dump($payement);
         
-        $factureC->updatefacture($facture, $_POST['id_facture']);
+        $payementC->updatepayement($payement, $_POST['id_payement']);
 
-        header('Location:facture.php');
+        header('Location:listFacture.php');
     } else
         $error = "Missing information";
 }
@@ -126,7 +123,7 @@ if (
 </head>
 
 <body>
-    <button><a href="facture.php">Back to list</a></button>
+    <button><a href="payement.php">Back to list</a></button>
     <hr>
 
     <div id="error">
@@ -134,43 +131,42 @@ if (
     </div>
 
     <?php
-    if (isset($_POST['id_facture'])) {
-        $facture = $factureC->showFacture($_POST['id_facture']);
+    if (isset($_POST['id_payement'])) {
+        $payement = $payementC->showpayement($_POST['id_payement']);
         
     ?>
 
-<form action="" method="POST" id="myForm">
-            
+        <form action="" method="POST">
             <table>
             <tr>
                     <td><label for="nom">id_facture:</label></td>
                     <td>
-                        <input type="text" id="id_" name="id_facture" value="<?php echo $_POST['id_facture'] ?>" readonly />
+                        <input type="text" id="id_" name="id_payement" value="<?php echo $_POST['id_payement'] ?>" readonly />
                         <span id="erreurNom" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="nom">montant:</label></td>
+                    <td><label for="nom">date_payement:</label></td>
                     <td>
-                        <input type="text" id="nom" name="montant" value="<?php echo $facture['montant'] ?>"  oninput="validerMontant()" />
-                        <span id="erreurMontant" style="color: red"></span>
+                        <input type="date" id="nom" name="date_payement" value="<?php echo $payement['date_payement'] ?>" />
+                        <span id="erreurDate_payement" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="descreption">descreption :</label></td>
                     <td>
-                        <textarea  id="date" name="descreption" value="<?php echo $facture['descreption'] ?>"  oninput="validerDescription()"></textarea>
+                       <textarea id="date" name="descreption" value="<?php echo $facture['descreption'] ?>" ></textarea>
                         <span id="erreurdescreption" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="image_mp">date_facture :</label></td>
+                    <td><label for="image_mp">image_mp :</label></td>
                     <td>
-                        <input type="date" id="date_facture" name="date_facture" value="<?php echo $facture['date_facture'] ?>"oninput="validerDate()" />
+                        <input type="text" id="image_mp" name="image_mp" value="<?php echo $payement['image_mp'] ?>" />
                         <span id="erreurDescreption" style="color: red"></span>
                     </td>
                 </tr>
-               
+                
             
                    
 
@@ -184,7 +180,6 @@ if (
             </table>
 
         </form>
-       
     <?php
     }
     ?>

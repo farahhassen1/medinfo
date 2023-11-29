@@ -1,24 +1,10 @@
-// Validation for montant
-function validerMontant() {
-    var montant = document.getElementById("montant").value.trim();
-    var montant_error = document.getElementById("erreurMontant");
 
-    if (montant === "") {
-        montant_error.style.color = "red";
-        montant_error.textContent = "The montant is obligatory ✖";
-    } else if (!/^[0-9]+$/.test(montant)) {
-        montant_error.style.color = "red";
-        montant_error.textContent = "Please enter only numbers ✖";
-    } else {
-        montant_error.style.color = "green";
-        montant_error.textContent = "Correct ✔";
-    }
-}
+
 
 // Validation for description
 function validerDescription() {
     var description = document.getElementById("descreption").value.trim();
-    var description_error = document.getElementById("erreurDescription");
+    var description_error = document.getElementById("erreurDescreption");
 
     if (description === "") {
         description_error.style.color = "red";
@@ -34,7 +20,7 @@ function validerDescription() {
 
 // Validation for date
 function validerDate() {
-    var dateInput = document.getElementById("date").value;
+    var dateInput = document.getElementById("date_payement").value;
     var date_error = document.getElementById("erreurDate");
     
     var selectedDate = new Date(dateInput);
@@ -57,21 +43,21 @@ function validerDate() {
 }
 
 // Attach event listeners to validate inputs as the user interacts
-document.getElementById("montant").addEventListener('input', validerMontant);
+
 document.getElementById("descreption").addEventListener('input', validerDescription);
-document.getElementById("date").addEventListener('input', validerDate);
+document.getElementById("date_payement").addEventListener('input', validerDate);
 
 // Validate the form before submission
 document.getElementById("myForm").addEventListener('submit', function (event) {
-    validerMontant();
+    
     validerDescription();
     validerDate();
 
-    var montant_error = document.getElementById("erreurMontant");
+   
     var description_error = document.getElementById("erreurDescription");
     var date_error = document.getElementById("erreurDate");
 
-    if (montant_error.textContent !== "Correct ✔" || 
+    if ( 
         description_error.textContent !== "Correct ✔" || 
         date_error.textContent !== "Correct ✔") {
         event.preventDefault(); // Prevent form submission if there are errors
@@ -80,8 +66,7 @@ document.getElementById("myForm").addEventListener('submit', function (event) {
 
 // Function to clear errors
 function clearErrors() {
-    document.getElementById("erreurMontant").textContent = "";
-    document.getElementById("erreurDescreption").textContent = "";
-    document.getElementById("erreurDate").textContent = "";
     
+    document.getElementById("erreurDescription").textContent = "";
+    document.getElementById("erreurDate").textContent = "";
 }
