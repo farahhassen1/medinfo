@@ -5,16 +5,16 @@ $error = "";
 
 // create client
 $feedback= null;
-
 // create an instance of the controller
 $feedbackC = new feedbackC();
-if ( isset($_POST["commentaire"]))
+if ( isset($_POST["commentaire"]) )
 {
     if ( !empty($_POST["commentaire"]))
     {
         $currentDateTime = date("Y-m-d H:i:s");
-        $feedback= new feedback( null,$currentDateTime, $_POST['commentaire']);
+        $feedback= new feedback( null,$currentDateTime, $_POST['commentaire'],$_GET['id']);
         $feedbackC->addFeedback($feedback);
+	
         header('Location:listFeedback.php');
     }
     
@@ -214,9 +214,8 @@ if ( isset($_POST["commentaire"]))
             <textarea id="commentaire" name="commentaire" cols="45" rows="8" maxlength="65525" placeholder="feedback"></textarea>
 			<br>
 			<span id="commentaireError" style="color: red;"></span>
-            
             <div align="center">
-                <input type="submit" value="Save">
+                <input type="submit" value="Save" >
                 <input type="reset" value="Reset">
             </div>
             

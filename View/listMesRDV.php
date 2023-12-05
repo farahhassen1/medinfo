@@ -3,21 +3,34 @@ include "../Controller/RDVC.php";
 
 $c = new rdvC();
 $tab = $c->listRDV();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-     <!-- Meta Tags -->
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Medical Appointment Schedule</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="your-medical-info-website/css/style.css"> <!-- Adjust this line to match your actual CSS path -->
+
+    <!-- Add FullCalendar CSS and JS files -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://code.jquery.com/jquery-3.6.4.min.js'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="keywords" content="Site keywords here">
 		<meta name="description" content="">
 		<meta name='copyright' content=''>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="frontoffice/css/bootstrap.min.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="frontoffice/css/bootstrap.min.css">
 		<!-- Nice Select CSS -->
 		<link rel="stylesheet" href="frontoffice/css/nice-select.css">
 		<!-- Font Awesome CSS -->
@@ -39,36 +52,25 @@ $tab = $c->listRDV();
         <link rel="stylesheet" href="frontoffice/css/normalize.css">
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
-    <title>Appointment List</title>
 
-    <!-- Ajoutez ici vos liens vers les fichiers CSS ou utilisez les styles en ligne -->
     <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 3px solid  #007bff;
-    }
+        /* Your existing styles */
+        
+        /* Additional styles for FullCalendar */
+        #calendar {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-    th, td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #eee;
-    }
-
-    .button {
-        width: 100px;
-        height: 30px;
-        background-color: #007bff;
-        color: #ffffff;
-        font-weight: bold;
-        text-align: center;
-        border-radius: 5px;
-    }
+        /* Style for rendering appointments in light blue */
+        .fc-event {
+            background-color: #aed9e0; /* Light blue color */
+            border-color: #aed9e0; /* Border color */
+            color: #fff; /* Text color */
+        }
     </style>
 </head>
+
 <body>
 <header class="header" >
 			<!-- Topbar -->
@@ -143,65 +145,70 @@ $tab = $c->listRDV();
 				</div>
 			</div>
 			<!--/ End Header Inner -->
-		</header>
-<center>
-    <h1>My Appointements</h1>
-    <h2>
-        <a href="addRDV.php"> New Appointment</a>
-    </h2>
-</center>
-<div class="container-fluid">
-	<div class="col-md-12">
-		<div class="card">
-			<div class="card-body">
-<table border="1" align="center" width="70%">
-    <tr>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Symptoms</th>
-        <th>Update</th>
-        <th>Delete</th>
-    </tr>
+	</header>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <center><h4 class="text-center mb-4" >My Medical Appointment Schedule</h4></center>
+                    <!-- Add a container for FullCalendar -->
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+	
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
 
-    <?php
-    foreach ($tab as $rdv) {
-    ?>
-    
-        <tr>
-            <td><?= $rdv['date']; ?></td>
-            <td><?= $rdv['heure']; ?></td>
-            <td><?= $rdv['commentaire']; ?></td>
-            <td align="center">
-                <form method="POST" action="updateRDV.php">
-                    <input type="submit" name="update" value="Update" class="button">
-                    <input type="hidden" value=<?PHP echo $rdv['idRDV']; ?> name="idRDV">
-                </form>
-            </td>
-			<td>
-                <a href="deleteRDV.php?id=<?php echo $rdv['idRDV']; ?>">Delete</a>
-            </td>
-        </tr>
-    <?php
-    }
-    ?>
-</table>
-<script>
-    const deleteButtons = document.querySelectorAll('.button');
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+            // Initialize FullCalendar
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                events: [
+                    <?php
+                    foreach ($tab as $rdv) {
+                        $start_datetime = $rdv['date'] . ' ' . $rdv['heure'];
+                        $end_datetime = date('Y-m-d H:i:s', strtotime($start_datetime . ' +1 hour'));
+                        echo "{";
+                        echo "id: '" . $rdv['idRDV'] . "',";
+                        echo "title: '" . $rdv['commentaire'] . "',";
+                        echo "start: '" . $start_datetime . "',";
+                        echo "end: '" . $end_datetime . "',";
+                        echo "}," . PHP_EOL;
+                    }
+                    ?>
+                ],
+        eventRender: function (event, element, view) {
+            // Customize the rendering of each event
+            element.find('.fc-title').append('<br/>' +
+                '<form method="POST" action="updateRDV.php">' +
+                '<input type="submit" name="update" value="Update">' +
+                '<input type="hidden" value="' + event.id + '" name="idRDV">' +
+                '</form> <button onclick="deleteEvent(' + event.id + ')">Delete</button>'+'<br/>' +
+				'<button onclick="AddfeedbackEvent(' + event.id + ')">Addfeedback</button>');
+        }
+    });
+});
 
-for (const button of deleteButtons) {
-  button.addEventListener('mouseover', () => {
-    button.style.backgroundColor = 'green';
-    button.querySelector('span').style.color = 'red';
-  });
-
-  button.addEventListener('mouseout', () => {
-    button.style.backgroundColor = '#007bff';
-    button.querySelector('span').style.color = '#ffffff';
-  });
+function deleteEvent(eventId) {
+    // Redirect to the delete page with the event ID
+    window.location.href = 'deleteRDV.php?id=' + eventId;
 }
-</script>
-<footer id="footer" class="footer ">
+function AddfeedbackEvent(eventId) {
+    // Redirect to the delete page with the event ID
+    window.location.href = 'addFeedback.php?id=' + eventId;
+}
+    </script>
+    	 <footer id="footer" class="footer ">
 			<!-- Footer Top -->
 			<div class="footer-top">
 				<div class="container">

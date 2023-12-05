@@ -101,7 +101,7 @@
 		<ul class="nav menu">
 			<li class="active"><a href="index.html"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
 			<li><a href="../listRDV.php"><em class="fa fa-calendar">&nbsp;</em> Appointement</a></li>
-			<li><a href="charts.html"><em class="fa fa-bar-chart">&nbsp;</em> Charts</a></li>
+			<li ><a href="../listFeedback.php"><em class="fa fa-bar-chart">&nbsp;</em> Feedback</a></li>
 			<li><a href="elements.html"><em class="fa fa-toggle-off">&nbsp;</em> UI Elements</a></li>
 			<li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">

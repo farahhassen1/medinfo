@@ -1,24 +1,64 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Assuming PHPMailer is in the same directory as your script
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+
 include '../Controller/RDVC.php';
 include '../Model/RDV.php';
+
 $error = "";
 
-// create client
 $rdv = null;
-
-// create an instance of the controller
 $RDVC = new rdvC();
-if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire"]))
- {
-    if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"]))
-     {
-        $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
+
+if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire"])) {
+    if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"])) {
+        $rdv = new rdv(null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
         $RDVC->addRDV($rdv);
-        header('Location:addFeedback.php');
-    } 
+
+        // Send email
+        $to = "molkahassen113@gmail.com";
+        $subject = "Appointment Scheduled";
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->SMTPDebug = 2;
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'farahhassen96@gmail.com';
+            $mail->Password   = 'bwga ulrb amke uysb';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+
+            $mail->setFrom('farahhassen96@gmail.com');
+            $mail->addAddress($to);
+
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = "Rendez-vous done. Date: {$_POST['date']}, Heure: {$_POST['heure']}, symptoms: {$_POST['commentaire']}";
+
+            $mail->send();
+
+            //echo 'Email has been sent';
+			header('Location:listMesRDV.php');
+        } catch (Exception $e) 
+		{
+            echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+
+        //header('Location:addFeedback.php');
+    }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

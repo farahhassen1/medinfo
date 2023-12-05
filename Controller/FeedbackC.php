@@ -29,13 +29,14 @@ class feedbackC
     }
     function addFeedback($feedback)
     {
-        $sql = "INSERT INTO  feedback VALUES (NULL,:date,:commentaire)";
+        $sql = "INSERT INTO  feedback VALUES (NULL,:date,:commentaire,:rdv)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
                 'date' => $feedback->getDate(),
                 'commentaire' => $feedback->getCommentaire(), 
+                'rdv' => $feedback->getRDV(),
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -58,13 +59,15 @@ class feedbackC
     function updateFeedback($feedback,$id)
     {   
         try {
-            $sql ='UPDATE feedback SET date = :date, commentaire = :commentaire WHERE idFeedback= :id';
+            $sql ='UPDATE feedback SET date = :date, commentaire = :commentaire ,rdv=:rdv WHERE idFeedback= :id';
             $db = config::getConnexion();
             $query = $db->prepare($sql);
             $query->execute([
                 'id' => $id,
                 'date' => $feedback->getDate(),
                 'commentaire' => $feedback->getCommentaire(),
+                'rdv' => $feedback->getRDV(),
+
             ]); 
             echo $query->rowCount() . " records UPDATED successfully <br>";
         } catch (PDOException $e) {

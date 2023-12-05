@@ -16,13 +16,14 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
      {
         $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
         $RDVC->updateRDV($rdv, $_POST['idRDV']);
-        //header('Location:listRDV.php');
+        header('Location:listMESRDV.php');
     } 
 }
+else
+	$error = "Missing information";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -196,17 +197,15 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
 				</div>
 			</div>
 			<!--/ End Header Inner -->
-		</header>
+	</header>
     <div id="error">
         <?php echo $error; ?>
     </div>
-
-    <?php
+	<?php
     if (isset($_POST['idRDV'])) {
         $rdv = $RDVC->showRDV($_POST['idRDV']);  
     ?>
-
-        <main class="formulaire">
+        <div class="formulaire">
         <form action="" method="POST" onsubmit="return validateForm()" >
             <label for="id">IdRDV :</label>
             <input type="text" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />
@@ -220,7 +219,6 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
                 <input type="time" id="heure" name="heure" value="<?php echo $rdv['heure'] ?>"  />
                 <span id="heureError" style="color: red;"></span>
 
-                
                 <label for="commentaire">Any symptoms?</label>
                 <input type="text" id="commentaire" name="commentaire"placeholder="symptoms" value="<?php echo $rdv['commentaire'] ?>"/>
                 <br>
@@ -232,10 +230,10 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
                 </div>
 		</form>
 	<img src="image1.png" alt="Image Médicale">
-    </main>
-        </form>
+	</div>
     <?php
     }
+   
     ?>
     <script>
         function validateForm() {
