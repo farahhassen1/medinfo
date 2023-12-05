@@ -53,22 +53,66 @@ $tab = $c->listRDV();
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
 
-    <style>
-        /* Your existing styles */
-        
-        /* Additional styles for FullCalendar */
-        #calendar {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+		<style>
+    /* Your existing styles */
 
-        /* Style for rendering appointments in light blue */
-        .fc-event {
-            background-color: #aed9e0; /* Light blue color */
-            border-color: #aed9e0; /* Border color */
-            color: #fff; /* Text color */
-        }
-    </style>
+    /* Additional styles for FullCalendar */
+    #calendar {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    /* Style for rendering appointments in light blue */
+    .fc-event {
+        background-color: #aed9e0; /* Light blue color */
+        border-color: #aed9e0; /* Border color */
+        color: #fff; /* Text color */
+    }
+
+    /* Style for rendering update button in green */
+    .fc-event .update-btn {
+        background-color: #4caf50; /* Green color for the "Update" button */
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    /* Style for rendering delete button in red */
+    .fc-event .delete-btn {
+        background-color: #e74c3c; /* Red color for the "Delete" button */
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    /* Style for rendering feedback button in blue */
+    .fc-event .feedback-btn {
+        background-color: #3498db; /* Blue color for the "Feedback" button */
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+		align-items: center;
+    }
+
+    .fc-event .button-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Hover effect for buttons */
+    .fc-event .update-btn:hover,
+    .fc-event .delete-btn:hover,
+    .fc-event .feedback-btn:hover {
+        opacity: 0.8;
+    }
+</style>
+
+
 </head>
 
 <body>
@@ -150,7 +194,11 @@ $tab = $c->listRDV();
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                <center><h4 class="text-center mb-4" >My Medical Appointment Schedule</h4></center>
+                <center><h4 class="text-center mb-4" >My Medical Appointment Schedule</h4>
+				<h2>
+        <a href="addRDV.php"> New Appointment</a>
+    </h2>
+			</center>
                     <!-- Add a container for FullCalendar -->
                     <div id="calendar"></div>
                 </div>
@@ -187,15 +235,20 @@ $tab = $c->listRDV();
                     }
                     ?>
                 ],
-        eventRender: function (event, element, view) {
-            // Customize the rendering of each event
-            element.find('.fc-title').append('<br/>' +
-                '<form method="POST" action="updateRDV.php">' +
-                '<input type="submit" name="update" value="Update">' +
-                '<input type="hidden" value="' + event.id + '" name="idRDV">' +
-                '</form> <button onclick="deleteEvent(' + event.id + ')">Delete</button>'+'<br/>' +
-				'<button onclick="AddfeedbackEvent(' + event.id + ')">Addfeedback</button>');
-        }
+				eventRender: function (event, element, view) {
+    // Customize the rendering of each event
+    element.find('.fc-title').append('<br/>' +
+        '<div class="button-group">' +
+        '<form method="POST" action="updateRDV.php" style="display: inline;">' +
+        '<input type="submit" class="update-btn" name="update" value="Update">' +
+        '<input type="hidden" value="' + event.id + '" name="idRDV">' +
+        '</form>' +
+        '<button class="delete-btn" onclick="deleteEvent(' + event.id + ')">Delete</button>' +
+        '</div>'+
+        '<button class="feedback-btn" align="center" onclick="AddfeedbackEvent(' + event.id + ')">Add Feedback</button>' );
+}
+
+
     });
 });
 

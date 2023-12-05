@@ -14,8 +14,7 @@ if ( isset($_POST["commentaire"]) )
         $currentDateTime = date("Y-m-d H:i:s");
         $feedback= new feedback( null,$currentDateTime, $_POST['commentaire'],$_GET['id']);
         $feedbackC->addFeedback($feedback);
-	
-        header('Location:listFeedback.php');
+		header('Location:listMesRDV.php');
     }
     
 }
