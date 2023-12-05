@@ -3,50 +3,43 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include '../controller/ArticleC.php';
-include '../model/Article.php';
+include '../model/Comment.php';
 
-$error2 = "";
+$error = "";
 
 // create client
 $comment = null;
 
 // create an instance of the controller
 $commentC = new commentC();
-if (
-    isset($_POST["contenucomment"])&&
-    isset($_POST["datepublicomment"])&& 
-	isset($_POST["idarticle"])
-) {
-    if (
-        !empty($_POST["contenucomment"])&&
-        !empty($_POST["datepublicomment"]) &&
-		!empty($_POST["idarticle"])
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["idcomment"])) {
+    $idcomment = $_POST['idcomment']; // Retrieve comment ID
+    $comment = $commentC->showcomment($idcomment);
+}
 
-    ) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["contenucomment"]) && isset($_POST["datepublicomment"]) && isset($_POST["idarticle"])) {
+    if (!empty($_POST["contenucomment"]) && !empty($_POST["datepublicomment"]) && !empty($_POST["idarticle"])) {
+        $idcomment = isset($_POST['idcomment']) ? $_POST['idcomment'] : null; // Retrieve comment ID
+
         $comment = new comment(
-            null,
+            $idcomment,
             $_POST['contenucomment'],
             $_POST['datepublicomment'],
-			$_POST["idarticle"]
-
+            $_POST["idarticle"]
         );
-
-        var_dump($comment);
 
         if (!empty($idcomment)) {
             $commentC->updatecomment($comment, $idcomment);
-            header('Location: articlesdb.php');
+            // header('Location: articlesdb.php'); // Remove this line
             exit();
         } else {
-            $error = "Missing article ID";
+            $error = "Missing comment ID";
         }
     } else {
         $error = "Missing information";
     }
 }
-
-
 
 ?>
 
@@ -61,6 +54,11 @@ if (
 
 <body>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
         .error-message {
             font-size: 14px;
             margin-top: 5px;
@@ -70,69 +68,28 @@ if (
             color: red;
         }
     </style>
-    <button><a href="articlesdb.php">Back to list</a></button>
     <hr>
 
     <div id="error">
         <?php echo $error; ?>
     </div>
 
-    <?php
-    if (!empty($_POST['idcomment'])) {
-        $comment = $commentC->showcomment($_POST['idcomment']);
-    ?>
+    <div class="comments-container" style="display: block;">
+        <h3>Comments</h3>
+        <form action="" method="post">
+            <input type="hidden" name="idcomment" value="<?php echo isset($comment["idcomment"]) ? $comment["idcomment"] : ''; ?>">
+            <textarea class="comment-input" name="contenucomment" placeholder="Add your comment..."><?php echo isset($comment["contenucomment"]) ? htmlspecialchars($comment["contenucomment"]) : ''; ?></textarea>
 
-<div class="comments-container" id="comments<?= $article['idarticle']; ?>">
-            <h3>Comments</h3>
-            <!-- Add your PHP code here to fetch and display comments for the article -->
-            <!-- For demonstration purposes, a simple form is provided for adding comments -->
-            <form action="#" method="post">
-                <input type="hidden" name="idarticle" value="<?= $article['idarticle']; ?>">
-                <textarea class="comment-input" name="contenucomment" placeholder="Add your comment..." required></textarea>
-				<?php $comment["idarticle"]=$article["idarticle"];?>
-				<label for="datepubliarticle">Date de publication:</label>
-<input type="text" id="datepubliarticle" name="datepublicomment" value="<?php echo date('Y-m-d'); ?>" readonly>
-<div id="datepubliarticle-error" class="error-message error-message-red"></div>
-<?php $comment["datepublicomment"]=$article["datepubliarticle"];?>
-                <input type="submit" class="comment-button" value="Add Comment">
-            </form>
-    <?php
-    }
-    ?>
+            <label for="datepubliarticle">Date de publication:</label>
+            <input type="text" id="datepubliarticle" name="datepublicomment" value="<?php echo isset($comment["datepublicomment"]) ? $comment["datepublicomment"] : date('Y-m-d'); ?>" readonly>
+            <div id="datepubliarticle-error" class="error-message error-message-red"></div>
+
+            <input type="submit" class="comment-button" value="Update Comment">
+        </form>
+    </div>
+
     <script>
-        function validateForm2() {
-            var title = document.getElementById('titrearticle').value;
-            var content = document.getElementById('contenuarticle').value;
-            var date = document.getElementById('datepubliarticle').value;
-
-            var titleRegex = /^[a-zA-Z0-9\s]+$/; // Alphanumeric characters and spaces
-            var contentRegex = /^[a-zA-Z0-9\s]{1,2000}$/; // Alphanumeric characters and spaces
-
-            var isValid = true;
-
-            if (!title.match(titleRegex)) {
-                document.getElementById('titrearticle-error').innerHTML = 'Title can only contain letters, numbers, and spaces and cant be empty';
-                isValid = false;
-            } else {
-                document.getElementById('titrearticle-error').innerHTML = 'Done!';
-            }
-
-            if (!content.match(contentRegex)) {
-                document.getElementById('contenuarticle-error').innerHTML = 'Content can only contain letters, numbers, and spaces and cant be empty';
-                isValid = false;
-            } else {
-                document.getElementById('contenuarticle-error').innerHTML = 'Done!';
-            }
-
-            if (date.trim() === "") {
-                document.getElementById('datepubliarticle-error').innerHTML = 'Date is required';
-                isValid = false;
-            } else {
-                document.getElementById('datepubliarticle-error').innerHTML = 'Done!';
-            }
-
-            return isValid;
-        }
+        // Add any necessary JavaScript here
     </script>
 </body>
 

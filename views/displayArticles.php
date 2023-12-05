@@ -7,8 +7,15 @@ include '../model/comment.php';
 $c1 = new commentC();
 $c = new ArticleC();
 // Fetch articles as an array
+$searchInput = isset($_POST['searchInput']) ? $_POST['searchInput'] : '';
 $articles = $c->listArticle()->fetchAll(PDO::FETCH_ASSOC);
 $comments = $c1->listcomment()->fetchAll(PDO::FETCH_ASSOC);
+if (!empty($searchInput)) {
+    $filteredArticles = array_filter($articles, function ($article) use ($searchInput) {
+        return stripos($article['titrearticle'], $searchInput) !== false;
+    });
+    $articles = $filteredArticles;
+}
 // Sort the articles by date in descending order
 usort($articles, function($a, $b) {
     return strtotime($b['datepubliarticle']) - strtotime($a['datepubliarticle']);
@@ -340,6 +347,149 @@ html, body {
 /*recentpost and recet comments container csss*/
 
 /*END recentpost and recet comments container csss*/
+/* CSS styles for heart button */
+.like-container {
+    margin-top: 10px;
+}
+
+.heart-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.heart-button.liked {
+    color: red;
+}
+
+.like-count {
+    margin-left: 5px;
+    font-size: 14px;
+}
+.like-count-container {
+    display: flex;
+    align-items: center;
+}
+
+.like-icon {
+    margin-right: 5px;
+    font-size: 18px;
+    color: red; /* You can customize the color */
+}
+
+.like-count {
+    font-size: 14px;
+    color: #555; /* You can customize the color */
+}
+.custom-search-bar {
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .search-input {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+        width: 300px; /* Adjust the width as needed */
+    }
+
+    .search-button {
+        padding: 8px;
+        font-size: 14px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 80px; /* Adjust the width as needed */
+    }
+
+    .search-button:hover {
+        background-color: #2980b9;
+    }
+
+    /* Additional styling for the article containers */
+    .article-container {
+        transition: transform 0.3s;
+    }
+        /* Add this CSS for delete and edit buttons */
+     /* Add this CSS for the three-dot menu and dropdown */
+     .comment-options {
+        display: none;
+        position: absolute;
+        margin: 5px;
+    }
+
+    .comment-options button {
+        display: block;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .comment-options {
+        display: none;
+        position: absolute;
+        margin: 5px;
+    }
+
+    .comment-options button {
+        display: block;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .comment-options {
+        display: none;
+        position: relative;
+        margin: 5px;
+    }
+
+    .comment-options {
+        display: none;
+        position: relative;
+        margin: 5px;
+    }
+
+    .comment-options {
+        display: none;
+        position: relative;
+        margin: 5px;
+    }
+
+    .ellipsis {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 120px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown a {
+        padding: 12px 16px;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .dropdown a:hover {
+        background-color: #f1f1f1;
+    }
         </style>
 
 		
@@ -482,44 +632,74 @@ html, body {
     </form>
 </div>
 
-
+<div class="custom-search-bar">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search articles by title">
+    <button onclick="searchArticles()" class="search-button">Search</button>
+</div>
 <?php foreach ($articles as $article) : ?>
     <div class="article-container <?= $articleClass ?>">
         <h2 class="article-title" onclick="showArticleDetails('article-details<?= $article['idarticle']; ?>')">
             <?= $article['titrearticle']; ?>
         </h2>
         <p class="date">Published on <?= date('F j, Y \a\t g:i A', strtotime($article['datepubliarticle'])); ?></p>
-
         <!-- Add a new container for article details outside of the loop -->
         <div class="article-details-container" id="article-details<?= $article['idarticle']; ?>">
             <h2><?= $article['titrearticle']; ?></h2>
             <p class="date">Published on <?= date('F j, Y \a\t g:i A', strtotime($article['datepubliarticle'])); ?></p>
             <p><?= nl2br($article['contenuarticle']); ?></p>
-
+            <div class="like-container">
+    <div class="like-count-container">
+    <span class="like-icon">&#10084;</span>
+    <span class="like-count" id="likeCount<?= $article['idarticle']; ?>">
+        <?php
+        // Replace this with the actual count of likes for the article from your database
+        echo 0;
+        ?>
+    </span>
+</div>
+    <button id="heartButton<?= $article['idarticle']; ?>" class="heart-button" onclick="toggleLike(<?= $article['idarticle']; ?>)">
+    <?php
+    // Check if the article is liked by the user
+    $liked = false; // Replace this with your logic to check if the user has liked the article
+    if ($liked) {
+        echo '❤️'; // Red heart if liked
+    } else {
+        echo '🤍'; // White heart if not liked
+    }
+    ?>
+</button>
+</div>
             <!-- Comment section for each article -->
             <div class="comment-container">
-                <h3>Comments</h3>
-                <div class="comments-container" id="comments<?= $article['idarticle']; ?>">
-                    <?php foreach ($comments as $comment) : ?>
-                        <?php if ($comment['idarticle'] == $article['idarticle']) : ?>
-                            <div class="comment">
-                                <p><?= nl2br($comment['contenucomment']); ?></p>
-                                <p class="date">Commented on <?= date('F j, Y \a\t g:i A', strtotime($comment['datepublicomment'])); ?></p>
+            <h3>Comments</h3>
+            <div class="comments-container" id="comments<?= $article['idarticle']; ?>">
+                <?php foreach ($comments as $comment) : ?>
+                    <?php if ($comment['idarticle'] == $article['idarticle']) : ?>
+                        <div class="comment">
+                            <!-- Add ellipsis menu and dropdown -->
+                            
+                            <p><?= nl2br($comment['contenucomment']); ?></p>
+                            <p class="date">Commented on <?= date('F j, Y \a\t g:i A', strtotime($comment['datepublicomment'])); ?></p>
+                            <div class="ellipsis" onclick="toggleDropdown(this)">&#8942;</div>
+                            <div class="dropdown">
+                            <a href="updatecomment.php?idcomment=<?php echo $comment['idcomment']; ?>">Edit</a>
+                                <a href="deletecomment2.php?idcomment=<?php echo $comment['idcomment']; ?>">Delete</a>
                             </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
-
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
                 <!-- Add your PHP code here to fetch and display comments for the article -->
                 <!-- For demonstration purposes, a simple form is provided for adding comments -->
-                <form action="#" method="post">
-                    <input type="hidden" name="idarticle" value="<?= $article['idarticle']; ?>">
-                    <textarea class="comment-input" name="contenucomment" placeholder="Add your comment..." required></textarea>
-                    <label for="datepublicomment">Date de publication:</label>
-                    <input type="text" id="datepublicomment" name="datepublicomment" value="<?= date('Y-m-d H:i:s'); ?>" readonly>
-                    <div id="datepublicomment-error" class="error-message error-message-red"></div>
-                    <input type="submit" class="comment-button" value="Add Comment">
-                </form>
+                <form action="displayArticles.php" method="post" onsubmit="return validateComment()">
+
+    <input type="hidden" name="idarticle" value="<?= $article['idarticle']; ?>">
+    <textarea class="comment-input" name="contenucomment" id="contenucomment" placeholder="Add your comment..."></textarea>
+    <label for="datepublicomment">Date de publication:</label>
+    <input type="text" id="datepublicomment" name="datepublicomment" value="<?= date('Y-m-d H:i:s'); ?>" readonly>
+    <div id="datepublicomment-error" class="error-message error-message-red"></div>
+    <input type="submit" class="comment-button" value="Add Comment">
+</form>
             </div>
 
             <!-- Close button for the article details container -->
@@ -609,8 +789,99 @@ html, body {
     }
 	
 
+    function toggleLike(articleId) {
+    var likeButton = document.querySelector('#heartButton' + articleId);
 
+    var currentCount = parseInt(document.querySelector('#likeCount' + articleId).innerText);
 
+    // Check if the article is liked by the user in localStorage
+    var likedArticles = JSON.parse(localStorage.getItem('likedArticles')) || [];
+    var isLiked = likedArticles.includes(articleId);
+
+    // Add or remove the article from the likedArticles array
+    if (isLiked) {
+        likedArticles = likedArticles.filter(id => id !== articleId);
+    } else {
+        likedArticles.push(articleId);
+    }
+
+    // Update localStorage
+    localStorage.setItem('likedArticles', JSON.stringify(likedArticles));
+
+    // Update the UI based on the like status
+    if (isLiked) {
+        likeButton.classList.remove('liked');
+        likeButton.innerHTML = '🤍'; // White heart if not liked
+        document.querySelector('#likeCount' + articleId).innerText = currentCount - 1;
+    } else {
+        likeButton.classList.add('liked');
+        likeButton.innerHTML = '❤️'; // Red heart if liked
+        document.querySelector('#likeCount' + articleId).innerText = currentCount + 1;
+    }
+}
+
+// Function to initialize likes on page load
+function initializeLikes() {
+    var likedArticles = JSON.parse(localStorage.getItem('likedArticles')) || [];
+
+    // Loop through each article and update the UI based on the liked status
+    likedArticles.forEach(articleId => {
+        var likeButton = document.querySelector('#heartButton' + articleId);
+        var likeCount = document.querySelector('#likeCount' + articleId);
+
+        // Check if the article is liked by the user
+        var isLiked = likedArticles.includes(articleId);
+
+        // Update the UI based on the like status
+        if (isLiked) {
+            likeButton.classList.add('liked');
+            likeButton.innerHTML = '❤️'; // Red heart if liked
+            likeCount.innerText = parseInt(likeCount.innerText) + 1;
+        }
+    });
+}
+function searchArticles() {
+    var searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+    // Get all article containers
+    var articleContainers = document.querySelectorAll('.article-container');
+
+    // Hide all article containers
+    articleContainers.forEach(function (container) {
+        container.style.display = 'none';
+    });
+
+    // Show only the containers that match the search input
+    articleContainers.forEach(function (container) {
+        var articleTitle = container.querySelector('.article-title').innerText.toLowerCase();
+        if (articleTitle.includes(searchInput)) {
+            container.style.display = 'block';
+        }
+    });
+}
+function validateComment(event) {
+    var commentInput = document.getElementById('contenucomment');
+    var commentError = document.getElementById('datepublicomment-error');
+
+    if (commentInput.value.trim() === '') {
+        commentError.textContent = 'Comment cannot be empty';
+        commentError.style.display = 'block';
+        commentInput.style.borderColor = 'red';
+        event.preventDefault(); // prevent form submission
+        return false;
+    } else {
+        commentError.textContent = ''; // clear error message
+        commentError.style.display = 'none';
+        commentInput.style.borderColor = ''; // clear red border
+        return true; // allow form submission
+    }
+}
+function toggleDropdown(ellipsis) {
+        var options = ellipsis.parentElement.querySelector('.dropdown');
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    }
+// Call initializeLikes on page load
+initializeLikes();
 </script>
     <!-- Footer Area -->
 		<footer id="footer" class="footer ">

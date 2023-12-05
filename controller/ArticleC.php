@@ -152,26 +152,26 @@ class commentC
         }
     }
 
-    public function updatecomment($comment, $idcomment)
-    {
-        $sql = "UPDATE article SET
-                datepublicomment = :datepublicomment,
-                contenucomment = :contenucomment
- 
-                WHERE idcomment = :idcomment";
+    public function updatecomment($comment, $idcomment) {
+        // Implement the logic to update the comment in the database
+        // Example: Assume you have a database connection stored in $db
 
-        $db = Config::getConnexion();
+        $contenucomment = $comment->getContenucomment();
+        $datepublicomment = $comment->getDatepublicomment();
 
-        try {
-            $query = $db->prepare($sql);
-            $query->execute([
-                'datepublicomment' => $comment->getdatepublicomment(),
-                'contenucomment' => $comment->getcontenucomment(),
+        // Adjust the SQL query based on your database structure
+        $query = "UPDATE comments SET contenucomment = '{$contenucomment}', datepublicomment = '{$datepublicomment}' WHERE idcomment = $idcomment";
 
-                'idcomment' => $idcomment
-            ]);
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage();
+        // Execute the query
+        $result = $db->query($query);
+
+        // Check if the query was successful
+        if ($result) {
+            // Update successful
+            return true;
+        } else {
+            // Update failed
+            return false;
         }
     }
 }
