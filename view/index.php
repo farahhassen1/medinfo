@@ -107,7 +107,7 @@
 											</li>
 											<li><a href="#">Doctos </a></li>
 											<li><a href="#">Services </a></li>
-											<li><a href="#">payement <i class="icofont-rounded-down"></i></a>
+											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="listFacture.php">facture</a></li>
 												</ul>

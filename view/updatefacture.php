@@ -13,16 +13,11 @@ if (
     isset($_POST["montant"]) &&
     isset($_POST["date_facture"]) &&
     isset($_POST["descreption"])
-   
-   
 ) {
     if (
         !empty($_POST['montant']) &&
         !empty($_POST["date_facture"]) &&
-        !empty($_POST["descreption"]) 
-      
-
-        
+        !empty($_POST["descreption"])
     ) {
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
@@ -32,101 +27,69 @@ if (
             $_POST['montant'],
             $_POST['date_facture'],
             $_POST['descreption']
-           
         );
         var_dump($facture);
         
         $factureC->updatefacture($facture, $_POST['id_facture']);
 
         header('Location:facture.php');
-    } else
+    } else {
         $error = "Missing information";
+    }
 }
 
-
-
 ?>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Display</title>
-    
-		
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<!-- Nice Select CSS -->
-		<link rel="stylesheet" href="css/nice-select.css">
-		<!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-		<!-- icofont CSS -->
-        <link rel="stylesheet" href="css/icofont.css">
-		<!-- Slicknav -->
-		<link rel="stylesheet" href="css/slicknav.min.css">
-		<!-- Owl Carousel CSS -->
-        <link rel="stylesheet" href="css/owl-carousel.css">
-		<!-- Datepicker CSS -->
-		<link rel="stylesheet" href="css/datepicker.css">
-		<!-- Animate CSS -->
-        <link rel="stylesheet" href="css/animate.min.css">
-		<!-- Magnific Popup CSS -->
-        <link rel="stylesheet" href="css/magnific-popup.css">
-		
-		<!-- Medipro CSS -->
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="css/responsive.css">
-		
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="css/nice-select.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- icofont CSS -->
+    <link rel="stylesheet" href="css/icofont.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" href="css/slicknav.min.css">
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="css/owl-carousel.css">
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="css/datepicker.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <!-- Medipro CSS -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
 </head>
 
 <body>
     <!-- Header Area -->
-		<header class="header" >
-			<!-- Topbar -->
-			<div class="topbar">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6 col-md-5 col-12">
-							<!-- Contact -->
-							<ul class="top-link">
-								<li><a href="#">About</a></li>
-								<li><a href="#">Doctors</a></li>
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">FAQ</a></li>
-							</ul>
-							<!-- End Contact -->
-						</div>
-						<div class="col-lg-6 col-md-7 col-12">
-							<!-- Top Contact -->
-							<ul class="top-contact">
-								<li><i class="fa fa-phone"></i>+216 52184176</li>
-								<li><i class="fa fa-envelope"></i><a href="mailto:mohamed.kadi@esprit.tn">mohamed.kadi@esprit.tn</a></li>
-							</ul>
-							<!-- End Top Contact -->
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			
-								<!--/ End Main Menu -->
-							</div>
-							<div class="col-lg-2 col-12">
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--/ End Header Inner -->
-		</header>
-		<!-- End Header Area -->
-        
-</head>
+    <header class="header">
+        <!-- Topbar -->
+        <div class="topbar">
+            <!-- ... Your existing topbar code ... -->
+        </div>
+        <!-- End Topbar -->
+        <!-- Header Inner -->
+        <div class="header-inner">
+            <!-- ... Your existing header code ... -->
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+    <!-- End Header Area -->
 
-<body>
-    <button><a href="facture.php">Back to list</a></button>
+    <button><a href="listFacture.php">Back to list</a></button>
     <hr>
 
     <div id="error">
@@ -136,59 +99,51 @@ if (
     <?php
     if (isset($_POST['id_facture'])) {
         $facture = $factureC->showFacture($_POST['id_facture']);
-        
     ?>
 
-<form action="" method="POST" id="myForm">
-            
-            <table>
+    <form action="" method="POST" id="myForm">
+        <table>
             <tr>
-                    <td><label for="nom">id_facture:</label></td>
-                    <td>
-                        <input type="text" id="id_" name="id_facture" value="<?php echo $_POST['id_facture'] ?>" readonly />
-                        <span id="erreurNom" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="nom">montant:</label></td>
-                    <td>
-                        <input type="text" id="nom" name="montant" value="<?php echo $facture['montant'] ?>"  oninput="validerMontant()" />
-                        <span id="erreurMontant" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="descreption">descreption :</label></td>
-                    <td>
-                        <textarea  id="date" name="descreption" value="<?php echo $facture['descreption'] ?>"  oninput="validerDescription()"></textarea>
-                        <span id="erreurdescreption" style="color: red"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="image_mp">date_facture :</label></td>
-                    <td>
-                        <input type="date" id="date_facture" name="date_facture" value="<?php echo $facture['date_facture'] ?>"oninput="validerDate()" />
-                        <span id="erreurDescreption" style="color: red"></span>
-                    </td>
-                </tr>
-               
-            
-                   
-
-
+                <td><label for="id_facture">id_facture:</label></td>
                 <td>
-                    <input type="submit" value="Save" onclick="validerDate()">
+                    <input type="text" id="id_" name="id_facture" value="<?php echo $_POST['id_facture'] ?>" readonly />
+                    <span id="erreurNom" style="color: red"></span>
                 </td>
+            </tr>
+            <tr>
+                <td><label for="montant">montant:</label></td>
                 <td>
+                    <input type="text" id="montant" name="montant" placeholder="<?php echo $facture['montant'] ?>" oninput="validerMontant()" />
+                    <span id="erreurMontant" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="descreption">descreption :</label></td>
+                <td>
+                    <textarea id="descreption" name="descreption" placeholder="<?php echo $facture['descreption'] ?>" oninput="validerDescription()"></textarea>
+                    <span id="erreurDescription" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="date">date_facture :</label></td>
+                <td>
+                    <input type="date" id="date" name="date_facture" placeholder="<?php echo $facture['date_facture'] ?>" oninput="validerDate()" />
+                    <span id="erreurDate" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Save" >
                     <input type="reset" value="Reset">
                 </td>
-            </table>
+            </tr>
+        </table>
+    </form>
 
-        </form>
-       
     <?php
     }
     ?>
-     <script src="control.js"></script>
+    <script src="control.js"></script>
 </body>
 
 </html>

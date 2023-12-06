@@ -10,7 +10,7 @@ class payement
     
     
 
-    public function __construct($id_payement = null, $date_payement,$descreption, $image_mp,$id_facture)
+    public function __construct($id_payement = null, $date_payement,$descreption, $image_mp, $id_facture)
     {
         $this->id_payement = $id_payement;
         $this->date_payement= $date_payement;

@@ -1,0 +1,5 @@
+<?php
+include '../Controller/factureC.php';
+$clientC = new factureC();
+$clientC->deleteFacture($_GET["id"]);
+header('Location:listFacture.php');

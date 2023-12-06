@@ -176,6 +176,71 @@ if (
 				</div>
 			</div>
 			<!--/ End Header Inner -->
+			<style>
+        .formulaire{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+        }
+
+        form {
+			width: 60%; /* Ajuster la largeur */
+            max-height:700px;
+            max-width: 500px; /* Ajuster la largeur maximale */
+            margin: 100px;
+            padding: 60px; /* Ajuster la hauteur */
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            float: left;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 50%;
+            height: auto;
+            border-radius: 8px;
+        }
+				
+    </style>
 		</header>
 		
     <a href="facture.php">Back to list </a>
@@ -185,17 +250,11 @@ if (
     <div id="error">
         <?php echo $error; ?>
     </div>
-
-    <form  id = "myForm" action="addFacture.php" method="POST" >
+<main  class="formulaire">
+    <form  id = "myForm" action="addFacture.php" method="POST">
 		
         <table>
-            <tr>
-                <td><label for="montant">Montant:</label></td>
-                <td>
-                    <input type="text" id="montant" name="montant" oninput="validerMontant()" />
-                    <span id="erreurMontant"></span>
-                </td>
-            </tr>
+           
 
             <tr>
                 <td><label for="descreption">Description:</label></td>
@@ -204,7 +263,13 @@ if (
                     <span id="erreurDescription" style="color: red"></span>
                 </td>
             </tr>
-
+            <tr>
+                <td><label for="montant">Montant:</label></td>
+                <td>
+                    <input type="text" id="montant" name="montant" oninput="validerMontant()" />
+                    <span id="erreurMontant"></span>
+                </td>
+            </tr>
             <tr>
                 <td><label for="date">Date:</label></td>
                 <td>
@@ -223,6 +288,8 @@ if (
             </tr>
         </table>
     </form>
+		<img src ="Facture2.png" alt= "facture_image">
+			</main>
     <script src="control.js"></script>
 </body>
 

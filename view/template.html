@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <link rel="stylesheet" href="op.css">
+</head>
+<body>
+    
+    <div class="header-container">
+        <h1>INVOICE</h1>
+        
+    </div>
+    <div >
+        <p class="date-container">Date Facture: <?= isset($date_facture) ? $date_facture : ''; ?></p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><?= isset($id_facture) ? $id_facture : ''; ?></td>
+                <td><?= isset($descreption) ? $descreption : ''; ?></td>
+                <td><?= isset($montant) ? $montant : ''; ?></td>
+            </tr>
+            <!-- Add more rows if needed -->
+        </tbody>
+    </table>
+    
+    <!-- Embed QR code image using PHP -->
+    <?php if (isset($qr_code_data)) : ?>
+        <img src="data:image/png;base64,<?= $qr_code_data; ?>" alt="QR Code">
+    <?php endif; ?>
+
+    <footer>
+        thank you for your visit !
+    </footer>
+    
+</body>
+</html>

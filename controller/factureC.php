@@ -16,6 +16,24 @@ class factureC
             die('Error:' . $e->getMessage());
         }
     }
+    
+    // ... existing methods ...
+
+    function getFactureDetailsById($id_facture)
+    {
+        $sql = "SELECT * FROM facture WHERE id_facture = :id_facture";
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->bindParam(':id_facture', $id_facture, PDO::PARAM_INT);
+            $query->execute();
+
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
 
     function deleteFacture($id_facture)
     {
@@ -151,7 +169,8 @@ class payementC
                 'UPDATE payement SET 
                     date_payement = :date_payement,
                     descreption = :descreption,
-                    image_mp = :image_mp
+                    image_mp = :image_mp,
+                    id_facture = :id_facture
                 WHERE id_payement= :id_payement'
             );
             
@@ -159,8 +178,8 @@ class payementC
                 'id_payement' => $id_payement,  
                 'date_payement' => $payement->getdate_payement(),
                 'descreption' => $payement->getdescreption(),
-                'image_mp' => $payement->getimage_mp()
-               
+                'image_mp' => $payement->getimage_mp(),
+                'id_facture' => $payement->getid_facture()
         
             ]);
             

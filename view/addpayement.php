@@ -3,10 +3,11 @@
 include '../controller/factureC.php';
 include '../model/payement.php';
 include '../model/facture.php';
-$c2 = new factureC();
-$tab2 = $c2->listFacture();
+$c2 = new payementC();
+$tab2 = $c2->listPayement();
 
-
+$c = new factureC();
+$tab = $c->listFacture();
 
 $error = "";
 
@@ -45,7 +46,7 @@ if (
             
         );
         $payementC->addpayement($payement);
-        header('Location:listFacture.php');
+        header('Location:listpayement.php');
     } else
         $error = "Missing information";
 }
@@ -187,7 +188,7 @@ if (
 			<!--/ End Header Inner -->
 		</header>
 		
-    <a href="facture.php">Back to list </a>
+    <a href="listpayement.php">Back to list </a>
     
     <hr>
 
@@ -221,19 +222,23 @@ if (
                 </td>
             </tr>
 						<tr>
-                <td><label for="image_mp">select :</label></td>
-                <td>
-                    <select id="select" name="id_facture" > 
-											<?php
-											foreach($tab2 as $facture){?>
-											<option><?= $facture["id_facture"];?></option>
-											<?php
-										}?>
-											</select>
-                    <span id="erreurDate" style="color: red"></span>
-                    
-                </td>
-            </tr>
+    <td><label for="id_facture">select :</label></td>
+    <td>
+        <select id="select" name="id_facture" > 
+            <?php
+            foreach($tab as $facture) {
+                ?>
+                <option value="<?= $facture["id_facture"];?>">
+                    <?= $facture["id_facture"] . ' - ' . $facture["descreption"];?>
+                </option>
+                <?php
+            }
+            ?>
+        </select>
+        <span id="erreurDate" style="color: red"></span>
+    </td>
+</tr>
+
 
            
             

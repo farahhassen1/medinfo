@@ -59,7 +59,7 @@ function validerDate() {
 // Attach event listeners to validate inputs as the user interacts
 document.getElementById("montant").addEventListener('input', validerMontant);
 document.getElementById("descreption").addEventListener('input', validerDescription);
-document.getElementById("date").addEventListener('input', validerDate);
+document.getElementById("date_facture").addEventListener('input', validerDate);
 
 // Validate the form before submission
 document.getElementById("myForm").addEventListener('submit', function (event) {
@@ -81,7 +81,7 @@ document.getElementById("myForm").addEventListener('submit', function (event) {
 // Function to clear errors
 function clearErrors() {
     document.getElementById("erreurMontant").textContent = "";
-    document.getElementById("erreurDescreption").textContent = "";
+    document.getElementById("erreurDescription").textContent = "";
     document.getElementById("erreurDate").textContent = "";
     
 }
