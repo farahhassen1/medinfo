@@ -22,7 +22,7 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
         $RDVC->addRDV($rdv);
 
         // Send email
-        $to = "molkahassen113@gmail.com";
+        $to = "farah.hassen@esprit.tn";
         $subject = "Appointment Scheduled";
 
         $mail = new PHPMailer(true);
