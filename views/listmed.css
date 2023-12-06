@@ -32,7 +32,29 @@
 }
 
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.pagination a:hover {
+    background: #f0f0f0;
+}
 
 
+.pagination .active {
+    background: #007bff;
+    color: #fff;
+}
 
 

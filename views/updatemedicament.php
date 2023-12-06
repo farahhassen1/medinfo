@@ -26,7 +26,7 @@ if (
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }
-        $medicament = new medicament(
+        $medicament = new medicaments(
             null,
             $_POST['nom_medicament'],
             $_POST['id_fabricant'],
@@ -86,8 +86,8 @@ if (
                     <td><label for="id_fabricant">Fabricant ID:</label></td>
                 <td><select name="id_fabricant">
                 <?php
-                foreach ($tab as $fabricant) {?>
-                    <option><?= $fabricant['id_fabricant']; ?></option>
+                foreach ($tab as $fabricants) {?>
+                    <option><?= $fabricants['id_fabricant']; ?></option>
                     <?php
                 }?>
                 </select>

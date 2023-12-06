@@ -9,7 +9,7 @@ $tab = $c->listFabricant();
 $error = "";
 
 // create medicament
-$medicament = null;
+$medicaments = null;
 
 // create an instance of the controller
 $medicamentc = new medicamentc();
@@ -23,13 +23,13 @@ if (
         !empty($_POST["id_fabricant"]) &&
         !empty($_POST["date_prescription"])
     ) {
-        $medicament = new medicament(
+        $medicaments = new medicaments(
             null,
             $_POST['nom_medicament'],
             $_POST['id_fabricant'],
             $_POST['date_prescription']
         );
-        $medicamentc->addMedicament($medicament);
+        $medicamentc->addMedicament($medicaments);
         header('Location:medical.php');
     } 
 }

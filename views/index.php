@@ -120,7 +120,10 @@
 											<li><a href="#">Services </a></li>
 											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="listMedicament.php">Medications & Fabricants</a></li>
+													<li><a href="listMedicament.php">Medications</a></li>
+												
+												
+													<li><a href="listfabricant.php">Fabricants</a></li>
 												</ul>
 											</li>
 											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>

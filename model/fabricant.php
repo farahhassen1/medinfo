@@ -1,5 +1,5 @@
 <?php
-class fabricant
+class fabricants
 {
     private ?int $id_fabricant = null;
     private ?string $nom_fabricant = null;

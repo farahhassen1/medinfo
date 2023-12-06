@@ -1,7 +1,9 @@
 <?php
+
+
 include "../controller/medicament_functions.php";
-$c = new medicamentC();
-$result = $c->listMedicament(); // Assuming this returns a PDOStatement object
+$c = new fabricantc();
+$result = $c->listFabricant(); // Assuming this returns a PDOStatement object
 
 // Fetch data into an array
 $tab = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -11,15 +13,15 @@ if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
     $search_query = $_GET['search_query'];
 
     // Filter medications based on the search query
-    $filtered_medications = array_filter($tab, function ($medicament) use ($search_query) {
+    $filtered_medications = array_filter($tab, function ($fabricant) use ($search_query) {
         // Customize this condition based on your data structure
-        return strpos(strtolower($medicament['nom_medicament']), strtolower($search_query)) !== false;
+        return strpos(strtolower($fabricant['nom_fabricant']), strtolower($search_query)) !== false;
     });
 
     // Check if any medications are found after filtering
     if (empty($filtered_medications)) {
         // No medications found for the search query
-        $no_results_message = "No medications found for '$search_query'";
+        $no_results_message = "No Fabricant found for '$search_query'";
     }
 
     // Assign the filtered medications to be displayed
@@ -38,16 +40,17 @@ if (isset($_GET['sort_select'])) {
     // Sort the $display_medications array based on fabricant name
     if ($sort_option === 'az') {
         usort($display_medications, function ($a, $b) {
-            return strcmp($a['nom_medicament'], $b['nom_medicament']);
+            return strcmp($a['nom_fabricant'], $b['nom_fabricant']);
         });
     } elseif ($sort_option === 'za') {
         usort($display_medications, function ($a, $b) {
-            return strcmp($b['nom_medicament'], $a['nom_medicament']);
+            return strcmp($b['nom_fabricant'], $a['nom_fabricant']);
         });
     }
 }
 
-$items_per_page = 5;
+//pagination
+$items_per_page = 6;
 $total_items = count($display_medications);
 $total_pages = ceil($total_items / $items_per_page);
 
@@ -58,7 +61,6 @@ $offset = ($current_page - 1) * $items_per_page;
 $medications_for_page = array_slice($display_medications, $offset, $items_per_page);
 
 ?>
-
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
@@ -171,7 +173,7 @@ $medications_for_page = array_slice($display_medications, $offset, $items_per_pa
 											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="listMedicament.php">Medicals</a></li>
-													<li><a href="listfabricant.php">Fabricants</a></li>
+                                                    <li><a href="listfabricant.php">Fabricants</a></li>
 												</ul>
 											</li>
 											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
@@ -197,41 +199,41 @@ $medications_for_page = array_slice($display_medications, $offset, $items_per_pa
 			<!--/ End Header Inner -->
 		</header>
 		<!-- End Header Area -->
+
+    
+        
+        
+
+<!-- ... (previous HTML code) ... -->
+
 <center>
-    <h1>Medication List</h1>
-    </center>
+    <h1>Fabricant List</h1>
     
-    
-        
-        
-  
-</div>
-      
-    </div>
-  </div>
-  
-</div>
-    <br><br>
-	<div style="display: flex; justify-content: space-between;">
+</center>
+<br><br>
+
+<div style="display: flex; justify-content: space-between;">
     <form role="search" method="GET">
         <div class="form-row align-items-center">
             <div class="col-auto">
-                <input type="text" class="form-control" placeholder="Search Medicament" style="width: 200px;" name="search_query">
+                <input type="text" class="form-control" placeholder="Search Fabricant" style="width: 200px;" name="search_query">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
     </form>
-        <br><br>
+
+
 		<?php if (isset($no_results_message)) { ?>
     <div class="alert alert-info" role="alert"><center>
         <?= $no_results_message; ?></center>
     </div>
-<?php } ?>
+<?php 
+} ?>
 <?php if (!empty($display_medications)) { ?>
 	<form id="sortForm" method="GET" style="text-align: right;">
-            <label for="sort_select">Sort By Medication Name:</label>
+            <label for="sort_select">Sort By Fabricant Name:</label>
             <select name="sort_select" id="sort_select" class="btn btn-primary">
                 <option value="az" <?php if (isset($_GET['sort_select']) && $_GET['sort_select'] === 'az') echo 'selected'; ?>>
                     A to Z
@@ -241,39 +243,31 @@ $medications_for_page = array_slice($display_medications, $offset, $items_per_pa
                 </option>
             </select>
         </form>
-		</div>
-		<script>
+</div>
+<script>
     document.getElementById('sort_select').addEventListener('change', function() {
         document.getElementById('sortForm').submit();
     });
-</script><br>
-    <table border="1" align="center" width="70%" class="styled-table" style="margin: 0 auto; margin-right: 100px;">
+</script>
+<br>
+<table border="1" align="center" width="70%" class="styled-table" style="margin: 0 auto; margin-right: 100px;">
+    <tr>
+        <th>Fabricant ID</th>
+        <th>Fabricant Name</th>
+        <th>Address</th>
+        <th>Contact</th>
+    </tr>
+    <?php foreach ($medications_for_page as $fabricants) { ?>
         <tr>
-            <th>Medication ID</th>
-            <th>Medication Name</th>
-            <th>Fabricant ID</th>
-            <th>Expiration Date</th>
-			<th>Rating</th>
+            <td><?= $fabricants['id_fabricant']; ?></td>
+            <td><?= $fabricants['nom_fabricant']; ?></td>
+            <td><?= $fabricants['adress_fabricant']; ?></td>
+            <td><?= $fabricants['contact']; ?></td>
         </tr>
-        <?php foreach ($medications_for_page as $medicaments) { ?>
-            <tr>
-                <td><?= $medicaments['id_medicament']; ?></td>
-                <td><?= $medicaments['nom_medicament']; ?></td>
-                <td><?= $medicaments['id_fabricant']; ?></td>
-                <td><?= $medicaments['date_prescription']; ?></td>
-				<td>
-                <div class="rating" data-medication-id="<?= $medicaments['id_medicament']; ?>">
-        <span class="star" data-value="1">☆</span>
-        <span class="star" data-value="2">☆</span>
-        <span class="star" data-value="3">☆</span>
-        <span class="star" data-value="4">☆</span>
-        <span class="star" data-value="5">☆</span>
+    <?php 
+} ?>
+</table>
 
-    </div>
-            </td>
-            </tr>
-        <?php } ?>
-    </table>
 <!-- Pagination Links -->
 <div style="text-align: center;"  class="pagination">
 <?php
@@ -315,7 +309,7 @@ if ($total_pages > 4 && $current_page < $total_pages - 1 && $end != $total_pages
 }?>
 
 </div>
-<br>
 
-<a href="medical.php">Go to Admin's space</a><br><br><br>
-<script src="rating.js"></script>
+<a href="elements.php">Go to Admin's space</a><br><br><br>
+
+<!-- ... (rest of the HTML code) ... -->

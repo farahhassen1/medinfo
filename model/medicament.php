@@ -1,5 +1,5 @@
 <?php
-class medicament
+class medicaments
 {
     private ?int $id_medicament = null;
     private ?string $nom_medicament = null;

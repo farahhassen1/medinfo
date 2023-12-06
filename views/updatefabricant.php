@@ -5,7 +5,7 @@ include '../model/fabricant.php';
 $error = "";
 
 // create client
-$fabricant = null;
+$fabricants = null;
 // create an instance of the controller
 $fabricantc = new fabricantc();
 
@@ -23,17 +23,17 @@ if (
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }
-        $fabricant = new fabricant(
+        $fabricants = new fabricants(
             null,
             $_POST['nom_fabricant'],
             $_POST['adress_fabricant'],
             $_POST['contact']
         );
-        var_dump($fabricant);
+        var_dump($fabricants);
         
-        $fabricantc->updateFabricant($fabricant, $_POST['id_fabricant']);
+        $fabricantc->updateFabricant($fabricants, $_POST['id_fabricant']);
 
-        header('Location:medical.php');
+        header('Location:elements.php');
     } 
 }
 
@@ -59,7 +59,7 @@ if (
 
     <?php
     if (isset($_POST['id_fabricant'])) {
-        $fabricant = $fabricantc->showFabricant($_POST['id_fabricant']);
+        $fabricants = $fabricantc->showFabricant($_POST['id_fabricant']);
         
     ?>
 
@@ -75,21 +75,21 @@ if (
                 <tr>
                     <td><label for="nom_fabricant">fabricant Name :</label></td>
                     <td>
-                        <input type="text" id="nom_fabricant" name="nom_fabricant" oninput="validateName()" value="<?php echo $fabricant['nom_fabricant'] ?>" />
+                        <input type="text" id="nom_fabricant" name="nom_fabricant" oninput="validateName()" value="<?php echo $fabricants['nom_fabricant'] ?>" />
                         <span id="erreurNom" ></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="adress_fabricant">Adress Fabricant :</label></td>
                     <td>
-                        <input type="text" id="adress_fabricant" name="adress_fabricant" oninput="validateAdress()" value="<?php echo $fabricant['adress_fabricant'] ?>" />
+                        <input type="text" id="adress_fabricant" name="adress_fabricant" oninput="validateAdress()" value="<?php echo $fabricants['adress_fabricant'] ?>" />
                         <span id="erreurAdress"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="contact">contact :</label></td>
                     <td>
-                        <input type="text" id="contact" name="contact" oninput="validateContact()" value="<?php echo $fabricant['contact'] ?>" />
+                        <input type="text" id="contact" name="contact" oninput="validateContact()" value="<?php echo $fabricants['contact'] ?>" />
                         <span id="erreurContact" ></span>
                     </td>
                 </tr>

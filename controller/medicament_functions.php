@@ -7,7 +7,7 @@ class fabricantc
 {
     public function listFabricant()
     {
-        $sql = "SELECT * FROM fabricant";
+        $sql = "SELECT * FROM fabricants";
         $db = config::getConnexion();
         try {
             $liste = $db->query($sql);
@@ -17,17 +17,17 @@ class fabricantc
         }
     }
 
-    function addFabricant($fabricant)
+    function addFabricant($fabricants)
     {
-        $sql = "INSERT INTO fabricant  
+        $sql = "INSERT INTO fabricants  
         VALUES (NULL,:nom_fabricant, :adress_fabricant, :contact)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([ 
-                'nom_fabricant' => $fabricant->getnom_fabricant(),
-                'adress_fabricant' => $fabricant->getadress_fabricant(),
-                'contact' => $fabricant->getcontact()
+                'nom_fabricant' => $fabricants->getnom_fabricant(),
+                'adress_fabricant' => $fabricants->getadress_fabricant(),
+                'contact' => $fabricants->getcontact()
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -36,7 +36,7 @@ class fabricantc
 
     function deleteFabricant($id_fabricant)
     {
-        $sql = "DELETE FROM fabricant WHERE id_fabricant = :id_fabricant";
+        $sql = "DELETE FROM fabricants WHERE id_fabricant = :id_fabricant";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
         $req->bindValue(':id_fabricant', $id_fabricant);
@@ -50,24 +50,24 @@ class fabricantc
 
     function showFabricant($id_fabricant)
     {
-        $sql = "SELECT * from fabricant where id_fabricant = $id_fabricant";
+        $sql = "SELECT * from fabricants where id_fabricant = $id_fabricant";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute();
-            $fabricant = $query->fetch();
-            return $fabricant;
+            $fabricants = $query->fetch();
+            return $fabricants;
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
         }
     }
     
-    function updateFabricant($fabricant, $id_fabricant)
+    function updateFabricant($fabricants, $id_fabricant)
     {   
         try {
             $db = config::getConnexion();
             $query = $db->prepare(
-                'UPDATE fabricant SET 
+                'UPDATE fabricants SET 
                     nom_fabricant = :nom_fabricant, 
                     adress_fabricant = :adress_fabricant, 
                     contact = :contact
@@ -76,9 +76,9 @@ class fabricantc
             
             $query->execute([
                 'id_fabricant' => $id_fabricant,
-                'nom_fabricant' => $fabricant->getnom_fabricant(),
-                'adress_fabricant' => $fabricant->getadress_fabricant(),
-                'contact' => $fabricant->getcontact()
+                'nom_fabricant' => $fabricants->getnom_fabricant(),
+                'adress_fabricant' => $fabricants->getadress_fabricant(),
+                'contact' => $fabricants->getcontact()
             ]);
             
             echo $query->rowCount() . " records UPDATED successfully <br>";
@@ -86,13 +86,27 @@ class fabricantc
             $e->getMessage();
         }
     }
+
+    public function searchFabricant($search_term) {
+
+        // Prepare the SQL statement to search for fabricants
+        $stmt = $pdo->prepare("SELECT * FROM fabricants WHERE nom_fabricant LIKE :search");
+        $stmt->bindValue(':search', '%' . $search_term . '%');
+        $stmt->execute();
+
+        // Fetch fabricant data
+        $filtered_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $filtered_results;
+    }
 }
 /// MEDICALS
 class medicamentc
 {
+    
     public function listMedicament()
     {
-        $sql = "SELECT * FROM medicament";
+        $sql = "SELECT * FROM medicaments";
         $db = config::getConnexion();
         try {
             $liste = $db->query($sql);
@@ -102,17 +116,17 @@ class medicamentc
         }
     }
 
-    function addMedicament($medicament)
+    function addMedicament($medicaments)
     {
-        $sql = "INSERT INTO medicament  
+        $sql = "INSERT INTO medicaments
         VALUES (NULL,:nom_medicament, :id_fabricant, :date_prescription)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([ 
-                'nom_medicament' => $medicament->getnom_medicament(),
-                'id_fabricant' => $medicament->getid_fabricant(),
-                'date_prescription' => $medicament->getdate_prescription()
+                'nom_medicament' => $medicaments->getnom_medicament(),
+                'id_fabricant' => $medicaments->getid_fabricant(),
+                'date_prescription' => $medicaments->getdate_prescription()
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -121,7 +135,7 @@ class medicamentc
 
     function deleteMedicament($id_medicament)
     {
-        $sql = "DELETE FROM medicament WHERE id_medicament = :id_medicament";
+        $sql = "DELETE FROM medicaments WHERE id_medicament = :id_medicament";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
         $req->bindValue(':id_medicament', $id_medicament);
@@ -135,24 +149,24 @@ class medicamentc
 
     function showMedicament($id_medicament)
     {
-        $sql = "SELECT * from medicament where id_medicament = $id_medicament";
+        $sql = "SELECT * from medicaments where id_medicament = $id_medicament";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute();
-            $medicament = $query->fetch();
-            return $medicament;
+            $medicaments = $query->fetch();
+            return $medicaments;
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
         }
     }
     
-    function updateMedicament($medicament, $id_medicament)
+    function updateMedicament($medicaments, $id_medicament)
     {   
         try {
             $db = config::getConnexion();
             $query = $db->prepare(
-                'UPDATE medicament SET 
+                'UPDATE medicaments SET 
                     nom_medicament = :nom_medicament, 
                     id_fabricant = :id_fabricant, 
                     date_prescription = :date_prescription
@@ -161,9 +175,9 @@ class medicamentc
             
             $query->execute([
                 'id_medicament' => $id_medicament,
-                'nom_medicament' => $medicament->getnom_medicament(),
-                'id_fabricant' => $medicament->getid_fabricant(),
-                'date_prescription' => $medicament->getdate_prescription()
+                'nom_medicament' => $medicaments->getnom_medicament(),
+                'id_fabricant' => $medicaments->getid_fabricant(),
+                'date_prescription' => $medicaments->getdate_prescription()
             ]);
             
             echo $query->rowCount() . " records UPDATED successfully <br>";

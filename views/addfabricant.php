@@ -5,7 +5,7 @@ include '../model/fabricant.php';
 $error = "";
 
 // create fabricant
-$fabricant = null;
+$fabricants = null;
 
 // create an instance of the controller
 $fabricantc = new fabricantc();
@@ -19,14 +19,14 @@ if (
         !empty($_POST["adress_fabricant"]) &&
         !empty($_POST["contact"])
     ) {
-        $fabricant = new fabricant(
+        $fabricants = new fabricants(
             null,
             $_POST['nom_fabricant'],
             $_POST['adress_fabricant'],
             $_POST['contact']
         );
-        $fabricantc->addFabricant($fabricant);
-        header('Location:medical.php');
+        $fabricantc->addFabricant($fabricants);
+        header('Location:elements.php');
     } 
 }
 
