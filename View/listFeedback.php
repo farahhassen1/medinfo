@@ -20,31 +20,134 @@ $tab=$c->listFeedback();
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 	<style>
-		table {
-  width: 100%;
-  border-collapse: collapse;
+    /* Add the CSS styles here */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #edf5fc; /* Light Blue Background Color */
+    }
+    th,td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #b3d9f2; /* Light Blue Border Color */
+    }
+
+    th {
+        background-color: #b3d9f2; /* Dark Green Header Background Color */
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: #d9edf7; /* Slightly Darker Blue on Hover */
+    }
+
+    .update-button,
+    .delete-button {
+        display: inline-block;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .update-button {
+        background-color: #2aabd2; /* Light Blue for Update Button */
+        color: #fff;
+    }
+
+    .delete-button {
+        background-color: #e74c3c; /* Light Red for Delete Button */
+        color: #fff;
+    }
+
+    .update-button:hover,
+    .delete-button:hover {
+        background-color: #1d7ea6; /* Slightly Darker Blue on Hover */
+    }
+
+    /* Add this to include Font Awesome icons */
+    .fa {
+        margin-right: 5px;
+    }
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 5px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #333;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination .active {
+            background-color: #337ab7;
+            color: #fff;
+        }
+
+        .pagination-ellipsis {
+            padding: 8px 12px;
+            margin: 0 5px;
+            color: #777;
+        
+        }
+    /* Updated CSS styles for the select dropdown and button */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the form horizontally */
+    margin-bottom: 20px;
+    text-align: center; /* Center the text within the form */
 }
 
-tr {
-  border-bottom: 1px solid #ccc;
+label {
+    margin-right: 10px;
 }
 
-th {
-  background-color: #f2f2f2;
-  padding: 10px;
-  text-align: left;
+select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
 }
 
-td {
-  padding: 10px;
-  border-radius: 12px; 
+select:hover,
+select:focus {
+    border-color: #337ab7;
 }
 
-tr:nth-child(even) {
-  background-color: #f8f8ff;
+button {
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
-	</style>
-	
+
+button:hover {
+    background-color: #23527c;
+}
+	</style>	
 </head>
 <body>
 <div>
@@ -139,14 +242,15 @@ tr:nth-child(even) {
             <td><?= $feedback['commentaire']; ?></td>
 			<td><?= $feedback['rdv']; ?></td>
             <td align="center">
-                <form method="POST" action="updateFeedback.php">
-                    <input type="submit" name="update" value="Update">
+                <form method="POST" action="updateFeedback.php" class="update-button">
+				<button type="submit" class="update-button" name="update">
+                            <i class="fa fa-pencil"></i> Update
+                        </button>
                     <input type="hidden" value=<?PHP echo $feedback['idFeedback']; ?> name="idFeedback">
                 </form>
             </td>
-			
             <td>
-                <a href="deleteFeedback.php?id=<?php echo $feedback['idFeedback']; ?>">Delete</a>
+                <a class="delete-button" href="deleteFeedback.php?id=<?php echo $feedback['idFeedback']; ?>">Delete</a>
             </td>
         </tr>
     <?php
@@ -175,7 +279,8 @@ tr:nth-child(even) {
 			<li ><a href="backoffice/index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
 			<li ><a href="listRDV.php"><em class="fa fa-calendar">&nbsp;</em> Appointement</a></li>
 			<li class="active"><a href="listFeedback.php"><em class="fa fa-bar-chart">&nbsp;</em> Feedback</a></li>
-			<li><a href="backoffice/elements.html"><em class="fa fa-toggle-off">&nbsp;</em> UI Elements</a></li>
+			<li><a href="elements.php"><em class="fa fa-toggle-off">&nbsp;</em> Payement</a></li>
+			<li ><a href="facture.php"><em class="fa fa-clone">&nbsp;</em> Factures</a></li>
 			<li><a href="backoffice/panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> Multilevel <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>

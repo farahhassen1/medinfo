@@ -176,11 +176,9 @@ else
 											<li><a href="#">Services </a></li>
 											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
-											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
+											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="displayArticles.php">Article Details</a></li>
-												</ul>
-											</li>
+													<li><a href="listFacture.php">facture</a></li>
 											<li><a href="contact.html">Contact Us</a></li>
 										</ul>
 									</nav>
@@ -205,10 +203,21 @@ else
     if (isset($_POST['idRDV'])) {
         $rdv = $RDVC->showRDV($_POST['idRDV']);  
     ?>
+	<?php if (!empty($tab2)) { ?>
+    <form id="sortForm" method="GET" style="text-align: right;">
+            <label for="sort_select">Sort By payement name:</label>
+            <select name="sort_select" id="sort_select" class="btn btn-primary">
+                <option value="az" <?php if (isset($_GET['sort_select']) && $_GET['sort_select'] === 'az') echo 'selected'; ?>>
+                    A to Z
+                </option>
+                <option value="za" <?php if (isset($_GET['sort_select']) && $_GET['sort_select'] === 'za') echo 'selected'; ?>>
+                    Z to A
+                </option>
+            </select>
+    </form>
         <div class="formulaire">
         <form action="" method="POST" onsubmit="return validateForm()" >
-            <label for="id">IdRDV :</label>
-            <input type="text" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />
+            <input type="hidden" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />
 
              <label for="date">Date :</label>
                 <input type="date" id="date" name="date" value="<?php echo $rdv['date'] ?>"  />

@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2; /* Light gray background for the body */
+  color: #333333; /* Dark text color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.header-container {
+  background-color: #3498db; /* Blue background for the box */
+  text-align: center; /* Center the text */
+  padding: 70px; /* Padding inside the box */
+  border-radius: 0px; /* Rounded corners */
+  margin-bottom: 100px; /* Increased margin at the bottom */
+  margin-left: 300px;
+  align-self: flex-start; /* Align to the right */
+}
+
+h1 {
+  color: #ffffff; /* White text color */
+  font-size: 80px; /* Larger font size */
+  margin: 0; /* Remove default margin */
+}
+
+.date-container {
+  margin-left:750px;
+  margin-bottom: 75px; /* Increased margin */
+  margin-top:5px;
+  font-size: 15px; /* Larger font size */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px; /* Increased margin */
+}
+
+table,
+th,
+td {
+  border: 1px solid #3498db; /* Blue border for table cells */
+}
+
+th,
+td {
+  padding: 15px; /* Increased padding */
+  text-align: left;
+  font-size: 14px; /* Larger font size */
+}
+
+tfoot {
+  font-style: italic;
+  text-align: center;
+  font-size: 14px; /* Larger font size */
+  margin-top: 20px; /* Increased margin */
+}
+
+footer {
+  margin-top: 30px; /* Increased margin */
+  text-align: center;
+  font-style: italic;
+  color: #3498db; /* Blue footer text color */
+  font-size: 14px; /* Larger font size */
+}
+

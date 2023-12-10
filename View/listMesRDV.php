@@ -168,12 +168,9 @@ $tab = $c->listRDV();
 											<li><a href="#">Services </a></li>
 											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
-											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
+											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="displayArticles.php">Article Details</a></li>
-												</ul>
-											</li>
-											<li><a href="contact.html">Contact Us</a></li>
+													<li><a href="listFacture.php">facture</a></li>
 										</ul>
 									</nav>
 								</div>
