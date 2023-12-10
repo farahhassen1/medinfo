@@ -1,30 +1,8 @@
-<?php
-class config
-{
-    private static $pdo = null;
+<?php 
 
-    public static function getConnexion()
-    {
-        if (!isset(self::$pdo)) {
-            try {
-                $host = 'localhost';
-                $dbname = 'useraccounts';
-                $username = 'root';
-                $password = '';
+$db_user = "root";
+$db_pass = "";
+$db_name = "useraccounts";
 
-                $options = [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-                ];
-
-                self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password, $options);
-            } catch (PDOException $e) {
-                die('Connection failed: ' . $e->getMessage());
-            }
-        }
-
-        return self::$pdo;
-    }
-}
-?>
-
+$db = new PDO('mysql:host=localhost;dbname=' . $db_name . ';charset=utf8', $db_user, $db_pass);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

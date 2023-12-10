@@ -6,14 +6,16 @@ require 'C:/xampp/htdocs/test/LocalArt/config.php';
 class user{
 
     private int $id_user;
-    private string $nom;
+    private string $name;
+    private string $username;
     public string $email;
     private string $password;
     private string $state;
 
-    public function __construct($id_user,$nom,$email,$password,$state) {
+    public function __construct($id_user,$name,$username,$email,$password,$state) {
     $this->id_user=$id_user;
-    $this->nom = $nom;
+    $this->name = $name;
+    $this->username = $username;
     $this->email = $email;
     $this->password = $password;
     $this->state = $state;
@@ -22,21 +24,21 @@ class user{
 
     public function getNom()
     {
-        return $this->nom;
+        return $this->name;
     }
-    public function setNom($nom)
+    public function setNom($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
-    public function getPnom()
+    public function getUsername()
     {
-        return $this->pnom;
+        return $this->username;
     }
-    public function setPnom($pnom)
+    public function setUsername($username)
     {
-        $this->pnom = $pnom;
+        $this->username = $username;
 
         return $this;
     }
@@ -74,84 +76,7 @@ class user{
     }
 
 
-    public function Getuser() {
-        try {
-            $pdo = config::getConnexion(); // Get the PDO connection using the config class
 
-            $query = $pdo->prepare('SELECT * FROM user');
-            $query->execute();
-
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-            if ($result) {
-                return $result; // Return the result to the caller
-            } else {
-                return null; // No records found
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-            return null;
-        }
-    }
-
-    public function Adduser($id_user ,$nom, $email, $password, $state): bool
-    {
-        try {
-            $pdo = config::getConnexion(); // Get the PDO connection using the config class
-    
-            $query = $pdo->prepare('INSERT INTO user (id_user, nom, email, password, state) VALUES (?, ?, ?, ?, ?)');
-            $query->execute([$id_user, $nom, $email, $password, $state]);
-    
-            // Check if the query was successful
-            if ($query->rowCount() > 0) {
-                return true; // Player added successfully
-            } else {
-                return false; // Player not added
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-            return false; // An error occurred
-        }
-    }
-
-    public function Deleteuser($id_user): bool {
-        try {
-            $pdo = config::getConnexion(); // Get the PDO connection using the config class
-
-            $query = $pdo->prepare('DELETE FROM user WHERE id_user = ?');
-            $query->execute([$id_user]);
-
-            // Check if the query was successful
-            if ($query->rowCount() > 0) {
-                return true; // User deleted successfully
-            } else {
-                return false; // User not found or not deleted
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-            return false; // An error occurred
-        }
-    }
-
-    public function Updateuser($id_user, $nom, $email, $password, $state): bool
-    {
-        try {
-            $pdo = config::getConnexion();
-
-            $query = $pdo->prepare('UPDATE user SET nom=?, email=?, password=?, state=? WHERE id_user = ?');
-            $query->execute([$nom, $email, $password, $state, $id_user]);
-
-            // Check if the query was successful
-            if ($query->rowCount() > 0) {
-                return true; // User updated successfully
-            } else {
-                return false; // User not found or not updated
-            }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-            return false; // An error occurred
-        }
-    }
 
 
     

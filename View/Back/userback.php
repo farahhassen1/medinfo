@@ -1,6 +1,7 @@
 <?php
 include 'C:/xampp/htdocs/test/LocalArt/Controller/userC.php';
 include 'user_back.php';
+require_once('../../config.php');
 
 ?>
 
@@ -9,7 +10,7 @@ include 'user_back.php';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Table</title>
+    <title>Users Table</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
     <link rel='stylesheet' href="assets/css/style_userback.css">
 	<script src='assets/js/js_userback.js'></script>
@@ -19,7 +20,7 @@ include 'user_back.php';
 <body>
 
 <div class="container" >
-    <h1>User Table</h1>
+    <h1>Users Table</h1>
     <button class="add-user-button" onclick="toggleAddUserForm()">Add User</button>
 
     <!-- Add User Form -->
@@ -35,7 +36,7 @@ include 'user_back.php';
             <label for="state">State:</label>
             <select name="state" required>
                 <option value="Admin">Admin</option>
-                <option value="Artist">Artist</option>
+                <option value="Doctor">Doctor</option>
                 <option value="User">User</option>
             </select>
             <input type="submit" name="addUser" value="Add User">
@@ -94,7 +95,7 @@ include 'user_back.php';
             <label for="state_update">State:</label>
             <select id="state_update" name="state" required>
                 <option value="Admin">Admin</option>
-                <option value="Artist">Artist</option>
+                <option value="Doctor">Doctor</option>
                 <option value="User">User</option>
             </select>
             <input type="submit" name="updateUser" value="Update User">

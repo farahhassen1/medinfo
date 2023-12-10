@@ -3,6 +3,17 @@ include 'C:/xampp/htdocs/test/LocalArt/Controller/userC.php';
 include 'login_head.php';
 ?>
 
+<?php 
+
+	session_start();
+	
+	if(isset($_SESSION['userlogin'])){
+		header("Location: index.php");
+	}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +29,7 @@ include 'login_head.php';
         <form onsubmit="return validateSignupForm()" method="POST" action="">
             <label for="chk" aria-hidden="true">Sign up</label>
             <input type="text" id="txt" name="nom" placeholder="User name">
-            <input type="email" id="email" name="email" placeholder="Email">
+            <input type="text" id="email" name="email" placeholder="Email">
             <input type="password" id="pswd" name="password" placeholder="Password">
             <button type="submit" name="signup">Sign up</button>
             <div id="signup-error" class="fgp"></div>
@@ -27,7 +38,7 @@ include 'login_head.php';
     <div class="login">
         <form method="POST" action="">
             <label for="chk" style="padding-top:20px; margin-top:50px;" aria-hidden="true">Login</label>
-            <input type="email" id="login-email" name="log-email" placeholder="Email">
+            <input type="text" id="login-email" name="log-email" placeholder="Email">
             <input type="password" id="login-pswd" name="log-pswd" placeholder="Password">
             <a href="forgot_password.php" class="fgp">Forget Password ?</a>
             
