@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Password is correct, log in the user.
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                header('Location: index.html'); // Redirect to a dashboard or home page after login.
+                header('Location: index.php'); // Redirect to a dashboard or home page after login.
                 exit();
             } else {
                 // Password is incorrect.
@@ -75,14 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <main>
-        <div class="container">
+    <div class="container">
             <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                             <div class="d-flex justify-content-center py-4">
-                                <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                <a href="index.php" class="logo d-flex align-items-center w-auto">
                                     <span class="d-none d-lg-block">Welcome to Medinfo</span>
                                 </a>
                             </div><!-- End Logo -->
@@ -94,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                                     <p class="text-center small">Enter your Email & password to login</p>
                                   </div>
-
                                   <form class="row g-3 needs-validation" novalidate method="post" action="">
+                                    
                                   <div class="col-12">
                                       <label for="yourEmail" class="form-label">Your Email</label>
                                       <div class="input-group has-validation">
@@ -110,20 +110,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                       <div class="invalid-feedback">Please enter your password!</div>
                                   </div>
                                   <div class="col-12">
-                                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">
+                                            Remember Me
+                                        </label>
+                                    </div>
                                   </div>
-                                  <div class="col-12">
-                                      <p class="small mb-0">Don't have an account? <a href="registration.php">Create an account</a></p>
+                                      <div class="col-12">
+                                          <button class="btn btn-primary w-100" type="submit">Login</button>
+                                      </div>
+                                      <div class="col-12">
+                                          <p class="small mb-0">
+                                              Don't have an account? <a href="registration.php">Create an account</a>
+                                              | <a href="forgot_password.php">Forgot Password</a>
+                                          </p>
+                                      </div>
+                                  </form>
+
+                                  <?php if (isset($error)) : ?>
+                                      <div class="alert alert-danger mt-3" role="alert">
+                                          <?php echo $error; ?>
+                                      </div>
+                                  <?php endif; ?>
+
                                   </div>
-                              </form>
-
-                            <?php if (isset($error)) : ?>
-                                <div class="alert alert-danger mt-3" role="alert">
-                                    <?php echo $error; ?>
-                                </div>
-                            <?php endif; ?>
-
-                        </div>
                     </div>
                 </div>
             </section>

@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $user1 = new UserC();
         $user1->addUser(0, $username, $email, $hashedPassword, "User");
-        header('Location: index.html');
+        header('Location: index.php');
         exit; // Ensure to stop execution after redirection
     } elseif (isset($_POST['login_button'])) {
         // Handle login form submission
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($userData['email'] == $loginEmail && password_verify($loginPassword, $userData['password'])) {
                     // Successful login
                     $isValidLogin = true;
-                    header('Location: index.html');
+                    header('Location: index.php');
                     exit;
                 }
             }

@@ -1,3 +1,9 @@
+<?php
+	require_once('../../config.php');
+
+	session_start();
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
@@ -8,9 +14,6 @@
 		<meta name="description" content="">
 		<meta name='copyright' content=''>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-		<!-- Title -->
-        <title>Mediplus - Free Medical and Doctor Directory HTML Template.</title>
 		
 		<!-- Favicon -->
         <link rel="icon" href="img/favicon.png">
@@ -99,7 +102,7 @@
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.html"><img src="img/logo.png" alt="#"></a>
+									<a href="index.php"><img src="img/logo.png" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -113,7 +116,7 @@
 										<ul class="nav menu">
 											<li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="index.html">Home Page 1</a></li>
+													<li><a href="index.php">Home Page 1</a></li>
 												</ul>
 											</li>
 											<li><a href="#">Doctos </a></li>
@@ -134,11 +137,21 @@
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-									<a href="registration.php" class="btn">login</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+
+							?>
 						</div>
 					</div>
 				</div>
