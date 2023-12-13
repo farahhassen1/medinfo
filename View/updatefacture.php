@@ -12,12 +12,14 @@ $factureC = new factureC();
 if (
     isset($_POST["montant"]) &&
     isset($_POST["date_facture"]) &&
-    isset($_POST["descreption"])
+    isset($_POST["descreption"])&&
+    isset($_POST["idRDV"])
 ) {
     if (
         !empty($_POST['montant']) &&
         !empty($_POST["date_facture"]) &&
-        !empty($_POST["descreption"])
+        !empty($_POST["descreption"])&&
+        !empty($_POST["idRDV"])
     ) {
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
@@ -26,7 +28,8 @@ if (
             null,
             $_POST['montant'],
             $_POST['date_facture'],
-            $_POST['descreption']
+            $_POST['descreption'],
+            $_POST['idRDV']
         );
         var_dump($facture);
         
@@ -43,34 +46,10 @@ if (
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Display</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Nice Select CSS -->
-    <link rel="stylesheet" href="css/nice-select.css">
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- icofont CSS -->
-    <link rel="stylesheet" href="css/icofont.css">
-    <!-- Slicknav -->
-    <link rel="stylesheet" href="css/slicknav.min.css">
-    <!-- Owl Carousel CSS -->
-    <link rel="stylesheet" href="css/owl-carousel.css">
-    <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="css/datepicker.css">
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
-    <!-- Magnific Popup CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
-
-    <!-- Medipro CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-
+    <link rel="stylesheet" href="fabricantadd.css">
+   
 </head>
 
 <body>
@@ -102,7 +81,14 @@ if (
     ?>
 
     <form action="" method="POST" id="myForm">
-        <table>
+        <table  class="blue-white-table">
+        <tr>
+                    <td><label for="idRDV">id_rdv :</label></td>
+                    <td>
+                        <input type="int" id="idRDV" name="idRDV" value="<?php echo $facture['idRDV'] ?>" readonly/>
+                        <span id="erreurDid" style="color: red"></span>
+                    </td>
+                </tr>
             <tr>
                 <td><label for="id_facture">id_facture:</label></td>
                 <td>

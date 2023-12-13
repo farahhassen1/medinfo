@@ -67,7 +67,6 @@ class feedbackC
                 'date' => $feedback->getDate(),
                 'commentaire' => $feedback->getCommentaire(),
                 'rdv' => $feedback->getRDV(),
-
             ]); 
             echo $query->rowCount() . " records UPDATED successfully <br>";
         } catch (PDOException $e) {

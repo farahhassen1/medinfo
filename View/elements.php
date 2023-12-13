@@ -274,40 +274,23 @@ button:hover {
 				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name">Admin</div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>
 		</div>
 		<div class="divider"></div>
-		<form role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
-			</div>
-		</form>
 		<ul class="nav menu">
-			<li><a href="backoffice/index.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li><a href="backoffice/useredit.php"><em class="fa fa-calendar">&nbsp;</em> User Edit</a></li>
+			<li ><a href="medical.php"><em class="fa fa-dashboard">&nbsp;</em> Medications</a></li>
+			<li ><a href="backfabricant.php"><em class="fa fa-dashboard">&nbsp;</em> Fabricant</a></li>
 			<li ><a href="listRDV.php"><em class="fa fa-calendar">&nbsp;</em> Appointement</a></li>
 			<li ><a href="listFeedback.php"><em class="fa fa-bar-chart">&nbsp;</em> Feedback</a></li>
 			<li class="active"><a href="elements.php"><em class="fa fa-toggle-off">&nbsp;</em> Payement</a></li>
 			<li ><a href="facture.php"><em class="fa fa-clone">&nbsp;</em> Factures</a></li>
-			<li><a href="panels.html"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
-			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
-				<em class="fa fa-navicon">&nbsp;</em> Multilevel <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> Sub Item 1
-					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> Sub Item 2
-					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> Sub Item 3
-					</a></li>
-				</ul>
-			</li>
-			<li><a href="login.html"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
+            <li ><a href="articlesdb.php"><em class="fa fa-clone">&nbsp;</em> Articles</a></li>
+            <li ><a href="backAnis.php"><em class="fa fa-clone">&nbsp;</em> Prescreptions</a></li>
+			<li><a href="backoffice/login.html"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -390,7 +373,18 @@ button:hover {
             <td><?= $payement['id_payement']; ?></td>
             <td><?= $payement['date_payement']; ?></td>
             <td><?= $payement['descreption']; ?></td>
-            <td><?= $payement['image_mp']; ?></td>
+            <td><?php
+$imageFileName = basename($payement['image_mp']);
+$imagePath = $imageFileName;  // Assuming the image is in the same folder as your PHP script
+
+echo 'File Path: ' . $imagePath . '<br>';  // Debugging output
+
+if (file_exists($imagePath)) {
+    echo '<img src="' . $imagePath . '" alt="image payment" style="max-width: 100px; max-height: 100px;">';
+} else {
+    echo 'Image not found';
+}
+?></td>
 						<td><?= $payement['id_facture']; ?></td>
            
            
@@ -442,7 +436,7 @@ if ($total_pages > 4 && $current_page < $total_pages - 1 && $end != $total_pages
 }
 }?>
 
-<a href="index.php">front office</a>
+<a href="frontoffice/index.php">front office</a>
 				
 <script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

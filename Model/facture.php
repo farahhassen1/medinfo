@@ -5,15 +5,17 @@ class facture
     private ?string $montant= null;
     private ?string $date_facture = null;
     private ?string $descreption = null;
+    private ?string $idRDV = null;
    
     
 
-    public function __construct($id_facture = null, $montant,$date_facture, $descreption)
+    public function __construct($id_facture = null, $montant,$date_facture, $descreption, $idRDV)
     {
         $this->id_facture = $id_facture;
         $this->montant = $montant;
         $this->date_facture = $date_facture;
         $this->descreption = $descreption;
+        $this->idRDV = $idRDV;
        
         
         
@@ -66,7 +68,15 @@ class facture
 
         return $this;
     }
-    
+    public function setIdRDV($idRDV)
+    {
+        $this->idRDV = $idRDV;
+        return $this;
+    }
+    public function getIdRDV()
+    {
+        return $this->idRDV;
+    }
 
 
     

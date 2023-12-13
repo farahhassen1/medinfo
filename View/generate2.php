@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id_facture"])) {
     $selectedInvoiceId = $_GET["id_facture"];
 

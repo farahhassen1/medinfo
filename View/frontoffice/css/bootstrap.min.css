@@ -7083,7 +7083,8 @@ a.bg-dark:hover {
     white-space: nowrap;
     -webkit-clip-path: inset(50%);
     clip-path: inset(50%);
-    border: 0
+    border: 0;
+    
 }
 
 .sr-only-focusable:active,

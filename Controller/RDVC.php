@@ -27,18 +27,17 @@ class rdvC
             die('Error:' . $e->getMessage());
         }
     }
-
-
     function addRDV($rdv)
     {
-        $sql = "INSERT INTO  rdv VALUES (NULL, :date,:heure, :commentaire)";
+        $sql = "INSERT INTO  rdv VALUES (NULL, :date,:heure, :commentaire,:idpatient)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
                 'date' => $rdv->getDate(),
                 'heure' => $rdv->getHeure(),
-                'commentaire' => $rdv->getCommentaire(), 
+                'commentaire' => $rdv->getCommentaire(),  
+                'idpatient' => $rdv->getIdpatient(), 
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -63,7 +62,7 @@ class rdvC
     function updateRDV($rdv,$id)
     {   
         try {
-            $sql ='UPDATE rdv SET date = :date,  heure = :heure, commentaire = :commentaire WHERE idRDV= :id';
+            $sql ='UPDATE rdv SET date = :date,  heure = :heure, commentaire = :commentaire , idpatient=:idpatient WHERE idRDV= :id';
             $db = config::getConnexion();
             $query = $db->prepare($sql);
             $query->execute([
@@ -71,6 +70,7 @@ class rdvC
                 'date' => $rdv->getDate(),
                 'heure' => $rdv->getHeure(),
                 'commentaire' => $rdv->getCommentaire(),
+                'idpatient' => $rdv->getIdpatient(), 
             ]); 
             echo $query->rowCount() . " records UPDATED successfully <br>";
         } catch (PDOException $e) {

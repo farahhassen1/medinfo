@@ -1,3 +1,9 @@
+<?php
+	require_once('../../config.php');
+
+	session_start();
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
@@ -81,8 +87,8 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<!-- Top Contact -->
 							<ul class="top-contact">
-								<li><i class="fa fa-phone"></i>+880 1234 56789</li>
-								<li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">support@yourmail.com</a></li>
+								<li><i class="fa fa-phone"></i>+216 71 800 000</li>
+								<li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">medinfo@gmail.com</a></li>
 							</ul>
 							<!-- End Top Contact -->
 						</div>
@@ -98,7 +104,7 @@
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="img/logo.png" alt="#"></a>
+									<a href="index.php"><img style="width: 100px; height: auto;" src="../medinfo.jpg" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -110,25 +116,55 @@
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li class="active"><a href="index.php">Home <i class="icofont-rounded-down"></i></a>
-											<li><a href="#">Doctos </a></li>
-											<li><a href="#">Services </a></li>
+											<li class="active"><a href="index.php">Home <i class="icofont-rounded-down"></i></a></li>
+											
+											<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														echo '<li><a href="../MyprescriptionsC.php">My Prescriptions</a></li>
+														';
+													} 
+													?>
+													
+													<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+														echo '<li><a href="../MyprescriptionsM.php">My Prescriptions</a></li>
+														';
+													} 
+													?>
+												
+											</li>
 											<li><a href="../listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
-											<li><a href="../listpayement.php">payement <i class="icofont-rounded-down"></i></a>
+											<li><a href="../listpayement.php">payement<i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="../listFacture.php">facture</a></li>
-											<li><a href="contact.html">Contact Us</a></li>
+													<li><a href="../listFacture.php">facture</a></li></ul>
+											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+												<ul class="dropdown">
+													<li><a href="../listMedicament.php">Medications</a></li>
+													<li><a href="../listfabricant.php">Fabricants</a></li>
+												</ul>
+											</li>
+											<li><a href="../displayArticles.php">Articles <i class="icofont-rounded-down"></i></a></li>
 										</ul>
 									</nav>
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-									<a href="#" class="btn">Login</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+
+							?>
 						</div>
 					</div>
 				</div>
@@ -147,11 +183,21 @@
 							<div class="col-lg-7">
 								<div class="text">
 									<h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
-									<div class="button">
-										<a href="../addRDV.php" class="btn">Get Appointment</a>
-										<a href="#" class="btn primary">Learn More</a>
-									</div>
+									<p>Welcome to Med Info, where your health is our priority. As your trusted healthcare partner, we provide a personalized and user-friendly experience to empower you on your wellness journey.</p>
+									<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														echo '<div class="button">
+														<a href="../addRDV.php" class="btn">Get Appointment</a>
+														<a href="#" class="btn primary">Learn More</a> </div>
+														';
+													} 
+													else {
+														echo '<div class="button">
+														<a href="#" class="btn primary">Learn More</a>
+													</div>';
+													}
+									?>
+									
 								</div>
 							</div>
 						</div>
@@ -165,11 +211,21 @@
 							<div class="col-lg-7">
 								<div class="text">
 									<h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
-									<div class="button">
-										<a href="../addRDV.php" class="btn">Get Appointment</a>
-										<a href="#" class="btn primary">About Us</a>
-									</div>
+									<p>Welcome to Med Info, where your health is our priority. As your trusted healthcare partner, we provide a personalized and user-friendly experience to empower you on your wellness journey. </p>
+									<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														echo '<div class="button">
+														<a href="../addRDV.php" class="btn">Get Appointment</a>
+														<a href="#" class="btn primary">Learn More</a> </div>
+														';
+													} 
+													else {
+														echo '<div class="button">
+														<a href="#" class="btn primary">Learn More</a>
+													</div>';
+													}
+									?>
+									
 								</div>
 							</div>
 						</div>
@@ -183,11 +239,21 @@
 							<div class="col-lg-7">
 								<div class="text">
 									<h1>We Provide <span>Medical</span> Services That You Can <span>Trust!</span></h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
-									<div class="button">
-										<a href="../addRDV.php" class="btn">Get Appointment</a>
-										<a href="#" class="btn primary">Conatct Now</a>
-									</div>
+									<p>Welcome to Med Info, where your health is our priority. As your trusted healthcare partner, we provide a personalized and user-friendly experience to empower you on your wellness journey. </p>
+									<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														echo '<div class="button">
+														<a href="../addRDV.php" class="btn">Get Appointment</a>
+														<a href="#" class="btn primary">Learn More</a> </div>
+														';
+													} 
+													else {
+														echo '<div class="button">
+														<a href="#" class="btn primary">Learn More</a>
+													</div>';
+													}
+									?>
+									
 								</div>
 							</div>
 						</div>
@@ -211,10 +277,8 @@
 										<i class="fa fa-ambulance"></i>
 									</div>
 									<div class="single-content">
-										<span>Lorem Amet</span>
 										<h4>Emergency Cases</h4>
-										<p>Lorem ipsum sit amet consectetur adipiscing elit. Vivamus et erat in lacus convallis sodales.</p>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
+										<p>Our dedicated team is ready to handle emergency cases with a sense of urgency and expertise.</p>
 									</div>
 								</div>
 							</div>
@@ -227,10 +291,8 @@
 										<i class="icofont-prescription"></i>
 									</div>
 									<div class="single-content">
-										<span>Fusce Porttitor</span>
 										<h4>Doctors Timetable</h4>
-										<p>Lorem ipsum sit amet consectetur adipiscing elit. Vivamus et erat in lacus convallis sodales.</p>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
+										<p>Plan your visit with ease. Check our doctor's timetable to find a suitable appointment time.</p>
 									</div>
 								</div>
 							</div>
@@ -243,14 +305,12 @@
 										<i class="icofont-ui-clock"></i>
 									</div>
 									<div class="single-content">
-										<span>Donec luctus</span>
 										<h4>Opening Hours</h4>
 										<ul class="time-sidual">
 											<li class="day">Monday - Fridayp <span>8.00-20.00</span></li>
 											<li class="day">Saturday <span>9.00-18.30</span></li>
 											<li class="day">Monday - Thusday <span>9.00-15.00</span></li>
 										</ul>
-										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
 									</div>
 								</div>
 							</div>
@@ -269,7 +329,7 @@
 						<div class="section-title">
 							<h2>We Are Always Ready to Help You & Your Family</h2>
 							<img src="img/section-img.png" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
+							<p>Discover the convenience of our online appointment scheduling system, designed with your time and comfort in mind. Easily book appointments with healthcare professionals, ensuring you receive the care you need when you need it.</p>
 						</div>
 					</div>
 				</div>
@@ -281,7 +341,6 @@
 								<i class="icofont icofont-ambulance-cross"></i>
 							</div>
 							<h3>Medicals</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -292,7 +351,6 @@
 								<i class="icofont icofont-medical-sign-alt"></i>
 							</div>
 							<h3>Facteurs</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -302,8 +360,7 @@
 							<div class="signle-icon">
 								<i class="icofont icofont-stethoscope"></i>
 							</div>
-							<h3>Services</h3>
-							<p>Lorem ipsum sit, consectetur adipiscing elit. Maecenas mi quam vulputate.</p>
+							<h3>Appointment</h3>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -311,157 +368,8 @@
 			</div>
 		</section>
 		<!--/ End Feautes -->
-		
-
-		
-		<!-- Start Why choose -->
-		<section class="why-choose section" >
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>We Offer Different Services To Improve Your Health</h2>
-							<img src="img/section-img.png" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-6 col-12">
-						<!-- Start Choose Left -->
-						<div class="choose-left">
-							<h3>Who We Are</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra antege vel est lobortis, a commodo magna rhoncus. In quis nisi non emet quam pharetra commodo. </p>
-							<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
-							<div class="row">
-								<div class="col-lg-6">
-									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
-									</ul>
-								</div>
-								<div class="col-lg-6">
-									<ul class="list">
-										<li><i class="fa fa-caret-right"></i>Maecenas vitae luctus nibh. </li>
-										<li><i class="fa fa-caret-right"></i>Duis massa massa.</li>
-										<li><i class="fa fa-caret-right"></i>Aliquam feugiat interdum.</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!-- End Choose Left -->
-					</div>
-					<div class="col-lg-6 col-12">
-						<!-- Start Choose Rights -->
-						
-						<!-- End Choose Rights -->
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Why choose -->
-		
-		<!-- Start Call to action -->
-		<section class="call-action overlay" data-stellar-background-ratio="0.5">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-12">
-						<div class="content">
-							<h2>Do you need Emergency Medical Care? Call @ 1234 56789</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor dictum turpis nec gravida.</p>
-							<div class="button">
-								<a href="#" class="btn">Contact Now</a>
-								<a href="#" class="btn second">Learn More<i class="fa fa-long-arrow-right"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End Call to action -->
-		
-		<!-- Start portfolio -->
-		
-		<!--/ End portfolio -->
-		
-		<!-- Start service -->
-		<section class="services section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>We Offer Different Services To Improve Your Health</h2>
-							<img src="img/section-img.png" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-prescription"></i>
-							<h4><a href="service-details.html">General Treatment</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-tooth"></i>
-							<h4><a href="service-details.html">Teeth Whitening</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-heart-alt"></i>
-							<h4><a href="service-details.html">Heart Surgery</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-listening"></i>
-							<h4><a href="service-details.html">Ear Treatment</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-eye-alt"></i>
-							<h4><a href="service-details.html">Vision Problems</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Start Single Service -->
-						<div class="single-service">
-							<i class="icofont icofont-blood"></i>
-							<h4><a href="service-details.html">Blood Transfusion</a></h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus dictum eros ut imperdiet. </p>	
-						</div>
-						<!-- End Single Service -->
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--/ End service -->
-		
-	
-
-		
-		<!-- Start clients -->
-		<div class="clients overlay">
+			<!-- Start clients -->
+			<div class="clients overlay">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-12">
@@ -500,96 +408,48 @@
 		</div>
 		<!--/Ens clients -->
 		
-		<!-- Start Appointment -->
-		<section class="appointment">
+
+		
+		<!-- Start Why choose -->
+		<section class="why-choose section" >
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title">
-							<h2>We Are Always Ready to Help You. Book An Appointment</h2>
+							<h2>We Offer Different Services To Improve Your Health</h2>
 							<img src="img/section-img.png" alt="#">
-							<p>Lorem ipsum dolor sit amet consectetur adipiscing elit praesent aliquet. pretiumts</p>
+							<p>At Med Info, we envision a future where everyone has easy access to reliable healthcare information and services, empowering individuals to take control of their well-being.</p>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-6 col-md-12 col-12">
-						<form class="form" action="#">
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<input name="name" type="text" placeholder="Name">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<input name="email" type="email" placeholder="Email">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<input name="phone" type="text" placeholder="Phone">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<div class="nice-select form-control wide" tabindex="0"><span class="current">Department</span>
-											<ul class="list">
-												<li data-value="1" class="option selected ">Department</li>
-												<li data-value="2" class="option">Cardiac Clinic</li>
-												<li data-value="3" class="option">Neurology</li>
-												<li data-value="4" class="option">Dentistry</li>
-												<li data-value="5" class="option">Gastroenterology</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<div class="nice-select form-control wide" tabindex="0"><span class="current">Doctor</span>
-											<ul class="list">
-												<li data-value="1" class="option selected ">Doctor</li>
-												<li data-value="2" class="option">Dr. Akther Hossain</li>
-												<li data-value="3" class="option">Dr. Dery Alex</li>
-												<li data-value="4" class="option">Dr. Jovis Karon</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<input type="text" placeholder="Date" id="datepicker">
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-12">
-									<div class="form-group">
-										<textarea name="message" placeholder="Write Your Message Here....."></textarea>
-									</div>
-								</div>
+					<div class="col-lg-6 col-12">
+						<!-- Start Choose Left -->
+						<div class="choose-left">
+							<h3>Who We Are</h3>
+							<p>Welcome to Med Info, your trusted health companion. We are a dedicated team passionate about providing accessible and reliable healthcare information to empower individuals on their wellness journey. </p>
+							<h3>Our Mission</h3>
+                    <p>Med Info is on a mission to revolutionize the way people access and understand healthcare. We strive to be a comprehensive resource, offering accurate information, user-friendly services, and fostering a supportive community.</p>
 							</div>
-							<div class="row">
-								<div class="col-lg-5 col-md-4 col-12">
-									<div class="form-group">
-										<div class="button">
-											<button type="submit" class="btn">Book An Appointment</button>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-7 col-md-8 col-12">
-									<p>( We will be confirm by an Text Message )</p>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="col-lg-6 col-md-12 ">
-						<div class="appointment-image">
-							<img src="img/contact-img.png" alt="#">
 						</div>
+						<!-- End Choose Left -->
+					</div>
+					<div class="col-lg-6 col-12">
+						<!-- Start Choose Rights -->
+						
+						<!-- End Choose Rights -->
 					</div>
 				</div>
 			</div>
 		</section>
-		<!-- End Appointment -->
+		<!--/ End Why choose -->
+		
+	
+		
+		
+	
+		<!-- Start Appointment -->
+		
 		
 		
 		

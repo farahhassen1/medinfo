@@ -1,5 +1,7 @@
 <?php
 include "../controller/factureC.php";
+require_once("../config.php");
+session_start();
 
 $c = new factureC();
 $result = $c->listFacture();
@@ -89,31 +91,69 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
         <link rel="stylesheet" href="frontoffice/css/animate.min.css">
 		<!-- Magnific Popup CSS -->
         <link rel="stylesheet" href="frontoffice/css/magnific-popup.css">
-		
+				<link rel="stylesheet" href="pp.css">
+        
 		<!-- Medipro CSS -->
         <link rel="stylesheet" href="frontoffice/css/normalize.css">
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
         </head>
         <style>
-            .btn1 {
-	color: #fff;
-	padding: 13px 25px;
-	font-size: 14px;
-	text-transform: capitalize;
-	font-weight: 500;
-	background: #d11a88;
-	position: relative;
-	box-shadow: none;
-	display: inline-block;
-	-webkit-transition: all 0.4s ease;
-	-moz-transition: all 0.4s ease;
-	transition: all 0.4s ease;
-	-webkit-transform: perspective(1px) translateZ(0);
-	transform: perspective(1px) translateZ(0);
-	border: none;
-	border-radius: 0;
-	border-radius:4px;
+          .btn1 {
+    color: #fff;
+    padding: 13px 25px;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background: #ff1493; /* Modified pink color */
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    border: none;
+    border-radius: 0;
+    border-radius: 4px;
+}
+
+
+	/* Styles spécifiques au bouton "Add Payment" */
+	.health-theme-button {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4CAF50; /* Couleur de fond verte (vous pouvez ajuster la couleur selon votre thème) */
+  color: #fff; /* Couleur du texte en blanc */
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* Ajout d'une transition en douceur pour le fond */
+}
+
+.health-theme-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, #4CAF50 50%, transparent 100%); /* Rideau simulé à l'origine caché à gauche */
+  transition: left 0.3s ease; /* Ajout d'une transition pour l'effet de rideau */
+}
+
+/* Effet au survol */
+.health-theme-button:hover::before {
+  left: 100%; /* Animation de transition pour simuler l'ouverture des rideaux */
+}
+
+/* Effet au clic */
+.health-theme-button:active::before {
+  left: 0; /* Animation de transition pour simuler la fermeture des rideaux */
 }
             </style>
 
@@ -136,7 +176,7 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
             <div class="col-lg-6 col-md-7 col-12">
                 <!-- Top Contact -->
                 <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-phone"></i>+216 71 800 000</li>
                     <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
                 </ul>
                 <!-- End Top Contact -->
@@ -153,7 +193,7 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="frontoffice/img/logo.png" alt="#"></a>
+                                <a href="index.php"><img  style="width: 100px; height: auto;"src="medinfo.jpg" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -166,24 +206,62 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
 									<nav class="navigation">
 										<ul class="nav menu">
 											<li class="active"><a href="frontoffice/index.php">Home <i class="icofont-rounded-down"></i></a>
-											<li><a href="#">Doctos </a></li>
-											<li><a href="#">Services </a></li>
+											<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+														
+														echo '<li><a href="addprescription.php">Prescriptions<i class="icofont-rounded-down"></i></a>';
+													} 
+													?>
+											<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														
+														echo '<li ><a href="MyprescriptionsC.php">My Prescriptions<i class="icofont-rounded-down"></i></a>
+														';
+													} ?>
+											<ul class="dropdown">
+													
+													
+													<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") 
+													{
+														echo '<li><a href="MyprescriptionsM.php">My Prescriptions</a></li>';
+													} 
+													?>
+												</ul>
 											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
 											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="listFacture.php">facture</a></li>
-											
+													</ul>
+                                            </li>
+											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+												<ul class="dropdown">
+													<li><a href="listMedicament.php">Medicals</a></li>
+													<li><a href="listfabricant.php">Fabricants</a></li>
+												</ul>
+											</li>
+                                            <li><a href="displayArticles.php">Articles <i class="icofont-rounded-down"></i></a></li>
 										</ul>
 									</nav>
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-								<a href="addRDV.php" class="btn">Get Appointment</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="frontoffice/logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="frontoffice/pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+
+							?>
 						</div>
 					</div>
 				</div>
@@ -193,29 +271,43 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
         <br>
 
 <div style="text-align: right;">
-    <a href="form.php" target="_blank" style="display: inline-block; margin-right: 1200px;">
+    <a href="form.php" target="_blank" style="display: inline-block; margin-right: 1300px;">
        <button  class="btn">Generate PDF</button>
     </a>
 </div>
+
 
 <form role="search" method="GET" style="width: 70%; margin: 20px;">
     <div class="form-row align-items-center justify-content-end">
         <div class="col-md-4">
             <!-- Adding label for better accessibility -->
-            <label for="search_query" class="sr-only">Search Payment</label>
+            <label for="search_query" class="sr-only">Search Facture</label>
         </div>
+			
+   
+		
         <div class="col-md-6">
-            <input type="text" class="form-control" id="search_query" placeholder="Search payment" style="width: 100%;" name="search_query">
+            <input type="text" class="form-control" id="search_query" placeholder="Search payement" style="width: 100%;" name="search_query">
         </div>
+				
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </div>
 </form>
 <center>
-    <h1>List of facture</h1>
+<h1>List of facture</h1>
+<?php
+if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+    echo '<div>
+		<a href="addFacture.php">
+			<button class="health-theme-button">Add Facture</button>
+		</a>
+	</div>';
+}
+?>
     <h2>
-        <a href="addFacture.php">Add facture</a>
+		
     </h2>
 </center>
 <?php if (isset($no_results_message)) { ?>
@@ -236,14 +328,18 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
                 </option>
             </select>
         </form>
-<table class="tab" border="1" align="center" width="40%">
+<table  class="table-sante" >
     <tr>
         <th>Id Facture</th>
         <th>montant</th>
         <th>date</th>
         <th>description</th>
-        <th>update</th>
-        <th>delete</th>
+				<th>id_RDV</th>
+				<?php
+if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") { echo '<th>Update</th>
+	<th>Delete</th>  '; } ?>  
+    </tr>
+    
        
     </tr>
     
@@ -256,17 +352,34 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
             <td><?= $facture['montant']; ?></td>
             <td><?= $facture['date_facture']; ?></td>
             <td><?= $facture['descreption']; ?></td>
-           
-            <td align="center">
-                <form method="POST"  action="updatefacture.php">
+						<td><?= $facture['idRDV']; ?></td>
+						<?php
+if (isset($_SESSION["user_id"])) {
+    if ($_SESSION["state"] == "Admin") {
+        echo '<div class="get-quote"></div>';
+    } elseif ($_SESSION["state"] == "Doctor") {
+        // Add content specific to doctors here
+        echo '<td align="center">
+                <form method="POST" action="updatefacture.php">
                     <input type="submit" name="update" value="Update" class="btn1">
-                    <input type="hidden" value=<?PHP echo $facture['id_facture']; ?> name="id_facture">
+                    <input type="hidden" value="' . $facture['id_facture'] . '" name="id_facture">
                 </form>
             </td>
-           
             <td>
-                <a class="btn" href="deleteFacture.php?id_facture=<?php echo $facture['id_facture']; ?>">Delete</a>
-            </td>
+                <a class="btn" href="deleteFacture.php?id_facture=' . $facture['id_facture'] . '">Delete</a>
+            </td>';
+    } elseif ($_SESSION["state"] == "Patient") {
+        // Add content specific to patients here
+        echo 'access not allowed';
+    }
+}
+?>
+
+
+							
+
+					
+           
             
         </tr>
         
@@ -274,11 +387,12 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
     }
     ?>
    </table>
-   <div style="text-align: right;">
+	 <div style="text-align: right;">
     <a href="form2.php" target="_blank">
        <button  class="btn"> Generate QRCODE</button>
     </a>
 </div>
+   
    <?php
             // Show the current page number above the pagination links
             echo '<p>Page: ' . $current_page . '</p>';
@@ -317,7 +431,21 @@ $facture_for_page = array_slice($tab, $offset, $items_per_page);
             }
             }?>
             <div style="text-align: left; margin-top: 20px;">
-            <a href="facture.php">Go to admin space</a>
+           
+						<?php
+    if (isset($_SESSION["user_id"]) && isset($_SESSION["state"])) {
+        if ($_SESSION["state"] == "Admin") {
+            ?>
+            <div class="get-quote">
+                <a href="facture.php">Go to admin space</a>
+            </div>
+            <?php
+        }
+    }
+?>
+
+
+
         <script>
     document.getElementById('sort_select').addEventListener('change', function() {
         document.getElementById('sortForm').submit();

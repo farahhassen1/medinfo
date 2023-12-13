@@ -1,0 +1,121 @@
+/* Style for Delete Link */
+.wrapper1 {
+    top: 50%;
+    left: 50%;
+  }
+
+  .wrapper1 button.delete-link {
+    display: block;
+    width: 150px; 
+    height: 30px; 
+    line-height: 30px;
+    font-size: 16px; 
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #333;
+    border: 2px solid #333;
+    letter-spacing: 1px; 
+    text-align : center;
+    position: relative;
+    transition: all 0.35s;
+  }
+  
+  
+  .wrapper1 button.delete-link span {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .wrapper1 button.delete-link {
+    display: block;
+    width: 150px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #333;
+    border: 2px solid #333;
+    letter-spacing: 1px;
+    text-align: center;
+    position: relative;
+    transition: color 0.35s, background 0.35s; /* Adding transition for color and background */
+    background: #fff; /* Set initial background color */
+}
+
+.wrapper1 button.delete-link:hover {
+    color: #fff;
+    background: #0051ff; /* Change background color on hover */
+}
+
+  
+  .wrapper1 button.delete-link:hover:after {
+    width: 100%;
+  }
+
+
+  
+/* Style for Update Button */
+/*.update-btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.update-btn:hover {
+    background-color: #2980b9;
+}
+*/
+/* Style for Delete Link */
+.wrapper2 {
+    top: 50%;
+    left: 50%;
+  }
+
+  .wrapper2 a.delete-link {
+    display: block;
+    width: 150px; /* Decreased width */
+    height: 30px; /* Decreased height */
+    line-height: 30px; /* Adjusted line height */
+    font-size: 16px; /* Reduced font size */
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #333;
+    border: 2px solid #333;
+    letter-spacing: 1px; /* Adjusted letter spacing */
+    text-align: center;
+    position: relative;
+    transition: all 0.35s;
+  }
+  
+  
+  .wrapper2 a.delete-link span {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .wrapper2 a.delete-link:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #ff003b;
+    transition: all .35s;
+  }
+  
+  .wrapper2 a.delete-link:hover {
+    color: #fff;
+  }
+  
+  .wrapper2 a.delete-link:hover:after {
+    width: 100%;
+  }
+  

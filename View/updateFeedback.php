@@ -10,14 +10,14 @@ $feedback= null;
 // create an instance of the controller
 $feedbackC = new feedbackC();
 
-if (isset($_POST["date"])  && isset($_POST["commentaire"]))
+if (isset($_POST["date"])  && isset($_POST["commentaire"])&& isset($_POST["rdv"]))
  {
-    if (!empty($_POST['date']) && !empty($_POST["commentaire"]))
+    if (!empty($_POST['date']) && !empty($_POST["commentaire"])&& !empty($_POST["rdv"]))
      {
         /*foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }*/
-        $feedback = new feedback( null, $_POST['date'], $_POST['commentaire']);
+        $feedback = new feedback( null, $_POST['date'], $_POST['commentaire'], $_POST['rdv']);
         //var_dump($rdv);
         $feedbackC->updateFeedback($feedback, $_POST['idFeedback']);
         header('Location:listFeedback.php');
@@ -187,7 +187,11 @@ if (isset($_POST["date"])  && isset($_POST["commentaire"]))
                 <label for="commentaire">feedback:</label></td>
                 <input type="text" id="commentaire" name="commentaire" value="<?php echo $feedback['commentaire'] ?>" />
                 <span id="commentaireError" style="color: red"></span>
-
+				<br>
+				<label for="idrdv">IDRDV:</label></td>
+                <input type="text" id="idrdv" name="commentaire" value="<?php echo $feedback['rdv'] ?>"readonly />
+                <span id="erreurIdrdv" style="color: red"></span>
+            <br>
                 <div >
                     <input type="submit" value="Save">
                     <input type="reset" value="Reset">

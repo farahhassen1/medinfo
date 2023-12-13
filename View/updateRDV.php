@@ -4,7 +4,7 @@ include '../Controller/RDVC.php';
 include '../Model/RDV.php';
 
 $error = "";
-
+session_start();
 // create client
 $rdv = null;
 // create an instance of the controller
@@ -14,13 +14,22 @@ if (isset($_POST["date"]) && isset($_POST["heure"]) && isset($_POST["commentaire
  {
     if (!empty($_POST['date']) && !empty($_POST['heure']) && !empty($_POST["commentaire"]))
      {
-        $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire']);
+		if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+			$patient = $_SESSION["user_id"];
+			$doctor = null; // Initialize $doctor if needed
+			echo "fffff";
+		} else if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+			$doctor = $_SESSION["user_id"];
+			$patient = null; // Initialize $patient if needed
+			echo "hhhhh";
+		}
+        $rdv = new rdv( null, $_POST['date'], $_POST['heure'], $_POST['commentaire'],$patient);
         $RDVC->updateRDV($rdv, $_POST['idRDV']);
         header('Location:listMESRDV.php');
     } 
 }
 else
-	$error = "Missing information";
+	$error = "";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,7 +151,7 @@ else
             <div class="col-lg-6 col-md-7 col-12">
                 <!-- Top Contact -->
                 <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-phone"></i>+216 71 800 000</li>
                     <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
                 </ul>
                 <!-- End Top Contact -->
@@ -159,7 +168,7 @@ else
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="frontoffice/img/logo.png" alt="#"></a>
+								<a href="index.php"><img  style="width: 100px; height: auto;"src="medinfo.jpg" >
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -176,20 +185,32 @@ else
 											<li><a href="#">Services </a></li>
 											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
-											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
+											<li><a href="#">Articles <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="listFacture.php">facture</a></li>
+													<li><a href="displayArticles.php">Article Details</a></li>
+												</ul>
+											</li>
 											<li><a href="contact.html">Contact Us</a></li>
 										</ul>
 									</nav>
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-								<a href="addRDV.php" class="btn">Get Appointment</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+
+							?>
 						</div>
 					</div>
 				</div>
@@ -203,18 +224,6 @@ else
     if (isset($_POST['idRDV'])) {
         $rdv = $RDVC->showRDV($_POST['idRDV']);  
     ?>
-	<?php if (!empty($tab2)) { ?>
-    <form id="sortForm" method="GET" style="text-align: right;">
-            <label for="sort_select">Sort By payement name:</label>
-            <select name="sort_select" id="sort_select" class="btn btn-primary">
-                <option value="az" <?php if (isset($_GET['sort_select']) && $_GET['sort_select'] === 'az') echo 'selected'; ?>>
-                    A to Z
-                </option>
-                <option value="za" <?php if (isset($_GET['sort_select']) && $_GET['sort_select'] === 'za') echo 'selected'; ?>>
-                    Z to A
-                </option>
-            </select>
-    </form>
         <div class="formulaire">
         <form action="" method="POST" onsubmit="return validateForm()" >
             <input type="hidden" id="idRDV" name="idRDV" value="<?php echo $_POST['idRDV'] ?>" readonly />

@@ -1,5 +1,6 @@
 <?php
 include "../Controller/RDVC.php";
+session_start();
 
 $c = new rdvC();
 $tab = $c->listRDV();
@@ -134,7 +135,7 @@ $tab = $c->listRDV();
             <div class="col-lg-6 col-md-7 col-12">
                 <!-- Top Contact -->
                 <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-phone"></i>+216 71 800 000</li>
                     <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
                 </ul>
                 <!-- End Top Contact -->
@@ -151,7 +152,7 @@ $tab = $c->listRDV();
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="frontoffice/img/logo.png" alt="#"></a>
+								<a href="index.php"><img  style="width: 100px; height: auto;"src="medinfo.jpg" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -164,23 +165,56 @@ $tab = $c->listRDV();
 									<nav class="navigation">
 										<ul class="nav menu">
 											<li class="active"><a href="frontoffice/index.php">Home <i class="icofont-rounded-down"></i></a>
-											<li><a href="#">Doctos </a></li>
-											<li><a href="#">Services </a></li>
-											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
+											<li><a href="addprescription.php">Prescriptions<i class="icofont-rounded-down"></i></a>
+											<ul class="dropdown">
+													<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														
+														echo '<li><a href="MyprescriptionsC.php">My Prescriptions</a></li>';
+													} 
+													?>
+													<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") 
+													{
+														echo '<li><a href="MyprescriptionsM.php">My Prescriptions</a></li>';
+													} 
+													?>
+												</ul>
+											</li>
+											<li><a href="listMesRDV.php">My appointments </i></a>
 											</li>
 											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="listFacture.php">facture</a></li>
+													</ul>
+                                            </li>
+											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+												<ul class="dropdown">
+													<li><a href="listMedicament.php">Medicals</a></li>
+													<li><a href="listfabricant.php">Fabricants</a></li>
+												</ul>
+											</li>
+                                            <li><a href="displayArticles.php">Articles <i class="icofont-rounded-down"></i></a></li>
 										</ul>
 									</nav>
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-								<a href="addRDV.php" class="btn">Get Appointment</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="frontoffice/logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="frontoffice/pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+
+							?>
 						</div>
 					</div>
 				</div>
@@ -193,7 +227,12 @@ $tab = $c->listRDV();
                 <div class="col-md-12">
                 <center><h4 class="text-center mb-4" >My Medical Appointment Schedule</h4>
 				<h2>
-        <a href="addRDV.php"> New Appointment</a>
+					<?php
+						if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+							echo' <a href="addRDV.php"> New Appointment</a>';
+						}
+					?>
+       
     </h2>
 			</center>
                     <!-- Add a container for FullCalendar -->

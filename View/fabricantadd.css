@@ -1,0 +1,94 @@
+/* Add your styles here */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.blue-white-table {
+  width: 50%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.blue-white-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.blue-white-table input[type="text"],
+.blue-white-table textarea {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.blue-white-table input[type="submit"],
+.blue-white-table input[type="reset"] {
+  padding: 8px 16px;
+  margin: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #2b8ee0;
+  color: white;
+}
+
+.blue-white-table input[type="submit"]:hover,
+.blue-white-table input[type="reset"]:hover {
+  background-color: #2b8ee0;
+}
+
+#error {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Add more styles and animations as needed */
+.btn {
+	border: none;
+	font-family: 'Lato';
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 25px 80px;
+	display: inline-block;
+	margin: 15px 30px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+/* Pseudo elements for icons */
+.btn:before {
+	font-family: 'FontAwesome';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+

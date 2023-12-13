@@ -3,7 +3,7 @@
 <head>
     <title>Generate QR Code</title>
     <meta charset="UTF-8">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
     <h1>Generate QR Code</h1>

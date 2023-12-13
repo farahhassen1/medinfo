@@ -148,7 +148,7 @@ if ( isset($_POST["commentaire"]) )
             <div class="col-lg-6 col-md-7 col-12">
                 <!-- Top Contact -->
                 <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-phone"></i>+216 71 800 000</li>
                     <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
                 </ul>
                 <!-- End Top Contact -->
@@ -165,7 +165,7 @@ if ( isset($_POST["commentaire"]) )
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="frontoffice/img/logo.png" alt="#"></a>
+								<a href="index.php"><img  style="width: 100px; height: auto;"src="medinfo.jpg" >
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->

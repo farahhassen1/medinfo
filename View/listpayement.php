@@ -1,7 +1,8 @@
 
 <?php
 include "../controller/factureC.php";
-
+require_once("../config.php");
+session_start();
 
 $c2 = new payementC();
 $result = $c2->listPayement(); // Assuming this returns a PDOStatement object
@@ -65,6 +66,7 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
 <html lang="en">
 
 <head>
+	
 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="keywords" content="Site keywords here">
@@ -96,8 +98,45 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
         <link rel="stylesheet" href="frontoffice/css/normalize.css">
         <link rel="stylesheet" href="frontoffice/style.css">
         <link rel="stylesheet" href="frontoffice/css/responsive.css">
+				<link rel="stylesheet" href="pp.css">
         </head>
         <style>
+					/* Styles spécifiques au bouton "Add Payment" */
+.health-theme-button {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4CAF50; /* Couleur de fond verte (vous pouvez ajuster la couleur selon votre thème) */
+  color: #fff; /* Couleur du texte en blanc */
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* Ajout d'une transition en douceur pour le fond */
+}
+
+.health-theme-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, #4CAF50 50%, transparent 100%); /* Rideau simulé à l'origine caché à gauche */
+  transition: left 0.3s ease; /* Ajout d'une transition pour l'effet de rideau */
+}
+
+/* Effet au survol */
+.health-theme-button:hover::before {
+  left: 100%; /* Animation de transition pour simuler l'ouverture des rideaux */
+}
+
+/* Effet au clic */
+.health-theme-button:active::before {
+  left: 0; /* Animation de transition pour simuler la fermeture des rideaux */
+}
+
             </style>
 
 <body>
@@ -119,7 +158,7 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
             <div class="col-lg-6 col-md-7 col-12">
                 <!-- Top Contact -->
                 <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+216 71 458 225</li>
+                    <li><i class="fa fa-phone"></i>+216 71 800 000</li>
                     <li><i class="fa fa-envelope"></i><a href="mailto:MedInfo@gmail.com">MedInfo@gmail.com</a></li>
                 </ul>
                 <!-- End Top Contact -->
@@ -136,7 +175,7 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.php"><img src="frontoffice/img/logo.png" alt="#"></a>
+								<a href="index.php"><img  style="width: 100px; height: auto;"src="medinfo.jpg" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -149,24 +188,61 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
 									<nav class="navigation">
 										<ul class="nav menu">
 											<li class="active"><a href="frontoffice/index.php">Home <i class="icofont-rounded-down"></i></a>
-											<li><a href="#">Doctos </a></li>
-											<li><a href="#">Services </a></li>
-											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
+											<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+														
+														echo '<li><a href="addprescription.php">Prescriptions<i class="icofont-rounded-down"></i></a>';
+													} 
+													?>
+											<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Patient") {
+														
+														echo '<li ><a href="MyprescriptionsC.php">My Prescriptions<i class="icofont-rounded-down"></i></a>
+														';
+													} ?>
+											<ul class="dropdown">
+													
+													
+													<?php
+													if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") 
+													{
+														echo '<li><a href="MyprescriptionsM.php">My Prescriptions</a></li>';
+													} 
+													?>
+												</ul>
+											</li>											<li><a href="listMesRDV.php">My appointments <i class="icofont-rounded-down"></i></a>
 											</li>
 											<li><a href="listpayement.php">payement <i class="icofont-rounded-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="listFacture.php">facture</a></li>
-											
+												</ul>
+                                            </li>
+											<li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+												<ul class="dropdown">
+													<li><a href="listMedicament.php">Medicals</a></li>
+													<li><a href="listfabricant.php">Fabricants</a></li>
+												</ul>
+											</li>
+                                            <li><a href="displayArticles.php">Articles <i class="icofont-rounded-down"></i></a></li>
 										</ul>
 									</nav>
 								</div>
 								<!--/ End Main Menu -->
 							</div>
-							<div class="col-lg-2 col-12">
-								<div class="get-quote">
-								<a href="addRDV.php" class="btn">Get Appointment</a>
-								</div>
-							</div>
+							<?php
+								if (isset($_SESSION["user_id"])){
+									echo '<div class="col-lg-2 col-12">
+                                        		<div class="get-quote">
+                                                		<li><a href="frontoffice/logout.php" class="btn">Logout</a></li>
+                                        		</div>
+                                    		</div>';
+								}
+								else echo'<div class="col-lg-2 col-12">
+												<div class="get-quote">
+													<a href="frontoffice/pages-login.php" class="btn">login</a>
+												</div>
+										</div>'
+										?>
 						</div>
 					</div>
 				</div>
@@ -192,7 +268,18 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
 <center>
     <h1>List of payement</h1>
     <h2>
-        <a href="addpayement.php">Add payement</a>
+		<?php
+if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+    echo '<div>
+		<a href="addpayement.php">
+			<button class="health-theme-button">Add Payement</button>
+		</a>
+	</div>';
+}
+?>
+		
+
+
     </h2>
 </center>
 <?php if (isset($no_results_message)) { ?>
@@ -213,15 +300,16 @@ $payement_for_page = array_slice($tab2, $offset, $items_per_page);
                 </option>
             </select>
         </form>
-<table class="tab" border="1" align="center" width="70%">
+<table class="table-sante">
     <tr>
         <th>Id payement</th>
         <th>date_payement</th>
         <th>description</th>
         <th>image_mp</th>
         <th>id_facture</th>
-        <th>Update</th>
-        <th>Delete</th>    
+        <?php
+if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") { echo '<th>Update</th>
+	<th>Delete</th>  '; } ?>  
     </tr>
     <?php
     foreach ($payement_for_page as $payement) {
@@ -244,16 +332,20 @@ if (file_exists($imagePath)) {
 ?></td>
     <td><?= $payement['id_facture']; ?></td>
    
-    <td align="center">
+    
+		<?php
+if (isset($_SESSION["state"]) && $_SESSION["state"] == "Doctor") {
+    echo '<td align="center">
         <form method="POST" action="updatepayement.php">
             <input type="submit" name="update" value="Update">
-            <input type="hidden" value="<?= $payement['id_payement']; ?>" name="id_payement">
+            <input type="hidden" value="' . $payement['id_payement'] . '" name="id_payement">
         </form>
     </td>
-
-    <td>
-        <a class="btn" href="deletepayement.php?id_payement=<?= $payement['id_payement']; ?>">Delete</a>
-    </td>
+	<td align="center">
+        <a class="btn" href="deletepayement.php?id_payement=' . $payement['id_payement'] . '">Delete</a>
+    </td>';
+}
+?>
 </tr>
     <?php
     }
@@ -298,7 +390,17 @@ if ($total_pages > 4 && $current_page < $total_pages - 1 && $end != $total_pages
 }
 }
 ?>
-<a href="elements.php">go to admin space</a>
+<?php
+    if (isset($_SESSION["user_id"]) && isset($_SESSION["state"])) {
+        if ($_SESSION["state"] == "Admin") {
+            ?>
+            <div class="get-quote">
+                <a href="facture.php">Go to admin space</a>
+            </div>
+            <?php
+        }
+    }
+?>
 </center>
 
 <script>

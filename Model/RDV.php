@@ -5,12 +5,14 @@ class rdv
     private string $date ;
     private string $heure;
     private string $commentaire ;
-    public function __construct($idRDV = null, $d, $h,$c)
+    private ?int $idpatient = null;
+    public function __construct($idRDV = null, $d, $h,$c,$pat)
     {
         $this->id = $idRDV;
         $this->date = $d;
         $this->heure = $h;
         $this->commentaire=$c;
+        $this->idpatient=$pat;
     }
     public function getIdRDV()
     {
@@ -27,6 +29,17 @@ class rdv
     public function getCommentaire()
     {
         return $this->commentaire;
+    }
+
+    public function getIdpatient()
+    {
+        return $this->idpatient;
+    }
+
+    public function setIdpatient($idpatient)
+    {
+        $this->idpatient= $idpatient;
+        return $this;
     }
     public function setIdRDV($idRDV)
     {

@@ -5,6 +5,7 @@ require '../config.php';
 class factureC
 {
 
+    
     public function listFacture()
     {
         $sql = "SELECT * FROM facture";
@@ -53,15 +54,15 @@ class factureC
     function addfacture($facture)
     {
         $sql = "INSERT INTO facture 
-        VALUES (NULL, :montant, :date_facture, :descreption )";
+        VALUES (NULL, :montant, :date_facture, :descreption , :idRDV )";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
                 'montant' => $facture->getMontant(),
                 'date_facture' => $facture->getdate_facture(),
-                'descreption' => $facture->getDescreption()
-               
+                'descreption' => $facture->getDescreption(),
+                'idRDV' =>$facture->getIdRDV()
                 
             ]);
         } catch (Exception $e) {
@@ -92,7 +93,8 @@ class factureC
                 'UPDATE facture SET 
                     montant = :montant,
                     date_facture = :date_facture,
-                    descreption = :descreption
+                    descreption = :descreption,
+                    idRDV = :idRDV
                 WHERE id_facture= :id_facture'
             );
             
@@ -100,7 +102,8 @@ class factureC
                 'id_facture' => $id_facture,  
                 'montant' => $facture->getMontant(),
                 'date_facture' => $facture->getDate_facture(),
-                'descreption' => $facture->getDescreption()
+                'descreption' => $facture->getDescreption(),
+                'idRDV' =>$facture->getIdRDV()
                
         
             ]);
@@ -202,4 +205,85 @@ class payementC
         }
     }
 
+}
+///////////////////////////////////////////////rdv////////////////////////////////////////
+
+class rdvC
+{
+    public function listRDV()
+    {
+        $sql = "SELECT * FROM rdv";
+        $db = config::getConnexion();
+        try {
+            $liste = $db->query($sql);
+            return $liste;
+        }
+        catch (Exception $e) {
+            die('Error:' . $e->getMessage());
+        }
+    } 
+    function deleteRDV($ide)
+    {
+        $sql = "DELETE FROM rdv WHERE idRDV = :id";
+        $db = config::getConnexion();
+        $req = $db->prepare($sql);
+        $req->bindValue(':id', $ide);
+
+        try {
+            $req->execute();
+        } catch (Exception $e) {
+            die('Error:' . $e->getMessage());
+        }
+    }
+
+
+    function addRDV($rdv)
+    {
+        $sql = "INSERT INTO  rdv VALUES (NULL, :date,:heure, :commentaire)";
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute([
+                'date' => $rdv->getDate(),
+                'heure' => $rdv->getHeure(),
+                'commentaire' => $rdv->getCommentaire(), 
+            ]);
+        } catch (Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
+    function showRDV($id)
+    {
+        $sql = "SELECT * from rdv where idRDV = $id";
+        $db = config::getConnexion();
+        try {
+            $query = $db->prepare($sql);
+            $query->execute();
+            $rdv = $query->fetch();
+            return $rdv;
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    function updateRDV($rdv,$id)
+    {   
+        try {
+            $sql ='UPDATE rdv SET date = :date,  heure = :heure, commentaire = :commentaire WHERE idRDV= :id';
+            $db = config::getConnexion();
+            $query = $db->prepare($sql);
+            $query->execute([
+                'id' => $id,
+                'date' => $rdv->getDate(),
+                'heure' => $rdv->getHeure(),
+                'commentaire' => $rdv->getCommentaire(),
+            ]); 
+            echo $query->rowCount() . " records UPDATED successfully <br>";
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+   
 }
